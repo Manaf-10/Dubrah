@@ -5,5 +5,9 @@
 ## **Description**
 
 
+## **Planning & Inspiration**
+
+### **Branding**
+![branding board](/pictures/Dubrah%20Identity.svg)
 
 
