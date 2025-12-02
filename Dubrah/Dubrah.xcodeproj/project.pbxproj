@@ -16,13 +16,13 @@
 		4F84986D2EDC184C000D0DD1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 4F84986C2EDC184C000D0DD1 /* FirebaseFirestore */; };
 		4F84986F2EDC184C000D0DD1 /* FirebaseInAppMessaging-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 4F84986E2EDC184C000D0DD1 /* FirebaseInAppMessaging-Beta */; };
 		4F8498712EDC184C000D0DD1 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 4F8498702EDC184C000D0DD1 /* FirebaseMessaging */; };
-		6AADA69B2EDE6292000E444D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 6AADA69A2EDE6292000E444D /* .gitignore */; };
+		CB3B4BBA2EDF0AAE00680D06 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = CB3B4BB92EDF0AA700680D06 /* .gitignore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4F8498352EDC143F000D0DD1 /* Dubrah.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dubrah.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F84985F2EDC16C5000D0DD1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		6AADA69A2EDE6292000E444D /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		CB3B4BB92EDF0AA700680D06 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -68,7 +68,7 @@
 		4F84982C2EDC143F000D0DD1 = {
 			isa = PBXGroup;
 			children = (
-				6AADA69A2EDE6292000E444D /* .gitignore */,
+				CB3B4BB92EDF0AA700680D06 /* .gitignore */,
 				4F84985F2EDC16C5000D0DD1 /* GoogleService-Info.plist */,
 				4F8498372EDC143F000D0DD1 /* Dubrah */,
 				4F8498362EDC143F000D0DD1 /* Products */,
@@ -159,7 +159,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F8498602EDC16C5000D0DD1 /* GoogleService-Info.plist in Resources */,
-				6AADA69B2EDE6292000E444D /* .gitignore in Resources */,
+				CB3B4BBA2EDF0AAE00680D06 /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
