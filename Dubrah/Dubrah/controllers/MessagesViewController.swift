@@ -51,4 +51,19 @@ class MessagesViewController: UIViewController, UITableViewDelegate, UITableView
         cell.messageLabel.text = item.message
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("Cell tapped",indexPath.row)
+        let chatVC = storyboard?.instantiateViewController(
+            withIdentifier: "ChatVC"
+        ) as! ChatViewController
+
+        let item = messages[indexPath.row]
+
+        chatVC.userName = item.name
+        chatVC.userImage = item.photo
+
+        navigationController?.pushViewController(chatVC, animated: true)
+    }
+
 }
