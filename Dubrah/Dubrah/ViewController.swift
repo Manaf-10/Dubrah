@@ -9,11 +9,13 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var GetStartedbtn: UIButton!
     
-    @IBOutlet weak var GetStartedButton: buttonstyle!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        GetStartedbtn.layer.cornerRadius = 12
+        GetStartedbtn.clipsToBounds = true
         
         
 
