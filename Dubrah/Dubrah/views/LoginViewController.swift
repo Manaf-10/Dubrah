@@ -7,18 +7,23 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
    
+    @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var emailTextFeild: UITextField!
     @IBOutlet weak var SigninBtn: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.emailTextFeild.delegate = self
         
         SigninBtn.layer.cornerRadius = 12
         SigninBtn.clipsToBounds = true
         
     }
-   
-    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
 
     
 }
