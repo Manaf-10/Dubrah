@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="d1f-2D-GH9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="SUa-3J-qrb">
     <device id="retina6_3" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
@@ -54,7 +54,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="17" translatesAutoresizingMaskIntoConstraints="NO" id="8n0-bq-8hd">
-                                        <rect key="frame" x="0.0" y="468.00000000000006" width="362" height="167.66666666666669"/>
+                                        <rect key="frame" x="0.0" y="468" width="362" height="179"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="nPr-cX-xOf">
                                                 <rect key="frame" x="0.0" y="0.0" width="362" height="108"/>
@@ -79,10 +79,10 @@ turn every connection into an opportunity.</string>
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="A4W-bD-Pdn">
-                                                <rect key="frame" x="0.0" y="125.00000000000001" width="362" height="42.666666666666671"/>
+                                                <rect key="frame" x="0.0" y="125" width="362" height="54"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aMb-h3-INM">
-                                                        <rect key="frame" x="0.0" y="0.0" width="362" height="42.666666666666664"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="362" height="54"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="tintColor" name="WidgetBackground"/>
                                                         <state key="normal" title="Button"/>
@@ -91,20 +91,29 @@ turn every connection into an opportunity.</string>
                                                         </buttonConfiguration>
                                                     </button>
                                                 </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="54" id="OK0-R8-bFV"/>
+                                                </constraints>
                                             </stackView>
                                         </subviews>
                                         <constraints>
+                                            <constraint firstItem="A4W-bD-Pdn" firstAttribute="top" secondItem="nPr-cX-xOf" secondAttribute="bottom" constant="17" id="JoG-68-Xg1"/>
                                             <constraint firstItem="A4W-bD-Pdn" firstAttribute="top" secondItem="8n0-bq-8hd" secondAttribute="top" constant="125" id="aea-gM-eV3"/>
                                         </constraints>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ft-E4-Z6J">
-                                        <rect key="frame" x="0.0" y="643.66666666666663" width="362" height="26.333333333333371"/>
+                                        <rect key="frame" x="0.0" y="655" width="362" height="15"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Already have an Account?"/>
+                                        <connections>
+                                            <segue destination="c6H-hh-tsZ" kind="push" id="GZY-TK-SIA"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="3Ft-E4-Z6J" firstAttribute="top" secondItem="8n0-bq-8hd" secondAttribute="bottom" constant="8" symbolic="YES" id="Gnu-PF-fOr"/>
+                                    <constraint firstItem="8n0-bq-8hd" firstAttribute="top" secondItem="sbu-Qx-0LN" secondAttribute="bottom" constant="8" symbolic="YES" id="Xpw-dy-H7u"/>
                                     <constraint firstItem="8n0-bq-8hd" firstAttribute="top" secondItem="w68-93-y9R" secondAttribute="top" constant="468" id="qxJ-gc-o7I"/>
                                 </constraints>
                             </stackView>
@@ -125,26 +134,29 @@ turn every connection into an opportunity.</string>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="gFe-Jm-scD"/>
+                    <connections>
+                        <outlet property="GetStartedbtn" destination="aMb-h3-INM" id="6YN-9m-X9I"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wZM-DM-P4V" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3729.8507462686566" y="15.789473684210526"/>
+            <point key="canvasLocation" x="4649.2537313432831" y="15.789473684210526"/>
         </scene>
-        <!--View Controller-->
+        <!--Login View Controller-->
         <scene sceneID="hun-EK-Yi5">
             <objects>
-                <viewController id="c6H-hh-tsZ" sceneMemberID="viewController">
+                <viewController id="c6H-hh-tsZ" customClass="LoginViewController" customModule="Dubrah" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UsZ-3A-g3r">
                         <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Registeration_and_Authentication_Mohamed_Kadhem_202304184-2.png" translatesAutoresizingMaskIntoConstraints="NO" id="dJU-M5-D0J">
-                                <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+                                <rect key="frame" x="0.0" y="0.0" width="402" height="895"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="89" translatesAutoresizingMaskIntoConstraints="NO" id="aVU-RM-YPm">
-                                <rect key="frame" x="20" y="165" width="362" height="631.33333333333337"/>
+                                <rect key="frame" x="20" y="209.00000000000006" width="362" height="608.33333333333348"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="0Fd-LB-PC6">
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="0Fd-LB-PC6">
                                         <rect key="frame" x="0.0" y="0.0" width="362" height="100"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Group 1.png" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IdN-Zr-uCg">
@@ -154,7 +166,7 @@ turn every connection into an opportunity.</string>
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Where Local Talent Meets Opportunity" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qvy-DN-MSy">
-                                                <rect key="frame" x="0.0" y="80.666666666666657" width="362" height="19.333333333333329"/>
+                                                <rect key="frame" x="0.0" y="73.666666666666686" width="362" height="26.333333333333329"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -162,11 +174,11 @@ turn every connection into an opportunity.</string>
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="43" translatesAutoresizingMaskIntoConstraints="NO" id="eVw-5x-0Rf">
-                                        <rect key="frame" x="0.0" y="188.99999999999997" width="362" height="442.33333333333326"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="28" translatesAutoresizingMaskIntoConstraints="NO" id="eVw-5x-0Rf">
+                                        <rect key="frame" x="0.0" y="188.99999999999997" width="362" height="419.33333333333326"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Hfs-pk-fYu">
-                                                <rect key="frame" x="70.666666666666671" y="0.0" width="220.66666666666663" height="77.666666666666671"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Hfs-pk-fYu">
+                                                <rect key="frame" x="70.666666666666671" y="0.0" width="220.66666666666663" height="69.666666666666671"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome Back" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t18-tU-4hf">
                                                         <rect key="frame" x="0.0" y="0.0" width="220.66666666666666" height="38.333333333333336"/>
@@ -175,7 +187,7 @@ turn every connection into an opportunity.</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QNb-7L-JAN">
-                                                        <rect key="frame" x="0.0" y="46.333333333333314" width="220.66666666666666" height="31.333333333333329"/>
+                                                        <rect key="frame" x="0.0" y="38.333333333333314" width="220.66666666666666" height="31.333333333333329"/>
                                                         <string key="text">Log in to continue connecting with 
 locat talent and opportunities.</string>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
@@ -185,16 +197,16 @@ locat talent and opportunities.</string>
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="ygV-MC-iaF">
-                                                <rect key="frame" x="7" y="120.66666666666666" width="348.33333333333331" height="321.66666666666674"/>
+                                                <rect key="frame" x="7" y="97.666666666666657" width="348.33333333333331" height="321.66666666666674"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="-3" translatesAutoresizingMaskIntoConstraints="NO" id="wW0-3p-XDj">
-                                                        <rect key="frame" x="0.0" y="0.0" width="348.33333333333331" height="176.66666666666666"/>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="wW0-3p-XDj">
+                                                        <rect key="frame" x="0.0" y="0.0" width="348.33333333333331" height="165.66666666666666"/>
                                                         <subviews>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="tS6-bE-c3H">
-                                                                <rect key="frame" x="0.0" y="0.0" width="348.33333333333331" height="150"/>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="tS6-bE-c3H">
+                                                                <rect key="frame" x="0.0" y="0.0" width="348.33333333333331" height="146"/>
                                                                 <subviews>
                                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="txC-2G-x4N">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="348.33333333333331" height="67"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="348.33333333333331" height="63"/>
                                                                         <subviews>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your email address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hz6-9V-HIq">
                                                                                 <rect key="frame" x="0.0" y="0.0" width="348.33333333333331" height="24"/>
@@ -202,15 +214,15 @@ locat talent and opportunities.</string>
                                                                                 <nil key="textColor"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
-                                                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="email@example.com" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5KD-ti-xdd">
-                                                                                <rect key="frame" x="0.0" y="32" width="348.33333333333331" height="35"/>
+                                                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="email@example.com" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5KD-ti-xdd">
+                                                                                <rect key="frame" x="0.0" y="32" width="348.33333333333331" height="31"/>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                                                 <textInputTraits key="textInputTraits"/>
                                                                             </textField>
                                                                         </subviews>
                                                                     </stackView>
                                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="q8a-c7-X0o">
-                                                                        <rect key="frame" x="0.0" y="82.999999999999943" width="348.33333333333331" height="67"/>
+                                                                        <rect key="frame" x="0.0" y="83" width="348.33333333333331" height="63"/>
                                                                         <subviews>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ssl-fb-QjM">
                                                                                 <rect key="frame" x="0.0" y="0.0" width="348.33333333333331" height="24"/>
@@ -218,8 +230,8 @@ locat talent and opportunities.</string>
                                                                                 <nil key="textColor"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
-                                                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bRM-23-MJE">
-                                                                                <rect key="frame" x="0.0" y="32" width="348.33333333333331" height="35"/>
+                                                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bRM-23-MJE">
+                                                                                <rect key="frame" x="0.0" y="32" width="348.33333333333331" height="31"/>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                                                 <textInputTraits key="textInputTraits"/>
                                                                             </textField>
@@ -231,11 +243,11 @@ locat talent and opportunities.</string>
                                                                     <constraint firstAttribute="bottom" secondItem="txC-2G-x4N" secondAttribute="bottom" constant="83" id="y0s-Fd-gY6"/>
                                                                 </constraints>
                                                             </stackView>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="lZy-ba-mAb">
-                                                                <rect key="frame" x="0.0" y="146.99999999999994" width="348.33333333333331" height="29.666666666666657"/>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="-26" translatesAutoresizingMaskIntoConstraints="NO" id="lZy-ba-mAb">
+                                                                <rect key="frame" x="0.0" y="146" width="348.33333333333331" height="19.666666666666657"/>
                                                                 <subviews>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="slg-hV-nJG">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="348.33333333333331" height="29.666666666666668"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="348.33333333333331" height="19.666666666666668"/>
                                                                         <state key="normal" title="Button"/>
                                                                         <buttonConfiguration key="configuration" style="plain" title="                                                       Forgot your password">
                                                                             <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="13"/>
@@ -245,14 +257,14 @@ locat talent and opportunities.</string>
                                                             </stackView>
                                                         </subviews>
                                                     </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Zan-gB-FWA">
-                                                        <rect key="frame" x="0.0" y="201.66666666666669" width="348.33333333333331" height="120"/>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Zan-gB-FWA">
+                                                        <rect key="frame" x="0.0" y="190.66666666666669" width="348.33333333333331" height="131"/>
                                                         <subviews>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ebs-1Z-2mM">
-                                                                <rect key="frame" x="0.0" y="0.0" width="348.33333333333331" height="53.666666666666664"/>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ebs-1Z-2mM">
+                                                                <rect key="frame" x="0.0" y="0.0" width="348.33333333333331" height="64.666666666666671"/>
                                                                 <subviews>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZMD-KQ-bfg">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="348.33333333333331" height="53.666666666666664"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="348.33333333333331" height="64.666666666666671"/>
                                                                         <color key="backgroundColor" name="WidgetBackground"/>
                                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <state key="normal" title="Button"/>
@@ -263,7 +275,7 @@ locat talent and opportunities.</string>
                                                                 </subviews>
                                                             </stackView>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1Fd-7h-UDI">
-                                                                <rect key="frame" x="0.0" y="69.666666666666629" width="348.33333333333331" height="50.333333333333343"/>
+                                                                <rect key="frame" x="0.0" y="69.666666666666629" width="348.33333333333331" height="61.333333333333343"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have an account?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XP7-6C-pMW">
                                                                         <rect key="frame" x="93.666666666666686" y="0.0" width="161" height="17"/>
@@ -272,7 +284,7 @@ locat talent and opportunities.</string>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Czv-vh-0jV">
-                                                                        <rect key="frame" x="132" y="17.000000000000004" width="84.333333333333314" height="33.333333333333343"/>
+                                                                        <rect key="frame" x="132" y="17.000000000000004" width="84.333333333333314" height="44.333333333333343"/>
                                                                         <state key="normal" title="Button"/>
                                                                         <buttonConfiguration key="configuration" style="plain" title="Sign Up">
                                                                             <fontDescription key="titleFontDescription" type="boldSystem" pointSize="16"/>
@@ -290,15 +302,24 @@ locat talent and opportunities.</string>
                                                         </constraints>
                                                     </stackView>
                                                 </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="321.67000000000002" id="TOh-aQ-OaF"/>
+                                                </constraints>
                                             </stackView>
                                         </subviews>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="Hfs-pk-fYu" secondAttribute="trailing" constant="70.670000000000002" id="3jX-5S-D4A"/>
                                             <constraint firstItem="ygV-MC-iaF" firstAttribute="top" secondItem="eVw-5x-0Rf" secondAttribute="top" constant="120.66666666666663" id="3pM-w8-eg5"/>
+                                            <constraint firstItem="Hfs-pk-fYu" firstAttribute="leading" secondItem="eVw-5x-0Rf" secondAttribute="leading" constant="70.670000000000002" id="o2f-5q-Eap"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="0Fd-LB-PC6" firstAttribute="leading" secondItem="aVU-RM-YPm" secondAttribute="leading" id="9YQ-Q3-yNT"/>
+                                    <constraint firstItem="eVw-5x-0Rf" firstAttribute="top" secondItem="0Fd-LB-PC6" secondAttribute="bottom" constant="89" id="CD9-K2-TAb"/>
+                                    <constraint firstAttribute="trailing" secondItem="0Fd-LB-PC6" secondAttribute="trailing" id="Lun-j5-Kms"/>
                                     <constraint firstItem="eVw-5x-0Rf" firstAttribute="top" secondItem="aVU-RM-YPm" secondAttribute="top" constant="189" id="Rz3-nY-Kce"/>
+                                    <constraint firstAttribute="trailing" secondItem="0Fd-LB-PC6" secondAttribute="trailing" id="U5l-Hl-FBj"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -306,22 +327,53 @@ locat talent and opportunities.</string>
                         <color key="backgroundColor" name="WidgetBackground"/>
                         <constraints>
                             <constraint firstItem="aVU-RM-YPm" firstAttribute="leading" secondItem="BGy-Xg-J4G" secondAttribute="leading" constant="20" id="2AO-sN-ZwB"/>
+                            <constraint firstItem="aVU-RM-YPm" firstAttribute="leading" secondItem="BGy-Xg-J4G" secondAttribute="leading" constant="20" id="2nS-DA-uV3"/>
                             <constraint firstItem="aVU-RM-YPm" firstAttribute="top" secondItem="BGy-Xg-J4G" secondAttribute="top" constant="41" id="3Jm-Lb-Oer"/>
                             <constraint firstItem="BGy-Xg-J4G" firstAttribute="bottom" secondItem="aVU-RM-YPm" secondAttribute="bottom" constant="9.6699999999999999" id="4U4-60-iL0"/>
                             <constraint firstItem="dJU-M5-D0J" firstAttribute="top" secondItem="UsZ-3A-g3r" secondAttribute="top" id="76B-V4-5L8"/>
+                            <constraint firstItem="BGy-Xg-J4G" firstAttribute="bottom" secondItem="aVU-RM-YPm" secondAttribute="bottom" constant="9.6699999999999999" id="9jI-b0-DMr"/>
+                            <constraint firstItem="BGy-Xg-J4G" firstAttribute="trailing" secondItem="aVU-RM-YPm" secondAttribute="trailing" constant="20" id="A3v-b1-SpC"/>
                             <constraint firstItem="aVU-RM-YPm" firstAttribute="leading" secondItem="BGy-Xg-J4G" secondAttribute="leading" constant="20" id="Bot-1M-erb"/>
                             <constraint firstItem="dJU-M5-D0J" firstAttribute="leading" secondItem="BGy-Xg-J4G" secondAttribute="leading" id="PFG-62-PhM"/>
+                            <constraint firstItem="aVU-RM-YPm" firstAttribute="top" secondItem="BGy-Xg-J4G" secondAttribute="top" constant="41" id="VYo-Bc-iB1"/>
                             <constraint firstAttribute="bottom" secondItem="dJU-M5-D0J" secondAttribute="bottom" id="XeB-UD-qFp"/>
                             <constraint firstAttribute="trailing" secondItem="aVU-RM-YPm" secondAttribute="trailing" constant="20" id="bI8-iX-Tth"/>
                             <constraint firstItem="dJU-M5-D0J" firstAttribute="trailing" secondItem="BGy-Xg-J4G" secondAttribute="trailing" id="hMs-h2-TJn"/>
                             <constraint firstItem="BGy-Xg-J4G" firstAttribute="trailing" secondItem="aVU-RM-YPm" secondAttribute="trailing" constant="20" id="idg-GD-TRe"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="b4A-Qg-qJi"/>
+                    <navigationItem key="navigationItem" id="b4A-Qg-qJi">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="a6b-Fv-NVo"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="SigninBtn" destination="ZMD-KQ-bfg" id="P9H-6q-vM3"/>
+                        <outlet property="emailTextFeild" destination="5KD-ti-xdd" id="LWw-uL-1Pz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vaC-tt-w94" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4662.686567164179" y="16.475972540045767"/>
+            <point key="canvasLocation" x="5582.0895522388055" y="16.475972540045767"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="HaT-2z-m3N">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="SUa-3J-qrb" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="BHS-FL-93H">
+                        <rect key="frame" x="0.0" y="124" width="402" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="d1f-2D-GH9" kind="relationship" relationship="rootViewController" id="mNh-Sg-Qbk"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2kx-5R-OXg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3729.8507462686566" y="15.789473684210526"/>
         </scene>
     </scenes>
     <resources>
