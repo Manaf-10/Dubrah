@@ -17,7 +17,6 @@ class ViewController: UIViewController {
        
         GetStartedbtn.layer.cornerRadius = 12
         GetStartedbtn.clipsToBounds = true
-        
 
         
     }

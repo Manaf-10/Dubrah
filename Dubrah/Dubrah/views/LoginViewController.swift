@@ -17,9 +17,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         self.emailTextFeild.delegate = self
         
-        SigninBtn.layer.cornerRadius = 12
-        SigninBtn.clipsToBounds = true
-        
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
