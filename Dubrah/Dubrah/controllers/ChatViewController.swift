@@ -18,9 +18,13 @@ class ChatViewController: UIViewController ,UITableViewDelegate, UITableViewData
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var inputField: UITextField!
     
+    @IBAction func valueChanged(_ sender: UITextField) {
+        sendButton.isEnabled = !(sender.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
        
         // Do any additional setup after loading the view.
         nameLabel.text = userName
@@ -67,14 +71,30 @@ class ChatViewController: UIViewController ,UITableViewDelegate, UITableViewData
         
         let msg = messages[indexPath.row]
         cell.messageLabel.text = msg.text
-        cell.setupCell(cell: cell , isComing:msg.isIncoming)
+        cell.setupCell(isComing:msg.isIncoming)
         return cell
 
     }
-    func scrollToBottom() {
-        let indexPath = IndexPath(row: messages.count - 1, section: 0)
-        tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 12
     }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return UIView()
+    }
+    
+    func scrollToBottom() {
+        guard messages.count > 0 else { return }
+
+        let lastRow = messages.count - 1
+        let indexPath = IndexPath(row: lastRow, section: 0)
+
+        if tableView.numberOfRows(inSection: 0) > lastRow {
+            tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
+    }
+
 
     
     @IBAction func sendButtonTapped(_ sender: UIButton){
@@ -82,9 +102,13 @@ class ChatViewController: UIViewController ,UITableViewDelegate, UITableViewData
         messages.append(ChatMessage(text: text, isIncoming: false))
         inputField.text = ""
         tableView.reloadData()
-        scrollToBottom()
+        DispatchQueue.main.async {
+            self.scrollToBottom()
+        }
 
     }
+    
+   
 
     
 
