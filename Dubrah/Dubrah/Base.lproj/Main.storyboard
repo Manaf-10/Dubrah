@@ -778,6 +778,9 @@ turn every connection into an opportunity.</string>
                                                     <backgroundConfiguration key="background" cornerRadius="12"/>
                                                     <fontDescription key="titleFontDescription" type="boldSystem" pointSize="33"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <segue destination="hWa-9i-TAF" kind="show" id="MlW-vg-BZ6"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -798,12 +801,112 @@ turn every connection into an opportunity.</string>
             </objects>
             <point key="canvasLocation" x="8414.9253731343288" y="15.789473684210526"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="g5Q-K0-8Vt">
+            <objects>
+                <viewController id="hWa-9i-TAF" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Uo0-uW-idH">
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Ojo-CE-b27">
+                                <rect key="frame" x="20" y="438.66666666666674" width="362" height="347.33333333333326"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="130" translatesAutoresizingMaskIntoConstraints="NO" id="CgJ-8q-gHp">
+                                        <rect key="frame" x="0.0" y="0.0" width="362" height="347.33333333333331"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="dqA-0F-yA3">
+                                                <rect key="frame" x="0.0" y="0.0" width="362" height="163.66666666666666"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="F9q-j6-U2V">
+                                                        <rect key="frame" x="0.0" y="0.0" width="362" height="76.666666666666671"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password Reset" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4uf-pc-jQP">
+                                                                <rect key="frame" x="62.000000000000014" y="0.0" width="238.33333333333337" height="38.333333333333336"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Successfully!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RNt-qZ-ysB">
+                                                                <rect key="frame" x="80.000000000000014" y="38.333333333333314" width="202.33333333333337" height="38.333333333333343"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="D7V-y9-WJI">
+                                                        <rect key="frame" x="0.0" y="96.666666666666686" width="362" height="67"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your password has been reset" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OhU-1u-Xeq">
+                                                                <rect key="frame" x="80.000000000000014" y="0.0" width="202.33333333333337" height="17"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                                                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="successfully. You can now sign " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bhb-wF-1xQ">
+                                                                <rect key="frame" x="75.666666666666686" y="25" width="211" height="17"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                                                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="in with your new credentials." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qXI-hP-alk">
+                                                                <rect key="frame" x="84.666666666666671" y="50" width="192.66666666666663" height="17"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                                                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="2pB-wB-L42">
+                                                <rect key="frame" x="0.0" y="293.66666666666669" width="362" height="53.666666666666686"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qn0-a7-icL">
+                                                        <rect key="frame" x="0.0" y="0.0" width="362" height="53.666666666666664"/>
+                                                        <color key="backgroundColor" name="WidgetBackground"/>
+                                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="plain" title="Back to Sign in ">
+                                                            <backgroundConfiguration key="background" cornerRadius="12"/>
+                                                            <fontDescription key="titleFontDescription" type="boldSystem" pointSize="33"/>
+                                                        </buttonConfiguration>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Successfully" translatesAutoresizingMaskIntoConstraints="NO" id="ZZb-NK-Bur">
+                                <rect key="frame" x="29" y="232.66666666666663" width="357" height="196"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="fmU-xq-ncR"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="fmU-xq-ncR" firstAttribute="trailing" secondItem="Ojo-CE-b27" secondAttribute="trailing" constant="20" id="1a6-nj-YIs"/>
+                            <constraint firstItem="ZZb-NK-Bur" firstAttribute="leading" secondItem="fmU-xq-ncR" secondAttribute="leading" constant="29" id="Cvl-v3-F5G"/>
+                            <constraint firstItem="fmU-xq-ncR" firstAttribute="trailing" secondItem="ZZb-NK-Bur" secondAttribute="trailing" constant="16" id="FLl-R8-nWe"/>
+                            <constraint firstItem="fmU-xq-ncR" firstAttribute="bottom" secondItem="Ojo-CE-b27" secondAttribute="bottom" constant="20" id="Tvp-sb-kp6"/>
+                            <constraint firstItem="Ojo-CE-b27" firstAttribute="top" secondItem="ZZb-NK-Bur" secondAttribute="bottom" constant="10" id="aKQ-qw-q5t"/>
+                            <constraint firstItem="Ojo-CE-b27" firstAttribute="leading" secondItem="fmU-xq-ncR" secondAttribute="leading" constant="20" id="jo1-o5-9Nd"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="iKf-5O-plr"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CTb-y5-Ihj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="9423.8805970149242" y="15.789473684210526"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Group 1.png" width="1924" height="590"/>
         <image name="Registeration_and_Authentication_Mohamed_Kadhem_202304184-2.png" width="393" height="852"/>
         <image name="Registeration_and_Authentication_Mohamed_Kadhem_202304184.png" width="393" height="852"/>
         <image name="StartPage.png" width="352" height="352"/>
+        <image name="Successfully" width="312" height="196"/>
         <image name="checkmark" catalog="system" width="128" height="114"/>
         <namedColor name="WidgetBackground">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
