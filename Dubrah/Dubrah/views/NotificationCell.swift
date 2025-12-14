@@ -8,10 +8,10 @@ import UIKit
 
 class NotificationCell: UITableViewCell{
     @IBOutlet weak var notificationLabel: UILabel!
+    @IBOutlet weak var notificationImage: UIImageView!
     
     override class func awakeFromNib() {
         super.awakeFromNib()
-        
     }
     
     
