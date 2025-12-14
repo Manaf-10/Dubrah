@@ -11,7 +11,6 @@ class ChatViewController: UIViewController ,UITableViewDelegate, UITableViewData
     
     var userName: String?
     var userImage: UIImage?
-
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var profileImage: UIImageView!
