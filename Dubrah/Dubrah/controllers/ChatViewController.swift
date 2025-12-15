@@ -7,33 +7,65 @@
 
 import UIKit
 
-class ChatViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource{
+class ChatViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
     
     var userName: String?
     var userImage: UIImage?
+    
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var profileImage: UIImageView!
-    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var inputField: UITextField!
-    @IBOutlet weak var inputBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var inputTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var tableHeight: NSLayoutConstraint!
     
     @IBAction func valueChanged(_ sender: UITextField) {
         sendButton.isEnabled = !(sender.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true)
     }
     
+    func setupNavBarTitle() {
+        let container = UIStackView()
+        container.axis = .horizontal
+        container.alignment = .center
+        container.spacing = 8
+
+        // Profile Image
+        let imageView = UIImageView()
+        imageView.image = userImage ?? UIImage(named: "user_icon")
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 16
+        imageView.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            imageView.widthAnchor.constraint(equalToConstant: 32),
+            imageView.heightAnchor.constraint(equalToConstant: 32)
+        ])
+
+        // Name Label
+        let nameLabel = UILabel()
+        nameLabel.text = userName
+        nameLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        nameLabel.textColor = .label
+
+        container.addArrangedSubview(imageView)
+        container.addArrangedSubview(nameLabel)
+
+    }
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        nameLabel.text = userName
-        profileImage.image = userImage
+        navigationItem.title = userName
+        inputField.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 60
-        
+        setupNavBarTitle()
+//       tableHeight.isActive = false
+        tableHeight.constant = 550
+        inputTopConstraint.constant = 100
     }
     
     struct ChatMessage {
@@ -111,11 +143,11 @@ class ChatViewController: UIViewController ,UITableViewDelegate, UITableViewData
         // Force keyboard to close
         view.endEditing(true)
     }
-
     
-   
-
-    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+            inputTopConstraint.constant = 0
+        
+        }
 
     /*
     // MARK: - Navigation
