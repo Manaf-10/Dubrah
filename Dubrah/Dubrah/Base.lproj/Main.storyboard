@@ -3,7 +3,6 @@
     <device id="retina6_3" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -256,6 +255,7 @@
                                             <outlet property="messageLabel" destination="FHv-Dc-imJ" id="2pB-NN-174"/>
                                             <outlet property="nameLabel" destination="2z7-ip-lh7" id="MJE-hw-S6K"/>
                                             <outlet property="profileImage" destination="xiB-C0-d3W" id="Pm6-rJ-5X9"/>
+                                            <outlet property="verifiedImage" destination="8gG-xU-e79" id="1if-dT-4aq"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -436,14 +436,14 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="KTj-by-8wB">
                                 <rect key="frame" x="0.0" y="80" width="402" height="70"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="SS7-O0-qhP">
-                                        <rect key="frame" x="0.0" y="1.6666666666666643" width="80" height="66.666666666666686"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_icon" translatesAutoresizingMaskIntoConstraints="NO" id="SS7-O0-qhP">
+                                        <rect key="frame" x="0.0" y="0.0" width="80" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="80" id="kdK-U2-IXU"/>
                                         </constraints>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="center" axis="vertical" distribution="fillProportionally" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="Unj-Yo-4NM">
-                                        <rect key="frame" x="90" y="0.0" width="177" height="70"/>
+                                        <rect key="frame" x="90" y="0.0" width="138" height="70"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9d3-0f-C9C">
                                                 <rect key="frame" x="0.0" y="0.0" width="44.333333333333336" height="26"/>
@@ -460,9 +460,9 @@
                                         </subviews>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uf5-oQ-8lV">
-                                        <rect key="frame" x="277" y="0.0" width="125" height="70"/>
+                                        <rect key="frame" x="238" y="0.0" width="164" height="70"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="bell.fill" catalog="system">
+                                        <buttonConfiguration key="configuration" style="plain" image="Bell">
                                             <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="24"/>
                                         </buttonConfiguration>
                                         <connections>
@@ -470,7 +470,6 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" name="WidgetBackground"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="laM-S8-1oQ"/>
@@ -493,7 +492,7 @@
                             <constraint firstItem="JvU-f9-79e" firstAttribute="leading" secondItem="0Id-18-AFe" secondAttribute="leading" id="qeU-XH-PkX"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="house.fill" catalog="system" id="EI2-Pp-52B"/>
+                    <tabBarItem key="tabBarItem" title="" image="home_icon" id="EI2-Pp-52B"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9ax-YJ-2fZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -575,18 +574,15 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Bell" width="30" height="30"/>
         <image name="Group 1.png" width="1924" height="590"/>
         <image name="StartPage.png" width="352" height="352"/>
-        <image name="bell.fill" catalog="system" width="123" height="128"/>
-        <image name="house.fill" catalog="system" width="128" height="104"/>
+        <image name="home_icon" width="72" height="54"/>
         <image name="message" catalog="system" width="128" height="116"/>
         <image name="paperplane" catalog="system" width="128" height="119"/>
         <image name="person.crop.circle.fill" catalog="system" width="128" height="123"/>
-        <image name="person.fill" catalog="system" width="128" height="120"/>
+        <image name="user_icon" width="72" height="54"/>
         <image name="verified " width="14" height="14"/>
-        <namedColor name="WidgetBackground">
-            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

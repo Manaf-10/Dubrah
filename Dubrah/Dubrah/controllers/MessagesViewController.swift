@@ -17,7 +17,7 @@ class MessagesViewController: UIViewController,
     // MARK: - Data
     var messages: [MessagePreview] = [
         MessagePreview(name:"Michael", message: "You: Tuesday sounds perfect! For a group of six.",verified: true),
-        MessagePreview(name:"Luca", message: "Luca: Yes, however highlights will hike the price.",verified: true),
+        MessagePreview(name:"Luca", message: "Luca: Yes, however highlights will hike the price.",verified: false),
         MessagePreview(name:"Christopher", message: "You: Thanks again! My daughter loved her mural.",verified: true)
     ]
 
@@ -31,7 +31,6 @@ class MessagesViewController: UIViewController,
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
-
         searchBar.delegate = self
     }
 
@@ -55,7 +54,8 @@ class MessagesViewController: UIViewController,
         cell.profileImage.image = UIImage(named: "user_icon")
         cell.nameLabel.text = item.name
         cell.messageLabel.text = item.message
-        
+        cell.verifiedImage.isHidden = !item.verified
+
 
         return cell
     }

@@ -16,6 +16,7 @@ class ViewController: UIViewController {
         
         GetStartedButton.layer.cornerRadius = 12.0
         GetStartedButton.clipsToBounds = true
+        view.backgroundColor = UIColor(hex: "#F8FAFC")
     }
 
 
