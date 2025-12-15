@@ -210,7 +210,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" distribution="fillEqually" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="WX9-e9-WF4">
-                                                    <rect key="frame" x="106" y="15" width="301.66666666666669" height="54"/>
+                                                    <rect key="frame" x="106.00000000000003" y="15" width="301.66666666666674" height="54"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="ZBf-gq-ohu">
                                                             <rect key="frame" x="0.0" y="0.0" width="62.333333333333336" height="27"/>
@@ -221,7 +221,7 @@
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="verified " translatesAutoresizingMaskIntoConstraints="NO" id="8gG-xU-e79">
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="verified" translatesAutoresizingMaskIntoConstraints="NO" id="8gG-xU-e79">
                                                                     <rect key="frame" x="48.333333333333336" y="6" width="14" height="15"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="15" id="0eG-yU-Ptt"/>
@@ -425,10 +425,10 @@
             </objects>
             <point key="canvasLocation" x="-554" y="-1190"/>
         </scene>
-        <!--View Controller-->
+        <!--Home View Controller-->
         <scene sceneID="aGR-Te-lh0">
             <objects>
-                <viewController id="cE9-lK-wbb" sceneMemberID="viewController">
+                <viewController id="cE9-lK-wbb" customClass="HomeViewController" customModule="Dubrah" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8eN-f6-ISe">
                         <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -437,22 +437,17 @@
                                 <rect key="frame" x="0.0" y="80" width="402" height="70"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_icon" translatesAutoresizingMaskIntoConstraints="NO" id="SS7-O0-qhP">
-                                        <rect key="frame" x="0.0" y="0.0" width="80" height="70"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
                                         <constraints>
+                                            <constraint firstAttribute="width" secondItem="SS7-O0-qhP" secondAttribute="height" multiplier="1:1" id="gv9-0K-iEE"/>
                                             <constraint firstAttribute="width" constant="80" id="kdK-U2-IXU"/>
                                         </constraints>
                                     </imageView>
-                                    <stackView opaque="NO" contentMode="center" axis="vertical" distribution="fillProportionally" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="Unj-Yo-4NM">
-                                        <rect key="frame" x="90" y="0.0" width="138" height="70"/>
+                                    <stackView opaque="NO" contentMode="center" axis="vertical" distribution="fillEqually" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="Unj-Yo-4NM">
+                                        <rect key="frame" x="79.999999999999986" y="0.0" width="131.66666666666663" height="70"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9d3-0f-C9C">
-                                                <rect key="frame" x="0.0" y="0.0" width="44.333333333333336" height="26"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alexander" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w7e-ky-yeR">
-                                                <rect key="frame" x="0.0" y="26" width="76.333333333333329" height="44"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w7e-ky-yeR">
+                                                <rect key="frame" x="0.0" y="0.0" width="71" height="70"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -460,7 +455,7 @@
                                         </subviews>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uf5-oQ-8lV">
-                                        <rect key="frame" x="238" y="0.0" width="164" height="70"/>
+                                        <rect key="frame" x="221.66666666666663" y="0.0" width="180.33333333333337" height="70"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="Bell">
                                             <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="24"/>
@@ -493,6 +488,9 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="home_icon" id="EI2-Pp-52B"/>
+                    <connections>
+                        <outlet property="welcomingLabel" destination="w7e-ky-yeR" id="iB9-8f-tzg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9ax-YJ-2fZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -582,7 +580,7 @@
         <image name="paperplane" catalog="system" width="128" height="119"/>
         <image name="person.crop.circle.fill" catalog="system" width="128" height="123"/>
         <image name="user_icon" width="72" height="54"/>
-        <image name="verified " width="14" height="14"/>
+        <image name="verified" width="14" height="14"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
