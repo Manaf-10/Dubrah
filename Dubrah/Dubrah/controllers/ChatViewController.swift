@@ -63,9 +63,9 @@ class ChatViewController: UIViewController ,UITableViewDelegate, UITableViewData
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 60
         setupNavBarTitle()
-//       tableHeight.isActive = false
-        tableHeight.constant = 550
-        inputTopConstraint.constant = 100
+//      tableHeight.isActive = false
+        tableHeight.constant = 350
+        inputTopConstraint.constant = -50
     }
     
     struct ChatMessage {
@@ -146,7 +146,7 @@ class ChatViewController: UIViewController ,UITableViewDelegate, UITableViewData
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
             inputTopConstraint.constant = 0
-        
+            tableHeight.constant = 0
         }
 
     /*
