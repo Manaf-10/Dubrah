@@ -16,9 +16,17 @@ class MessagesViewController: UIViewController,
 
     // MARK: - Data
     var messages: [MessagePreview] = [
-        MessagePreview(name:"Michael", message: "You: Tuesday sounds perfect! For a group of six.",verified: true),
-        MessagePreview(name:"Luca", message: "Luca: Yes, however highlights will hike the price.",verified: false),
-        MessagePreview(name:"Christopher", message: "You: Thanks again! My daughter loved her mural.",verified: true)
+        MessagePreview(name: "Michael",
+                       message: "You: Tuesday sounds perfect! For a group of six.",
+                       verified: true),
+
+        MessagePreview(name: "Luca",
+                       message: "Luca: Yes, however highlights will hike the price.",
+                       verified: false),
+
+        MessagePreview(name: "Christopher",
+                       message: "You: Thanks again! My daughter loved her mural.",
+                       verified: true)
     ]
 
     var filteredMessages: [MessagePreview] = []
@@ -51,11 +59,11 @@ class MessagesViewController: UIViewController,
         let item = isSearching
             ? filteredMessages[indexPath.row]
             : messages[indexPath.row]
+
         cell.profileImage.image = UIImage(named: "user_icon")
         cell.nameLabel.text = item.name
         cell.messageLabel.text = item.message
         cell.verifiedImage.isHidden = !item.verified
-
 
         return cell
     }
@@ -66,36 +74,41 @@ class MessagesViewController: UIViewController,
 
         tableView.deselectRow(at: indexPath, animated: true)
 
-        let chatVC = storyboard?.instantiateViewController(
-            withIdentifier: "ChatVC"
-        ) as! ChatViewController
+        // Trigger storyboard segue ONLY
+        performSegue(withIdentifier: "ShowChat", sender: indexPath)
+    }
 
-        let item = isSearching
-            ? filteredMessages[indexPath.row]
-            : messages[indexPath.row]
+    // MARK: - Navigation (PASS DATA HERE)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowChat",
+           let chatVC = segue.destination as? ChatViewController,
+           let indexPath = sender as? IndexPath {
 
-        chatVC.userName = item.name
-        
+            let item = isSearching
+                ? filteredMessages[indexPath.row]
+                : messages[indexPath.row]
 
-        navigationController?.pushViewController(chatVC, animated: true)
+            chatVC.userName = item.name
+        }
     }
 
     // MARK: - SearchBar Logic
     func searchBar(_ searchBar: UISearchBar,
                    textDidChange searchText: String) {
 
-        if searchText.trimmingCharacters(in: .whitespaces).isEmpty {
+        let text = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        if text.isEmpty {
             isSearching = false
             filteredMessages.removeAll()
         } else {
             isSearching = true
             filteredMessages = messages.filter {
-                $0.name.lowercased().contains(searchText.lowercased()) ||
-                $0.message.lowercased().contains(searchText.lowercased())
+                $0.name.lowercased().contains(text.lowercased()) ||
+                $0.message.lowercased().contains(text.lowercased())
             }
         }
 
         tableView.reloadData()
     }
-
 }

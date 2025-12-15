@@ -257,7 +257,7 @@
                                             <outlet property="nameLabel" destination="2z7-ip-lh7" id="MJE-hw-S6K"/>
                                             <outlet property="profileImage" destination="xiB-C0-d3W" id="Pm6-rJ-5X9"/>
                                             <outlet property="verifiedImage" destination="8gG-xU-e79" id="1if-dT-4aq"/>
-                                            <segue destination="J23-8J-3zx" kind="show" trigger="accessoryAction" id="gTf-58-DzV"/>
+                                            <segue destination="J23-8J-3zx" kind="show" identifier="ShowChat" trigger="accessoryAction" id="gTf-58-DzV"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -296,8 +296,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="geo-xO-knB">
-                                <rect key="frame" x="0.0" y="91" width="402" height="354"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="geo-xO-knB">
+                                <rect key="frame" x="0.0" y="91" width="402" height="552"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MessageCell" rowHeight="40" id="rbY-bY-C7g" customClass="NewMessageTableViewCell" customModule="Dubrah" customModuleProvider="target">
@@ -355,33 +355,16 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="fillProportionally" alignment="center" spacing="118" translatesAutoresizingMaskIntoConstraints="NO" id="VdV-Bw-agS">
-                                <rect key="frame" x="92" y="60" width="219.33333333333337" height="30"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yFN-9Z-x7x">
-                                        <rect key="frame" x="0.0" y="0.0" width="60" height="30"/>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GRg-iP-GvK">
-                                        <rect key="frame" x="178" y="5" width="41.333333333333343" height="20.333333333333332"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="TIS-R9-yoN"/>
-                                </constraints>
-                            </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Y6-VN-bi7">
-                                <rect key="frame" x="0.0" y="445" width="402" height="61"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Y6-VN-bi7">
+                                <rect key="frame" x="0.0" y="745" width="402" height="34.333333333333371"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="leading" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kL9-w9-qYO">
-                                        <rect key="frame" x="0.0" y="0.0" width="351.33333333333331" height="61"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="351.33333333333331" height="34.333333333333336"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6pn-D7-tQo">
-                                        <rect key="frame" x="351.33333333333331" y="0.0" width="50.666666666666686" height="61"/>
+                                        <rect key="frame" x="351.33333333333331" y="0.0" width="50.666666666666686" height="34.333333333333336"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="paperplane.fill" catalog="system"/>
                                         <connections>
@@ -393,30 +376,24 @@
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="XEh-FC-q5T"/>
-                        <keyboardLayoutGuide key="keyboard" id="NJT-No-nqz"/>
+                        <keyboardLayoutGuide key="keyboard" id="VOW-VK-Wkh"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="XEh-FC-q5T" firstAttribute="bottom" secondItem="7Y6-VN-bi7" secondAttribute="bottom" constant="300" id="85s-lF-YAb"/>
-                            <constraint firstItem="geo-xO-knB" firstAttribute="height" secondItem="XEh-FC-q5T" secondAttribute="height" multiplier="0.555" id="CTq-W9-QGG"/>
-                            <constraint firstItem="kL9-w9-qYO" firstAttribute="top" secondItem="geo-xO-knB" secondAttribute="bottom" id="Ffd-tB-YII"/>
-                            <constraint firstItem="7Y6-VN-bi7" firstAttribute="leading" secondItem="geo-xO-knB" secondAttribute="trailing" constant="-402" id="O0V-rU-13V"/>
-                            <constraint firstItem="VdV-Bw-agS" firstAttribute="top" secondItem="aUK-Dm-S54" secondAttribute="top" constant="60" id="Sew-Gf-ixa"/>
-                            <constraint firstItem="NJT-No-nqz" firstAttribute="top" secondItem="geo-xO-knB" secondAttribute="bottom" id="UEJ-Cn-Hbb"/>
-                            <constraint firstItem="7Y6-VN-bi7" firstAttribute="leading" secondItem="NJT-No-nqz" secondAttribute="leading" id="cvS-i0-EIt"/>
+                            <constraint firstItem="geo-xO-knB" firstAttribute="height" secondItem="XEh-FC-q5T" secondAttribute="height" multiplier="0.68" id="CTq-W9-QGG"/>
+                            <constraint firstItem="7Y6-VN-bi7" firstAttribute="top" secondItem="geo-xO-knB" secondAttribute="bottom" constant="300" id="aJq-Nu-PyL"/>
+                            <constraint firstItem="7Y6-VN-bi7" firstAttribute="leading" secondItem="aUK-Dm-S54" secondAttribute="leading" id="cvS-i0-EIt"/>
                             <constraint firstItem="geo-xO-knB" firstAttribute="trailing" secondItem="XEh-FC-q5T" secondAttribute="trailing" id="ikM-FW-b6Z"/>
-                            <constraint firstItem="NJT-No-nqz" firstAttribute="trailing" secondItem="7Y6-VN-bi7" secondAttribute="trailing" id="mz2-JQ-tn5"/>
-                            <constraint firstItem="geo-xO-knB" firstAttribute="top" secondItem="VdV-Bw-agS" secondAttribute="bottom" constant="1" id="tdU-VF-yjg"/>
+                            <constraint firstAttribute="trailing" secondItem="7Y6-VN-bi7" secondAttribute="trailing" id="mz2-JQ-tn5"/>
                             <constraint firstItem="geo-xO-knB" firstAttribute="leading" secondItem="XEh-FC-q5T" secondAttribute="leading" id="wou-fI-fsM"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="48A-36-dzB"/>
                     <navigationItem key="navigationItem" id="nHR-sA-Anb"/>
                     <connections>
-                        <outlet property="inputBottomConstraint" destination="85s-lF-YAb" id="4po-W4-AQG"/>
                         <outlet property="inputField" destination="kL9-w9-qYO" id="z32-uF-4YP"/>
-                        <outlet property="nameLabel" destination="GRg-iP-GvK" id="IeB-pW-KMT"/>
-                        <outlet property="profileImage" destination="yFN-9Z-x7x" id="yPj-Gc-p8P"/>
+                        <outlet property="inputTopConstraint" destination="aJq-Nu-PyL" id="Bov-qP-Oef"/>
                         <outlet property="sendButton" destination="6pn-D7-tQo" id="GoB-iW-aPr"/>
+                        <outlet property="tableHeight" destination="CTq-W9-QGG" id="v8J-1n-AgP"/>
                         <outlet property="tableView" destination="geo-xO-knB" id="8aA-Hq-GoJ"/>
                     </connections>
                 </viewController>
