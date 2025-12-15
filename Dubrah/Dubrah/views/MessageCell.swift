@@ -13,12 +13,14 @@ class MessageCell: UITableViewCell {
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var verifiedImage: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         profileImage.layer.cornerRadius = 30
         profileImage.clipsToBounds = true
-        contentView.layer.cornerRadius = 20
         contentView.layer.masksToBounds = false
+        messageLabel.numberOfLines = 1
+        messageLabel.lineBreakMode = .byTruncatingTail
     }
 }
