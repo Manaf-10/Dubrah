@@ -16,6 +16,7 @@ class ChatViewController: UIViewController ,UITableViewDelegate, UITableViewData
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var inputField: UITextField!
+    @IBOutlet weak var inputBottomConstraint: NSLayoutConstraint!
     
     @IBAction func valueChanged(_ sender: UITextField) {
         sendButton.isEnabled = !(sender.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true)
@@ -23,8 +24,7 @@ class ChatViewController: UIViewController ,UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-       
+
         // Do any additional setup after loading the view.
         nameLabel.text = userName
         profileImage.image = userImage
@@ -104,8 +104,14 @@ class ChatViewController: UIViewController ,UITableViewDelegate, UITableViewData
         DispatchQueue.main.async {
             self.scrollToBottom()
         }
-
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Force keyboard to close
+        view.endEditing(true)
+    }
+
     
    
 
