@@ -18,7 +18,8 @@ class MessageCell: UITableViewCell {
         super.awakeFromNib()
         profileImage.layer.cornerRadius = 30
         profileImage.clipsToBounds = true
-        contentView.layer.cornerRadius = 20
         contentView.layer.masksToBounds = false
+        messageLabel.numberOfLines = 1
+        messageLabel.lineBreakMode = .byTruncatingTail
     }
 }
