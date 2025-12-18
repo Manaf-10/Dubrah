@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ChatViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
+class ChatViewController: BaseViewController ,UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
     
     var userName: String?
     var userImage: UIImage?
