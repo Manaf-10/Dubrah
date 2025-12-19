@@ -7,38 +7,50 @@
 
 import UIKit
 
-class CategoryCell: UICollectionViewCell{
-    
+class CategoryCell: UICollectionViewCell {
+
     @IBOutlet weak var iconLabel: UILabel!
-    
+    @IBOutlet weak var deleteButton: UIButton!
+    @IBOutlet weak var editButton: UIButton!
+
+    weak var delegate: CategoryCellDelegate?
+
     override func awakeFromNib() {
-         super.awakeFromNib()
-         setupStyle()
-     }
+        super.awakeFromNib()
+        setupStyle()
+    }
 
-     private func setupStyle() {
-         // Cell appearance
-         contentView.layer.cornerRadius = 12
-         contentView.layer.masksToBounds = true
-         contentView.backgroundColor = UIColor(hex : "#FFFFFF")
+    private func setupStyle() {
+        contentView.layer.cornerRadius = 16
+        contentView.layer.masksToBounds = true
+        contentView.backgroundColor = UIColor(hex: "#FFFFFF")
 
-         // Label appearance
-         iconLabel.textAlignment = .center
-         iconLabel.numberOfLines = 1
-     }
+        iconLabel.textAlignment = .center
+        iconLabel.numberOfLines = 1
+    }
 
-     func configure(with systemImageName: String) {
-         let attachment = NSTextAttachment()
-         attachment.image = UIImage(systemName: "folder")
+    func configure(with systemImageName: String) {
+        let attachment = NSTextAttachment()
+        attachment.image = UIImage(systemName: "folder")
+        attachment.bounds = CGRect(x: 0, y: -4, width: 60, height: 55)
 
-         attachment.bounds = CGRect(
-             x: 0,
-             y: -4,   // vertical alignment tweak
-             width: 60,
-             height: 60
-         )
+        iconLabel.attributedText =
+            NSMutableAttributedString(attachment: attachment)
+    }
 
-         iconLabel.attributedText =
-             NSMutableAttributedString(attachment: attachment)
-     }
+    @IBAction func editButtonTapped(_ sender: UIButton) {
+        delegate?.didTapEdit(on: self)
+    }
+
+    @IBAction func deleteButtonTapped(_ sender: UIButton) {
+        delegate?.didTapDelete(on: self)
+    }
 }
+
+    
+    protocol CategoryCellDelegate: AnyObject {
+        func didTapEdit(on cell: CategoryCell)
+        func didTapDelete(on cell: CategoryCell)
+    }
+
+
