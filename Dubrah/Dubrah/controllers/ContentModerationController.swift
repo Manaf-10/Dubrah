@@ -9,7 +9,6 @@ class ContentModerationController: BaseViewController, UIPageViewControllerDataS
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("✅ ContentModerationController loaded")
         setupPageVC()
     }
 
