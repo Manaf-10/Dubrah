@@ -26,10 +26,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         case "Edit Profile":
             performSegue(withIdentifier:"EditProfileViewController", sender: self)
         default:
-            <#code#>
+            break
         }
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
     
     
     @IBOutlet weak var settingsTable: UITableView!
@@ -40,13 +43,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         settingsTable.delegate = self
         settingsTable.dataSource = self
         
-        arrSettings.append(setting.init(Settings: "Edit Profile", photo: UIImage(contentsOfFile: "person.crop.circle")!))
-        arrSettings.append(setting.init(Settings: "Security Settings", photo: UIImage(contentsOfFile: "exclamationmark.shield")!))
-        arrSettings.append(setting.init(Settings: "Order History", photo: UIImage(contentsOfFile: "book.closed")!))
-        arrSettings.append(setting.init(Settings: "About The App", photo: UIImage(contentsOfFile: "exclamationmark")!))
-        arrSettings.append(setting.init(Settings: "Terms & Codition", photo: UIImage(contentsOfFile: "newspaper")!))
-        arrSettings.append(setting.init(Settings: "Privacy Policy", photo: UIImage(contentsOfFile: "lock")!))
-        arrSettings.append(setting.init(Settings: "FAQ", photo: UIImage(contentsOfFile: "questionmark")!))
+        arrSettings.append(setting.init(Settings: "Edit Profile", photo: UIImage(named: "Edit profile")!))
+        arrSettings.append(setting.init(Settings: "Security Settings", photo: UIImage(named: "Security Settings")!))
+        arrSettings.append(setting.init(Settings: "Order History", photo: UIImage(named: "Order History")!))
+        arrSettings.append(setting.init(Settings: "About The App", photo: UIImage(named: "About The App")!))
+        arrSettings.append(setting.init(Settings: "Terms & Condition", photo: UIImage(named: "Terms&Condition")!))
+        arrSettings.append(setting.init(Settings: "Privacy Policy", photo: UIImage(named: "Privacy Policy")!))
+        arrSettings.append(setting.init(Settings: "FAQ", photo: UIImage(named: "FAQ")!))
     }
     
     
