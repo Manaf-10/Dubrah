@@ -8,12 +8,19 @@
 import UIKit
 
 class SettingsTableViewCell: UITableViewCell {
-    @IBOutlet weak var imgicon: UIView!
+   
     
-    @IBOutlet weak var btns: UIButton!
+    @IBOutlet weak var Settingslbl: UILabel!
+    @IBOutlet weak var imgicons: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+    }
+    
+    func setUpCell(photo: UIImage, Settings: String, ){
+        
+        imgicons.image = photo
+        Settingslbl.text = Settings
     }
     
 
