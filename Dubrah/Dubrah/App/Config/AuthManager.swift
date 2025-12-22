@@ -47,7 +47,8 @@ class AuthManager: ObservableObject {
             role: "customer",
             isVerified: false,
             createdAt: Date(),
-            profilePicture: profilePicture
+            profilePicture: profilePicture,
+            notifications: nil
         )
         
         // 3. Save to Firestore
@@ -110,7 +111,8 @@ class AuthManager: ObservableObject {
                         role: data["role"] as? String ?? "customer",
                         isVerified: data["verified"] as? Bool ?? false,
                         createdAt: (data["createdAt"] as? Timestamp)?.dateValue() ?? Date(),
-                        profilePicture: (data["profilePicture"] as? String ?? "")
+                        profilePicture: (data["profilePicture"] as? String ?? ""),
+                        notifications: nil
                     )
             print("✅ User fetched: \(self.currentUser?.fullName ?? "Unknown")")
         } catch {

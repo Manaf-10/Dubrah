@@ -16,6 +16,7 @@ struct User: Identifiable {
         let isVerified: Bool
         let createdAt: Date
         let profilePicture: String
+        let notifications: Array<Notification>?
     // Add this computed property
     var firestoreData: [String: Any] {
         return [
