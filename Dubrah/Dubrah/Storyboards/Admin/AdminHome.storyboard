@@ -52,7 +52,7 @@
                                 <rect key="frame" x="15" y="202" width="372" height="1318"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="g5T-jg-GHI">
-                                        <rect key="frame" x="0.0" y="0.0" width="372" height="715.33333333333337"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="372" height="711.33333333333337"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r7y-Cg-8OY">
                                                 <rect key="frame" x="0.0" y="0.0" width="372" height="365"/>
@@ -126,19 +126,19 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="f1S-FV-Tzm">
-                                                <rect key="frame" x="0.0" y="677" width="372" height="38.333333333333371"/>
+                                                <rect key="frame" x="0.0" y="677" width="372" height="34.333333333333371"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="m3t-3J-du3">
-                                                        <rect key="frame" x="0.0" y="0.0" width="372" height="38.333333333333336"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="372" height="34.333333333333336"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recent Activity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pyE-bY-2pK">
-                                                                <rect key="frame" x="0.0" y="0.0" width="186" height="38.333333333333336"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="186" height="34.333333333333336"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Evl-eR-xRV">
-                                                                <rect key="frame" x="186" y="0.0" width="186" height="38.333333333333336"/>
+                                                                <rect key="frame" x="186" y="0.0" width="186" height="34.333333333333336"/>
                                                                 <state key="normal" title="Button"/>
                                                                 <buttonConfiguration key="configuration" style="plain" title="View all">
                                                                     <color key="baseForegroundColor" red="0.91764705879999997" green="0.91764705879999997" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
