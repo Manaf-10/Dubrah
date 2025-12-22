@@ -5,6 +5,7 @@
 //  Created by BP-19-114-03 on 15/12/2025.
 //
 import UIKit
+import FirebaseAuth
 
 class HomeViewController: UIViewController {
     @IBOutlet weak var welcomingLabel: UILabel!
@@ -37,7 +38,7 @@ class HomeViewController: UIViewController {
        
         
 
-        //check from the sessi9on if the user is verified (later)
+        //check from the session if the user is verified (later)
 //        if(SessionDetails.isVerified){
             attachment.image = UIImage(named: "verified")
             attachment.bounds = CGRect(x: 0, y: -1, width: 14, height: 14)
@@ -51,6 +52,20 @@ class HomeViewController: UIViewController {
         welcomingLabel.numberOfLines = 0
 
     }
-
+    override func viewDidAppear(_ animated: Bool) {
+          super.viewDidAppear(animated)
+          
+          // Simple test
+          print("Checking Firebase...")
+          
+          if Auth.auth().currentUser != nil {
+              print("✅ User is logged in")
+          } else {
+              print("✅ Firebase working - no user (good for first run)")
+          }
+      }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+    }
 }
- 

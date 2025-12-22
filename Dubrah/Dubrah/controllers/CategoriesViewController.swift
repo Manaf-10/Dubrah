@@ -241,7 +241,7 @@ class CategoriesViewController: BaseViewController,
                 .trimmingCharacters(in: .whitespacesAndNewlines),
                 !newName.isEmpty else { return }
 
-            // 🔍 Duplicate name check (case-insensitive, excluding current item)
+            // Duplicate name check (case-insensitive, excluding current item)
             let nameExists = self.categories.contains {
                 $0.title.lowercased() == newName.lowercased() &&
                 $0.title.lowercased() != item.title.lowercased()
@@ -258,7 +258,7 @@ class CategoriesViewController: BaseViewController,
                 return
             }
 
-            // ✅ Update data
+            // Update data
             if self.isSearching {
                 self.filteredCategories[indexPath.item] =
                     Category(title: newName)
