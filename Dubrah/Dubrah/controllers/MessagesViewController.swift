@@ -75,7 +75,7 @@ class MessagesViewController: UIViewController,
         tableView.deselectRow(at: indexPath, animated: true)
 
         // Trigger storyboard segue ONLY
-        performSegue(withIdentifier: "ShowChat", sender: indexPath)
+        performSegue(withIdentifier: "showChat", sender: indexPath)
     }
 
     // MARK: - Navigation (PASS DATA HERE)

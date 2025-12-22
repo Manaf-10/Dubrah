@@ -9,63 +9,55 @@ import FirebaseAuth
 
 class HomeViewController: UIViewController {
     @IBOutlet weak var welcomingLabel: UILabel!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        let paragraphStyle = NSMutableParagraphStyle()
-        let attributedText = NSMutableAttributedString()
-        let attachment =  NSTextAttachment()
-        let line1 = NSAttributedString(
-            string: "Welcome,\n",
-            attributes: [
-                .font: UIFont.boldSystemFont(ofSize: 12),
-                .foregroundColor: UIColor(hex:"#353E5C"),
-                .paragraphStyle: paragraphStyle
-            ]
-        )
-
-        let line2 = NSAttributedString(
-            // Dynamic name (change later when session is configured)
-            string: "Manaf ",
-            attributes: [
-                .font: UIFont.boldSystemFont(ofSize: 18),
-                .foregroundColor: UIColor(hex:"#353E5C"),
-                .paragraphStyle: paragraphStyle
-            ]
-        )
-        
-       
-        
-
-        //check from the session if the user is verified (later)
-//        if(SessionDetails.isVerified){
-            attachment.image = UIImage(named: "verified")
-            attachment.bounds = CGRect(x: 0, y: -1, width: 14, height: 14)
-            let imageString = NSAttributedString(attachment: attachment)
-            attributedText.append(line1)
-            attributedText.append(line2)
-            attributedText.append(imageString)
-//        }
-
-        welcomingLabel.attributedText = attributedText
-        welcomingLabel.numberOfLines = 0
-
-    }
-    override func viewDidAppear(_ animated: Bool) {
-          super.viewDidAppear(animated)
-          
-          // Simple test
-          print("Checking Firebase...")
-          
-          if Auth.auth().currentUser != nil {
-              print("✅ User is logged in")
-          } else {
-              print("✅ Firebase working - no user (good for first run)")
-          }
-      }
+    @IBOutlet weak var userImage: UIImageView!
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        Task {
+            do {
+                try await AuthManager.shared.signIn(email: "test@gmail.com", password: "123456")
+                if let user = AuthManager.shared.currentUser {
+                    let attributedText = NSMutableAttributedString()
+                    let line1 = NSAttributedString(
+                        string: "Welcome,\n",
+                        attributes: [
+                            .font: UIFont.systemFont(ofSize: 12),
+                            .foregroundColor: UIColor(hex:"#353E5C")
+                        ]
+                    )
+                    
+                    let line2 = NSAttributedString(
+                        string: user.fullName + " ",
+                        attributes: [
+                            .font: UIFont.boldSystemFont(ofSize: 18),
+                            .foregroundColor: UIColor(hex:"#353E5C")
+                        ]
+                    )
+                    let attachment = NSTextAttachment()
+                    attachment.image = UIImage(named: "verified")
+                                attachment.bounds = CGRect(x: 0, y: -1, width: 14, height: 14)
+                                let imageString = NSAttributedString(attachment: attachment)
+                    
+                    attributedText.append(line1)
+                    attributedText.append(line2)
+                    attributedText.append(imageString)
+                    
+                    user.isVerified ? attributedText.append(imageString) : ()
+                    await MainActor.run {
+                        self.welcomingLabel.attributedText = attributedText
+                        Task{
+                            if let image = await ImageDownloader.fetchImage(from: user.profilePicture) {
+                                userImage.image = image
+                                userImage.layer.cornerRadius = 35                            }
+                        }
+                    }
+                }
+                print("✅ Login Successful!")
+            } catch {
+                print("❌ Login Failed: \(error.localizedDescription)")
+            }
+        }
     }
 }
+

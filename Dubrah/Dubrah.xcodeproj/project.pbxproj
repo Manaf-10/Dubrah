@@ -17,6 +17,7 @@
 		4F84986F2EDC184C000D0DD1 /* FirebaseInAppMessaging-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 4F84986E2EDC184C000D0DD1 /* FirebaseInAppMessaging-Beta */; };
 		4F8498712EDC184C000D0DD1 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 4F8498702EDC184C000D0DD1 /* FirebaseMessaging */; };
 		CB3B4BBA2EDF0AAE00680D06 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = CB3B4BB92EDF0AA700680D06 /* .gitignore */; };
+		ED1C06FD2EF9C3F800A6B2ED /* Cloudinary in Frameworks */ = {isa = PBXBuildFile; productRef = ED1C06FC2EF9C3F800A6B2ED /* Cloudinary */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 				4F84986F2EDC184C000D0DD1 /* FirebaseInAppMessaging-Beta in Frameworks */,
 				4F8498632EDC184C000D0DD1 /* FirebaseAnalytics in Frameworks */,
 				4F8498692EDC184C000D0DD1 /* FirebaseCrashlytics in Frameworks */,
+				ED1C06FD2EF9C3F800A6B2ED /* Cloudinary in Frameworks */,
 				4F8498672EDC184C000D0DD1 /* FirebaseAuth in Frameworks */,
 				4F8498652EDC184C000D0DD1 /* FirebaseAnalyticsCore in Frameworks */,
 				4F84986D2EDC184C000D0DD1 /* FirebaseFirestore in Frameworks */,
@@ -111,6 +113,7 @@
 				4F84986C2EDC184C000D0DD1 /* FirebaseFirestore */,
 				4F84986E2EDC184C000D0DD1 /* FirebaseInAppMessaging-Beta */,
 				4F8498702EDC184C000D0DD1 /* FirebaseMessaging */,
+				ED1C06FC2EF9C3F800A6B2ED /* Cloudinary */,
 			);
 			productName = Dubrah;
 			productReference = 4F8498352EDC143F000D0DD1 /* Dubrah.app */;
@@ -142,6 +145,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				4F8498612EDC17AB000D0DD1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				ED1C06FB2EF9C3F800A6B2ED /* XCRemoteSwiftPackageReference "cloudinary_ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 4F8498362EDC143F000D0DD1 /* Products */;
@@ -381,6 +385,14 @@
 				minimumVersion = 12.6.0;
 			};
 		};
+		ED1C06FB2EF9C3F800A6B2ED /* XCRemoteSwiftPackageReference "cloudinary_ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/cloudinary/cloudinary_ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.2.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -423,6 +435,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4F8498612EDC17AB000D0DD1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
+		};
+		ED1C06FC2EF9C3F800A6B2ED /* Cloudinary */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ED1C06FB2EF9C3F800A6B2ED /* XCRemoteSwiftPackageReference "cloudinary_ios" */;
+			productName = Cloudinary;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
