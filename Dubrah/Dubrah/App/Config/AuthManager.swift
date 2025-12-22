@@ -25,7 +25,7 @@ class AuthManager: ObservableObject {
                     try await fetchUser()
                 }
                 catch {
-                    print("DEBUG: Error fetching user in init: \(error.localizedDescription)")
+                    print("DEBU G: Error fetching user in init: \(error.localizedDescription)")
                 }
             }
         }
@@ -33,22 +33,26 @@ class AuthManager: ObservableObject {
     
     
     // MARK: - Sign Up
-    func signUp(email: String, password: String, fullName: String) async throws -> User {
+    func signUp(email: String, password: String, fullName: String, profilePicture: String) async throws -> User {
         // 1. Create auth account
         let authResult = try await Auth.auth().createUser(withEmail: email, password: password)
         self.userSession = authResult.user
         
-        // 2. Create user object
+        // 2. Create user object with all required fields
         let user = User(
             id: authResult.user.uid,
             email: email,
             fullName: fullName,
-            createdAt: Date()
+            userName: "",
+            role: "customer",
+            isVerified: false,
+            createdAt: Date(),
+            profilePicture: profilePicture
         )
         
         // 3. Save to Firestore
         try await Firestore.firestore()
-            .collection("users")
+            .collection("user")
             .document(authResult.user.uid)
             .setData(user.firestoreData)
         
@@ -88,7 +92,7 @@ class AuthManager: ObservableObject {
         
         do {
             let snapshot = try await Firestore.firestore()
-                .collection("users")
+                .collection("user")
                 .document(uid)
                 .getDocument()
             
@@ -99,11 +103,15 @@ class AuthManager: ObservableObject {
             
             // Create User from Firestore data
             self.currentUser = User(
-                id: snapshot.documentID,
-                email: data["email"] as? String ?? "",
-                fullName: data["fullName"] as? String ?? "",
-                createdAt: (data["createdAt"] as? Timestamp)?.dateValue() ?? Date()
-            )
+                        id: snapshot.documentID,
+                        email: data["email"] as? String ?? "",
+                        fullName: data["fullName"] as? String ?? "",
+                        userName: data["userName"] as? String ?? "",
+                        role: data["role"] as? String ?? "customer",
+                        isVerified: data["verified"] as? Bool ?? false,
+                        createdAt: (data["createdAt"] as? Timestamp)?.dateValue() ?? Date(),
+                        profilePicture: (data["profilePicture"] as? String ?? "")
+                    )
             print("✅ User fetched: \(self.currentUser?.fullName ?? "Unknown")")
         } catch {
             print("❌ Error fetching user: \(error)")
