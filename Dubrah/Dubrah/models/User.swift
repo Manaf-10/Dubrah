@@ -8,7 +8,7 @@ import FirebaseAuth
 import FirebaseFirestore
 
 struct User: Identifiable {
-    let id: String?
+        let id: String?
         let email: String
         let fullName: String
         let userName: String
@@ -17,7 +17,7 @@ struct User: Identifiable {
         let createdAt: Date
         let profilePicture: String
         let notifications: Array<Notification>?
-    // Add this computed property
+        
     var firestoreData: [String: Any] {
         return [
             "email": email,
