@@ -4,10 +4,13 @@
 //
 //  Created by Sayed on 22/12/2025.
 //
-import Foundation
 
-struct Notification {
-    var content: String
-    var createdAt: Date
-    var senderImage: String
+import Foundation
+import FirebaseFirestore
+
+struct Notification: Codable {
+    let content: String
+    let createdAt: Date
+    let senderID: DocumentReference
+    var senderImage: String?
 }

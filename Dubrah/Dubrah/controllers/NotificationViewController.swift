@@ -1,75 +1,24 @@
-import UIKit
+//
+//  HomeViewController.swift
+//  Dubrah
+//
+//  Created by BP-19-114-03 on 19/12/2025.
+//
 
+import FirebaseFirestore
+import FirebaseAuth
 class NotificationPage: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
-
-    struct NotificationMessage {
-        let text: String
-        let date: Date
-    }
-
+    private let refreshControl = UIRefreshControl() // pull to refresh
+    
     struct NotificationSection {
         let title: String?
-        var items: [NotificationMessage]
+        var items: [Notification]
     }
     
-    func groupNotifications(_ notifications: [NotificationMessage]) -> [NotificationSection] {
-           let now = Date()
-           let calendar = Calendar.current
-
-           let justNow = notifications.filter {
-               calendar.isDate($0.date, equalTo: now, toGranularity: .day)
-           }
-
-           let last7Days = notifications.filter {
-               guard let days = calendar.dateComponents([.day], from: $0.date, to: now).day else { return false }
-               return days >= 1 && days <= 7
-           }
-
-           let lastMonth = notifications.filter {
-               guard let months = calendar.dateComponents([.month], from: $0.date, to: now).month else { return false }
-               return months == 1
-           }
-
-           let older = notifications.filter {
-               guard let months = calendar.dateComponents([.month], from: $0.date, to: now).month else { return false }
-               return months >= 2
-           }
-
-           var sections: [NotificationSection] = []
-
-           if !justNow.isEmpty {
-               sections.append(NotificationSection(title: "Just now", items: justNow))
-           }
-           if !last7Days.isEmpty {
-               sections.append(NotificationSection(title: "Last 7 days", items: last7Days))
-           }
-           if !lastMonth.isEmpty {
-               sections.append(NotificationSection(title: "Last month", items: lastMonth))
-           }
-           if !older.isEmpty {
-               sections.append(NotificationSection(title: nil, items: older))
-           }
-
-           return sections
-       }
-
-    
-
-    var notifications: [NotificationMessage] = [
-        NotificationMessage(text: "Alex received three 5-star reviews this week! Check out more.", date: Date()),
-        NotificationMessage(text: "You have a new message from Luca.", date: Date().addingTimeInterval(-60 * 30)),
-        NotificationMessage(text: "Your review helped 18 people this week!", date: Calendar.current.date(byAdding: .day, value: -3, to: Date())!),
-        NotificationMessage(text: "Fatima replied to your review.", date: Calendar.current.date(byAdding: .day, value: -6, to: Date())!),
-        NotificationMessage(text: "You received a thank-you message from Christopher.", date: Calendar.current.date(byAdding: .month, value: -1, to: Date())!),
-        NotificationMessage(text: "Luca liked your review.", date: Calendar.current.date(byAdding: .month, value: -1, to: Date())!),
-        NotificationMessage(text: "Your account was successfully verified.", date: Calendar.current.date(byAdding: .month, value: -2, to: Date())!),
-        NotificationMessage(text: "Security alert: New login detected.", date: Calendar.current.date(byAdding: .month, value: -4, to: Date())!)
-    ]
-
     var sections: [NotificationSection] = []
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -77,25 +26,63 @@ class NotificationPage: UIViewController, UITableViewDelegate, UITableViewDataSo
         tableView.dataSource = self
         tableView.separatorStyle = .none
         
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        tableView.refreshControl = refreshControl
         
-
-        sections = groupNotifications(notifications)
-
-        let backButton = UIButton(type: .system)
-        backButton.setTitle("← Notifications", for: .normal)
-        backButton.titleLabel?.font = .boldSystemFont(ofSize: 17)
-        backButton.setTitleColor(.black, for: .normal)
-        backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        Task {
+           await loadData()
+        }
+        
+        setupNavigation()
     }
+    
+    private func loadData() async {
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            
+            Task {
+                do {
+                    let fetchedNotifications = try await NotificationController.shared.getUserNotifications(uid: uid)
+                    // Use MainActor to update UI
+                    await MainActor.run {
+                        self.sections = self.groupNotifications(fetchedNotifications)
+                        self.tableView.reloadData()
+                    }
+                } catch {
+                    print("DEBUG: Error loading notifications: \(error)")
+                }
+            }
+        }
+    
+// MARK: - Grouping Logic
+    func groupNotifications(_ notifications: [Notification]) -> [NotificationSection] {
+        let now = Date()
+        let calendar = Calendar.current
 
+        let justNow = notifications.filter { calendar.isDate($0.createdAt, inSameDayAs: now) }
+        
+        let last7Days = notifications.filter {
+            let days = calendar.dateComponents([.day], from: $0.createdAt, to: now).day ?? 0
+            return days >= 1 && days <= 7
+        }
+
+        let older = notifications.filter {
+            let days = calendar.dateComponents([.day], from: $0.createdAt, to: now).day ?? 0
+            return days > 7
+        }
+
+        var sections: [NotificationSection] = []
+        if !justNow.isEmpty { sections.append(NotificationSection(title: "Just now", items: justNow)) }
+        if !last7Days.isEmpty { sections.append(NotificationSection(title: "Last 7 days", items: last7Days)) }
+        if !older.isEmpty { sections.append(NotificationSection(title: "Older", items: older)) }
+
+        return sections
+    }
+    
     @objc func goBack() {
         navigationController?.popViewController(animated: true)
     }
 
     // MARK: - Sections
-
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
@@ -104,17 +91,12 @@ class NotificationPage: UIViewController, UITableViewDelegate, UITableViewDataSo
         return sections[section].items.count
     }
 
-    func tableView(_ tableView: UITableView,
-                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: "NotificationCell",
-            for: indexPath
-        ) as! NotificationCell
-
-        let msg = sections[indexPath.section].items[indexPath.row]
-        cell.notificationLabel.text = msg.text
-
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationCell", for: indexPath) as! NotificationCell
+        
+        let notification = sections[indexPath.section].items[indexPath.row]
+        cell.configure(with: notification)
+        
         return cell
     }
 
@@ -128,21 +110,32 @@ class NotificationPage: UIViewController, UITableViewDelegate, UITableViewDataSo
         return sections[section].title == nil ? 0 : 40
     }
     
-    func tableView(_ tableView: UITableView,
-                   commit editingStyle: UITableViewCell.EditingStyle,
-                   forRowAt indexPath: IndexPath) {
-
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
 
+        let notificationToDelete = sections[indexPath.section].items[indexPath.row]
         
         sections[indexPath.section].items.remove(at: indexPath.row)
-
         
+
+        let mapToRemove: [String: Any] = [
+            "content": notificationToDelete.content,
+            "createdAt": Timestamp(date: notificationToDelete.createdAt),
+            "senderID": notificationToDelete.senderID
+        ]
+        
+        Firestore.firestore().collection("user").document(uid).updateData([
+            "notifications": FieldValue.arrayRemove([mapToRemove])
+        ]) { error in
+            if let error = error { print("Error removing notification: \(error)") }
+        }
+
         if sections[indexPath.section].items.isEmpty {
             sections.remove(at: indexPath.section)
             tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
         } else {
-            
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
@@ -156,5 +149,21 @@ class NotificationPage: UIViewController, UITableViewDelegate, UITableViewDataSo
         }
     }
 
-
+private func setupNavigation() {
+        let backButton = UIButton(type: .system)
+        backButton.setTitle("← Notifications", for: .normal)
+        backButton.titleLabel?.font = .boldSystemFont(ofSize: 17)
+        backButton.setTitleColor(.black, for: .normal)
+        backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+    }
+    
+    @objc private func handleRefresh() {
+        Task {
+            await loadData()
+            await MainActor.run {
+                self.refreshControl.endRefreshing()
+            }
+        }
+    }
 }

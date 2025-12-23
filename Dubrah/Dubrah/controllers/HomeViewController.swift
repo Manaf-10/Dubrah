@@ -16,6 +16,22 @@ class HomeViewController: UIViewController {
         
         Task {
             do {
+                try await NotificationController.shared.newNotification(
+                    receiverId: Auth.auth().currentUser?.uid ?? "",
+                    senderId: reportSystemID,
+                    type: .report
+                )
+                print("Success!")
+            } catch {
+                print("Error sending notification: \(error.localizedDescription)")
+            }
+        }
+
+        
+
+       
+        Task {
+            do {
                 try await AuthManager.shared.signIn(email: "test@gmail.com", password: "123456")
                 if let user = AuthManager.shared.currentUser {
                     let attributedText = NSMutableAttributedString()
