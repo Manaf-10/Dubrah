@@ -6,27 +6,7 @@
 //
 
 import UIKit
-
-// MARK: - Model
-struct Category {
-    let title: String
-    let image: UIImage?
-
-    init(title: String, image: UIImage? = nil) {
-        self.title = title
-        self.image = image
-    }
-}
-
-
-
-class CategoriesViewController: BaseViewController,
-                                UICollectionViewDataSource,
-                                UICollectionViewDelegateFlowLayout,
-                                UISearchBarDelegate,
-                                CategoryCellDelegate,
-                                UIImagePickerControllerDelegate,
-                                UINavigationControllerDelegate{
+class CategoriesViewController: BaseViewController,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UISearchBarDelegate,CategoryCellDelegate{
 
     // MARK: - Outlets
     @IBOutlet weak var collectionView: UICollectionView!
@@ -34,26 +14,10 @@ class CategoriesViewController: BaseViewController,
     @IBOutlet weak var addButton: UIButton!
 
     // MARK: - Data
-    var categories: [Category] = [
-        Category(title: "Food"),
-        Category(title: "Electronics"),
-        Category(title: "Fashion"),
-        Category(title: "Sports"),
-        Category(title: "Cars"),
-        Category(title: "Real Estate"),
-        Category(title: "Books"),
-        Category(title: "Furniture"),
-        Category(title: "Art"),
-        Category(title: "Music"),
-        Category(title: "Games"),
-        Category(title: "Other")
-    ]
+    
 
     var filteredCategories: [Category] = []
     var isSearching = false
-    
-    var selectedCategoryImage: UIImage?
-
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -81,30 +45,11 @@ class CategoriesViewController: BaseViewController,
     
     func presentImagePicker() {
         let picker = UIImagePickerController()
-        picker.delegate = self
         picker.allowsEditing = true
         picker.sourceType = .photoLibrary
         present(picker, animated: true)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-
-        if let editedImage = info[.editedImage] as? UIImage {
-            selectedCategoryImage = editedImage
-        } else if let originalImage = info[.originalImage] as? UIImage {
-            selectedCategoryImage = originalImage
-        }
-
-        dismiss(animated: true)
-    }
-
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true)
-    }
-
-
-
     // MARK: - CollectionView DataSource
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
@@ -203,9 +148,9 @@ class CategoriesViewController: BaseViewController,
 
             if self.isSearching {
                 let item = self.filteredCategories.remove(at: indexPath.item)
-                self.categories.removeAll { $0.title == item.title }
+                categories.removeAll { $0.title == item.title }
             } else {
-                self.categories.remove(at: indexPath.item)
+                categories.remove(at: indexPath.item)
             }
 
             self.collectionView.reloadData()
@@ -242,7 +187,7 @@ class CategoriesViewController: BaseViewController,
                 !newName.isEmpty else { return }
 
             // Duplicate name check (case-insensitive, excluding current item)
-            let nameExists = self.categories.contains {
+            let nameExists = categories.contains {
                 $0.title.lowercased() == newName.lowercased() &&
                 $0.title.lowercased() != item.title.lowercased()
             }
@@ -263,14 +208,14 @@ class CategoriesViewController: BaseViewController,
                 self.filteredCategories[indexPath.item] =
                     Category(title: newName)
 
-                if let originalIndex = self.categories.firstIndex(where: {
+                if let originalIndex = categories.firstIndex(where: {
                     $0.title == item.title
                 }) {
-                    self.categories[originalIndex] =
+                    categories[originalIndex] =
                         Category(title: newName)
                 }
             } else {
-                self.categories[indexPath.item] =
+                categories[indexPath.item] =
                     Category(title: newName)
             }
 
@@ -281,8 +226,6 @@ class CategoriesViewController: BaseViewController,
     }
 
     @IBAction func addButtonTapped(_ sender: UIButton) {
-
-        selectedCategoryImage = nil
 
         let alert = UIAlertController(
             title: "Add Category",
@@ -295,17 +238,13 @@ class CategoriesViewController: BaseViewController,
             textField.autocapitalizationType = .words
         }
 
-        let imageAction = UIAlertAction(title: "Choose Image", style: .default) { _ in
-            self.presentImagePicker()
-        }
-
         let addAction = UIAlertAction(title: "Add", style: .default) { _ in
             guard let name = alert.textFields?.first?.text?
                 .trimmingCharacters(in: .whitespacesAndNewlines),
                 !name.isEmpty else { return }
 
             // 🔍 Duplicate check
-            let nameExists = self.categories.contains {
+            let nameExists = categories.contains {
                 $0.title.lowercased() == name.lowercased()
             }
 
@@ -320,20 +259,8 @@ class CategoriesViewController: BaseViewController,
                 return
             }
 
-//            // ❗ Image required
-//            guard let image = self.selectedCategoryImage else {
-//                let error = UIAlertController(
-//                    title: "Image Required",
-//                    message: "Please select an image for the category.",
-//                    preferredStyle: .alert
-//                )
-//                error.addAction(UIAlertAction(title: "OK", style: .default))
-//                self.present(error, animated: true)
-//                return
-//            }
-
             let newCategory = Category(title: name)
-            self.categories.append(newCategory)
+            categories.append(newCategory)
 
             self.isSearching = false
             self.filteredCategories.removeAll()
@@ -342,13 +269,10 @@ class CategoriesViewController: BaseViewController,
             self.collectionView.reloadData()
         }
 
-        alert.addAction(imageAction)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         alert.addAction(addAction)
 
         present(alert, animated: true)
     }
 
-
-    
 }
