@@ -316,7 +316,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="x8E-YK-KTc">
-                                <rect key="frame" x="0.0" y="225" width="393" height="453"/>
+                                <rect key="frame" x="0.0" y="181" width="393" height="409"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="       " insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="settingsCell" id="JmD-dk-Aul" customClass="SettingsTableViewCell" customModule="Dubrah" customModuleProvider="target">
@@ -355,38 +355,68 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="qHE-5h-3RD">
-                                <rect key="frame" x="16" y="683" width="164.66666666666666" height="80"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="XFc-OS-SEU">
+                                <rect key="frame" x="20" y="600" width="353" height="161.33333333333337"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yM4-fa-OFT">
-                                        <rect key="frame" x="0.0" y="0.0" width="96.333333333333329" height="41"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Log Out">
-                                            <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="20"/>
-                                        </buttonConfiguration>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0za-d4-QBE">
-                                        <rect key="frame" x="0.0" y="42" width="164.66666666666666" height="38"/>
-                                        <color key="tintColor" systemColor="systemRedColor"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Delete Account">
-                                            <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="20"/>
-                                        </buttonConfiguration>
-                                    </button>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="vua-ly-5zf">
+                                        <rect key="frame" x="0.0" y="0.0" width="353" height="75.333333333333329"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aph-2s-JrR">
+                                                <rect key="frame" x="0.0" y="0.0" width="353" height="34.333333333333336"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Join as Service Provider">
+                                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </buttonConfiguration>
+                                            </button>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="170" translatesAutoresizingMaskIntoConstraints="NO" id="c2x-zP-ISD">
+                                                <rect key="frame" x="0.0" y="44.333333333333371" width="353" height="31"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dark Mode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I3q-RM-54F">
+                                                        <rect key="frame" x="0.0" y="0.0" width="120.66666666666667" height="31"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="KKA-YJ-uqz">
+                                                        <rect key="frame" x="290.66666666666669" y="0.0" width="64.333333333333314" height="31"/>
+                                                    </switch>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="qHE-5h-3RD">
+                                        <rect key="frame" x="0.0" y="84.333333333333371" width="353" height="77"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yM4-fa-OFT">
+                                                <rect key="frame" x="0.0" y="0.0" width="96.333333333333329" height="38"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Log Out">
+                                                    <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="20"/>
+                                                </buttonConfiguration>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0za-d4-QBE">
+                                                <rect key="frame" x="0.0" y="39" width="164.66666666666666" height="38"/>
+                                                <color key="tintColor" systemColor="systemRedColor"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Delete Account">
+                                                    <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="20"/>
+                                                </buttonConfiguration>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="COf-Ww-kto"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="qHE-5h-3RD" firstAttribute="leading" secondItem="COf-Ww-kto" secondAttribute="leading" constant="16" id="7Q5-R6-IS0"/>
-                            <constraint firstItem="COf-Ww-kto" firstAttribute="bottom" secondItem="qHE-5h-3RD" secondAttribute="bottom" constant="21" id="SLl-xF-WVB"/>
-                            <constraint firstItem="qHE-5h-3RD" firstAttribute="top" secondItem="x8E-YK-KTc" secondAttribute="bottom" constant="5" id="g6Z-bg-zWw"/>
-                            <constraint firstItem="COf-Ww-kto" firstAttribute="bottom" secondItem="x8E-YK-KTc" secondAttribute="bottom" constant="106" id="jzo-G6-eN6"/>
+                            <constraint firstItem="COf-Ww-kto" firstAttribute="trailing" secondItem="XFc-OS-SEU" secondAttribute="trailing" constant="20" id="IQV-D2-phN"/>
+                            <constraint firstItem="COf-Ww-kto" firstAttribute="bottom" secondItem="x8E-YK-KTc" secondAttribute="bottom" constant="194" id="jzo-G6-eN6"/>
                             <constraint firstItem="COf-Ww-kto" firstAttribute="trailing" secondItem="x8E-YK-KTc" secondAttribute="trailing" id="lTF-bW-19N"/>
-                            <constraint firstItem="x8E-YK-KTc" firstAttribute="top" secondItem="COf-Ww-kto" secondAttribute="top" constant="63" id="pKa-LF-UE5"/>
-                            <constraint firstItem="COf-Ww-kto" firstAttribute="trailing" secondItem="qHE-5h-3RD" secondAttribute="trailing" constant="212.33000000000001" id="qEd-P8-Uie"/>
+                            <constraint firstItem="x8E-YK-KTc" firstAttribute="top" secondItem="COf-Ww-kto" secondAttribute="top" constant="19" id="pKa-LF-UE5"/>
+                            <constraint firstItem="XFc-OS-SEU" firstAttribute="leading" secondItem="COf-Ww-kto" secondAttribute="leading" constant="20" id="r27-fi-f42"/>
                             <constraint firstItem="x8E-YK-KTc" firstAttribute="leading" secondItem="COf-Ww-kto" secondAttribute="leading" id="sDu-Wx-wkD"/>
+                            <constraint firstItem="XFc-OS-SEU" firstAttribute="top" secondItem="x8E-YK-KTc" secondAttribute="bottom" constant="10" id="wrJ-Fr-KEx"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="KN9-qX-AYb"/>
@@ -1593,26 +1623,42 @@
             <objects>
                 <viewController id="uso-FT-eF5" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SQf-mC-ffa">
-                        <rect key="frame" x="0.0" y="0.0" width="402" height="1300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="1500"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" indicatorStyle="black" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3vK-DV-duY">
-                                <rect key="frame" x="-4" y="69" width="405" height="1196"/>
+                                <rect key="frame" x="-4" y="69" width="405" height="1396"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="fZw-z0-Qat">
-                                        <rect key="frame" x="20" y="20" width="365" height="1156"/>
+                                        <rect key="frame" x="20" y="20" width="365" height="1356"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fmr-TE-XdL">
-                                                <rect key="frame" x="0.0" y="0.0" width="365" height="1156"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="365" height="1356"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Privacy Policy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S6t-WM-gFb">
-                                                        <rect key="frame" x="-1" y="27.000000000000004" width="362" height="38.333333333333343"/>
-                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ZV3-mz-JPS">
-                                                        <rect key="frame" x="10" y="115.33333333333331" width="345" height="937.33333333333348"/>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tWi-FX-QG2">
+                                                        <rect key="frame" x="10" y="133.33333333333334" width="345" height="109.66666666666666"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4yx-tz-3Wx">
+                                                                <rect key="frame" x="0.0" y="8" width="345" height="101.66666666666667"/>
+                                                                <string key="text">We value your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and protect the data you provide while using our app.</string>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        <constraints>
+                                                            <constraint firstItem="4yx-tz-3Wx" firstAttribute="leading" secondItem="tWi-FX-QG2" secondAttribute="leading" id="7v0-ed-P1m"/>
+                                                            <constraint firstItem="4yx-tz-3Wx" firstAttribute="top" secondItem="tWi-FX-QG2" secondAttribute="top" constant="8" id="GQ6-0h-Jmo"/>
+                                                            <constraint firstItem="4yx-tz-3Wx" firstAttribute="leading" secondItem="tWi-FX-QG2" secondAttribute="leading" id="VWL-I6-uvM"/>
+                                                            <constraint firstAttribute="trailing" secondItem="4yx-tz-3Wx" secondAttribute="trailing" id="XSS-Vz-dTS"/>
+                                                            <constraint firstAttribute="bottom" secondItem="4yx-tz-3Wx" secondAttribute="bottom" id="YvA-qh-imK"/>
+                                                            <constraint firstAttribute="trailing" secondItem="4yx-tz-3Wx" secondAttribute="trailing" id="cN2-O5-XsH"/>
+                                                            <constraint firstItem="4yx-tz-3Wx" firstAttribute="top" secondItem="tWi-FX-QG2" secondAttribute="top" constant="8" id="paZ-BJ-EZG"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ZV3-mz-JPS">
+                                                        <rect key="frame" x="10" y="273.00000000000006" width="345" height="963.33333333333348"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1. Information We Collect" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gNK-rc-9vD">
                                                                 <rect key="frame" x="0.0" y="0.0" width="345" height="20.333333333333332"/>
@@ -1621,7 +1667,7 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ob-UD-Xt9">
-                                                                <rect key="frame" x="0.0" y="28.333333333333314" width="345" height="182.66666666666666"/>
+                                                                <rect key="frame" x="0.0" y="30.333333333333314" width="345" height="182.66666666666666"/>
                                                                 <string key="text">- We collect only the information necessary to provide and improve our services:
 - Personal Information: Name, email address, date of birth, and profile photo.
 - Service Data: Bookings, reviews, and transaction details.
@@ -1631,13 +1677,13 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2. How We Use Your Information" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3rY-L2-WAe">
-                                                                <rect key="frame" x="0.0" y="218.99999999999997" width="345" height="20.333333333333343"/>
+                                                                <rect key="frame" x="0.0" y="223" width="345" height="20.333333333333343"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PF2-9b-bxp">
-                                                                <rect key="frame" x="0.0" y="247.33333333333331" width="345" height="142.33333333333331"/>
+                                                                <rect key="frame" x="0.0" y="253.33333333333337" width="345" height="142.33333333333337"/>
                                                                 <string key="text">- Your information helps us to:
 - Create and manage your account.
 - Process bookings and payments.
@@ -1649,13 +1695,13 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3. Data Security" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="emX-7z-AzV">
-                                                                <rect key="frame" x="0.0" y="397.66666666666663" width="345" height="20.333333333333314"/>
+                                                                <rect key="frame" x="0.0" y="405.66666666666663" width="345" height="20.333333333333314"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uCa-Qn-ayC">
-                                                                <rect key="frame" x="0.0" y="426" width="345" height="81.333333333333314"/>
+                                                                <rect key="frame" x="0.0" y="436" width="345" height="81.333333333333371"/>
                                                                 <string key="text">- We use encryption and secure storage methods to protect your data.
 - Access to personal information is restricted to authorized personnel only.</string>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1663,13 +1709,13 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4. Sharing of Information" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TuT-Rh-pxw">
-                                                                <rect key="frame" x="0.0" y="515.33333333333326" width="345" height="20.333333333333371"/>
+                                                                <rect key="frame" x="0.0" y="527.33333333333337" width="345" height="20.333333333333371"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zj8-Bz-qnj">
-                                                                <rect key="frame" x="0.0" y="543.66666666666663" width="345" height="81.333333333333371"/>
+                                                                <rect key="frame" x="0.0" y="557.66666666666663" width="345" height="81.333333333333371"/>
                                                                 <string key="text">- We use encryption and secure storage methods to protect your data.
 - Access to personal information is restricted to authorized personnel only.</string>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1677,13 +1723,13 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5. Your Rights" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2my-7H-ZC7">
-                                                                <rect key="frame" x="0.0" y="633" width="345" height="20.333333333333371"/>
+                                                                <rect key="frame" x="0.0" y="649" width="345" height="20.333333333333371"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EcC-ME-mBn">
-                                                                <rect key="frame" x="0.0" y="661.33333333333326" width="345" height="61"/>
+                                                                <rect key="frame" x="0.0" y="679.33333333333326" width="345" height="61"/>
                                                                 <string key="text">- Access and review your stored data.
 - Request correction or deletion of your information.</string>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1691,13 +1737,13 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="6. Third-Party Services" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ABN-fE-nrH">
-                                                                <rect key="frame" x="0.0" y="730.33333333333326" width="345" height="20.333333333333371"/>
+                                                                <rect key="frame" x="0.0" y="750.33333333333326" width="345" height="20.333333333333371"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yim-Do-HAh">
-                                                                <rect key="frame" x="0.0" y="758.66666666666663" width="345" height="81.333333333333371"/>
+                                                                <rect key="frame" x="0.0" y="780.66666666666674" width="345" height="81.333333333333371"/>
                                                                 <string key="text">- Some services (like payments or login options) may link to third-party platforms.
 - We are not responsible for the privacy practices of these external sites or providers.</string>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1705,28 +1751,37 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7. Updates to This Policy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ld7-44-5Dk">
-                                                                <rect key="frame" x="0.0" y="847.99999999999989" width="345" height="20.333333333333371"/>
+                                                                <rect key="frame" x="0.0" y="872" width="345" height="20.333333333333371"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We may update this Privacy Policy occasionally to reflect changes in our practices." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P9B-dT-297">
-                                                                <rect key="frame" x="0.0" y="876.33333333333337" width="345" height="61"/>
+                                                                <rect key="frame" x="0.0" y="902.33333333333326" width="345" height="61"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                         </subviews>
                                                     </stackView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Privacy Policy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S6t-WM-gFb">
+                                                        <rect key="frame" x="1" y="68" width="362" height="38.333333333333343"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstItem="S6t-WM-gFb" firstAttribute="leading" secondItem="Fmr-TE-XdL" secondAttribute="leading" constant="-1" id="67b-5L-z9O"/>
-                                                    <constraint firstAttribute="trailing" secondItem="S6t-WM-gFb" secondAttribute="trailing" constant="4" id="CGm-Oe-X1x"/>
+                                                    <constraint firstItem="S6t-WM-gFb" firstAttribute="leading" secondItem="Fmr-TE-XdL" secondAttribute="leading" constant="1" id="67b-5L-z9O"/>
+                                                    <constraint firstAttribute="trailing" secondItem="S6t-WM-gFb" secondAttribute="trailing" constant="2" id="CGm-Oe-X1x"/>
+                                                    <constraint firstItem="ZV3-mz-JPS" firstAttribute="top" secondItem="tWi-FX-QG2" secondAttribute="bottom" constant="30" id="GBh-vW-4aJ"/>
                                                     <constraint firstItem="ZV3-mz-JPS" firstAttribute="leading" secondItem="Fmr-TE-XdL" secondAttribute="leading" constant="10" id="JEC-VO-C4V"/>
-                                                    <constraint firstItem="ZV3-mz-JPS" firstAttribute="top" secondItem="S6t-WM-gFb" secondAttribute="bottom" constant="50" id="YUb-Us-BGN"/>
+                                                    <constraint firstItem="tWi-FX-QG2" firstAttribute="leading" secondItem="Fmr-TE-XdL" secondAttribute="leading" constant="10" id="TyU-Ly-uL8"/>
+                                                    <constraint firstItem="ZV3-mz-JPS" firstAttribute="top" secondItem="S6t-WM-gFb" secondAttribute="bottom" constant="166.66666666666671" id="YUb-Us-BGN"/>
+                                                    <constraint firstAttribute="trailing" secondItem="tWi-FX-QG2" secondAttribute="trailing" constant="10" id="Yx6-pI-BzE"/>
                                                     <constraint firstAttribute="trailing" secondItem="ZV3-mz-JPS" secondAttribute="trailing" constant="10" id="mQe-qQ-6zP"/>
-                                                    <constraint firstItem="S6t-WM-gFb" firstAttribute="top" secondItem="Fmr-TE-XdL" secondAttribute="top" constant="27" id="xmY-hx-9hW"/>
+                                                    <constraint firstItem="S6t-WM-gFb" firstAttribute="top" secondItem="Fmr-TE-XdL" secondAttribute="top" constant="68" id="xmY-hx-9hW"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -1753,182 +1808,218 @@
                             <constraint firstItem="3vK-DV-duY" firstAttribute="top" secondItem="SQf-mC-ffa" secondAttribute="topMargin" constant="-49" id="lrm-EZ-4mZ"/>
                         </constraints>
                     </view>
-                    <size key="freeformSize" width="402" height="1300"/>
+                    <size key="freeformSize" width="402" height="1500"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xWl-AR-Xwo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4438.8059701492539" y="474.37070938215101"/>
+            <point key="canvasLocation" x="4449" y="474"/>
         </scene>
         <!--View Controller-->
-        <scene sceneID="tb7-dn-snB">
+        <scene sceneID="ggc-EY-IXg">
             <objects>
-                <viewController id="YV2-Ru-8Zv" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Zh5-bh-JG4">
-                        <rect key="frame" x="0.0" y="0.0" width="402" height="1300"/>
+                <viewController id="xvi-Zx-DNJ" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mCJ-c3-E9h">
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="1700"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" indicatorStyle="black" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dbN-V8-Yh6">
-                                <rect key="frame" x="-4" y="69" width="405" height="1196"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" indicatorStyle="black" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dCE-d9-APA">
+                                <rect key="frame" x="-4" y="69" width="405" height="1596"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ySk-k2-AeP">
-                                        <rect key="frame" x="20" y="20" width="365" height="1156"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="mZ5-nd-fzF">
+                                        <rect key="frame" x="20" y="20" width="365" height="1556"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2lm-bh-IUn">
-                                                <rect key="frame" x="0.0" y="0.0" width="365" height="1156"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pxS-i1-D9f">
+                                                <rect key="frame" x="0.0" y="0.0" width="365" height="1556"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Privacy Policy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0pZ-qd-XbS">
-                                                        <rect key="frame" x="-1" y="27.000000000000004" width="362" height="38.333333333333343"/>
-                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="JWd-GZ-2pU">
-                                                        <rect key="frame" x="10" y="115.33333333333331" width="345" height="937.33333333333348"/>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bxr-SE-WDN">
+                                                        <rect key="frame" x="10" y="153.66666666666666" width="345" height="89.333333333333343"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1. Information We Collect" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lHC-tR-Ywa">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="roj-JD-ECV">
+                                                                <rect key="frame" x="0.0" y="8" width="345" height="81.333333333333329"/>
+                                                                <string key="text">Welcome to Dubrah App. By creating an account or using our platform, you agree to these Terms and Conditions. Please read them carefully before proceeding.</string>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        <constraints>
+                                                            <constraint firstItem="roj-JD-ECV" firstAttribute="top" secondItem="bxr-SE-WDN" secondAttribute="top" constant="8" id="53k-tH-1vy"/>
+                                                            <constraint firstAttribute="trailing" secondItem="roj-JD-ECV" secondAttribute="trailing" id="8MK-GS-wii"/>
+                                                            <constraint firstItem="roj-JD-ECV" firstAttribute="leading" secondItem="bxr-SE-WDN" secondAttribute="leading" id="DF1-J3-bDr"/>
+                                                            <constraint firstAttribute="bottom" secondItem="roj-JD-ECV" secondAttribute="bottom" id="F7X-V7-fbl"/>
+                                                            <constraint firstItem="roj-JD-ECV" firstAttribute="top" secondItem="bxr-SE-WDN" secondAttribute="top" constant="8" id="NxL-hP-FP0"/>
+                                                            <constraint firstItem="roj-JD-ECV" firstAttribute="leading" secondItem="bxr-SE-WDN" secondAttribute="leading" id="QUa-xs-iuS"/>
+                                                            <constraint firstAttribute="trailing" secondItem="roj-JD-ECV" secondAttribute="trailing" id="s7d-Q8-DHN"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="B32-IY-6Mu">
+                                                        <rect key="frame" x="10" y="273" width="345" height="1146.3333333333333"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1. General Overview" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gl9-hW-VF4">
                                                                 <rect key="frame" x="0.0" y="0.0" width="345" height="20.333333333333332"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NQM-pa-oqd">
-                                                                <rect key="frame" x="0.0" y="28.333333333333314" width="345" height="182.66666666666666"/>
-                                                                <string key="text">- We collect only the information necessary to provide and improve our services:
-- Personal Information: Name, email address, date of birth, and profile photo.
-- Service Data: Bookings, reviews, and transaction details.
-- Device Data: App usage data, IP address, and device information for analytics and security.</string>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hpj-AD-vpa">
+                                                                <rect key="frame" x="0.0" y="30.333333333333321" width="345" height="101.66666666666669"/>
+                                                                <string key="text">This app connects users with service providers for various creative and professional needs. By using the app, you agree to comply with these terms and any applicable laws and regulations.</string>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2. How We Use Your Information" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9P-P4-VRI">
-                                                                <rect key="frame" x="0.0" y="218.99999999999997" width="345" height="20.333333333333343"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2. Account Regestration" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="scA-5Z-TEi">
+                                                                <rect key="frame" x="0.0" y="142" width="345" height="20.333333333333343"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BzC-VT-Ohz">
-                                                                <rect key="frame" x="0.0" y="247.33333333333331" width="345" height="142.33333333333331"/>
-                                                                <string key="text">- Your information helps us to:
-- Create and manage your account.
-- Process bookings and payments.
-- Communicate important updates and notifications.
-- Personalize your experience within the app.
-- Improve app performance  </string>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9XI-wD-ZgI">
+                                                                <rect key="frame" x="0.0" y="172.33333333333337" width="345" height="142.33333333333337"/>
+                                                                <string key="text">- You must provide accurate and complete information during registration.
+- You are responsible for maintaining the confidentiality of your account credentials.
+- The app team reserves the right to suspend or delete accounts that violate the rules or misuse the platform.</string>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3. Data Security" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rNO-s8-vHP">
-                                                                <rect key="frame" x="0.0" y="397.66666666666663" width="345" height="20.333333333333314"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3. Use of Services" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iWq-nx-WLz">
+                                                                <rect key="frame" x="0.0" y="324.66666666666663" width="345" height="20.333333333333314"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mle-ue-r0e">
-                                                                <rect key="frame" x="0.0" y="426" width="345" height="81.333333333333314"/>
-                                                                <string key="text">- We use encryption and secure storage methods to protect your data.
-- Access to personal information is restricted to authorized personnel only.</string>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zmB-b4-NOL">
+                                                                <rect key="frame" x="0.0" y="355" width="345" height="142.33333333333337"/>
+                                                                <string key="text">- Users can browse, book, and rate services from registered providers.
+- Service providers are responsible for the accuracy and quality of the services they list.
+- All communication and transactions must be conducted through the app.
+</string>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4. Sharing of Information" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KMG-GD-65Z">
-                                                                <rect key="frame" x="0.0" y="515.33333333333326" width="345" height="20.333333333333371"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4. Payment" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oNx-C1-8z9">
+                                                                <rect key="frame" x="0.0" y="507.33333333333331" width="345" height="20.333333333333314"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Pl-Yf-2TY">
-                                                                <rect key="frame" x="0.0" y="543.66666666666663" width="345" height="81.333333333333371"/>
-                                                                <string key="text">- We use encryption and secure storage methods to protect your data.
-- Access to personal information is restricted to authorized personnel only.</string>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZKT-bH-eCr">
+                                                                <rect key="frame" x="0.0" y="537.66666666666663" width="345" height="101.66666666666663"/>
+                                                                <string key="text">- Payments must be completed securely through the supported methods within the app.
+- The app does not store or share your financial information.</string>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5. Your Rights" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BhG-Qs-2os">
-                                                                <rect key="frame" x="0.0" y="633" width="345" height="20.333333333333371"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5. Reviews and Ratings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ypj-GC-GxG">
+                                                                <rect key="frame" x="0.0" y="649.33333333333337" width="345" height="20.333333333333371"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2SB-pq-Tgh">
-                                                                <rect key="frame" x="0.0" y="661.33333333333326" width="345" height="61"/>
-                                                                <string key="text">- Access and review your stored data.
-- Request correction or deletion of your information.</string>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jxF-Wr-X4H">
+                                                                <rect key="frame" x="0.0" y="679.66666666666674" width="345" height="81.333333333333371"/>
+                                                                <string key="text">- Users can leave honest feedback after using a service.
+- Offensive, false, or spam reviews are prohibited and may lead to account action.</string>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="6. Third-Party Services" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bpK-4j-XQI">
-                                                                <rect key="frame" x="0.0" y="730.33333333333326" width="345" height="20.333333333333371"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="6. Content Ownership" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ev6-Id-tdt">
+                                                                <rect key="frame" x="0.0" y="771" width="345" height="20.333333333333371"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIU-NH-Gdx">
-                                                                <rect key="frame" x="0.0" y="758.66666666666663" width="345" height="81.333333333333371"/>
-                                                                <string key="text">- Some services (like payments or login options) may link to third-party platforms.
-- We are not responsible for the privacy practices of these external sites or providers.</string>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q4p-xn-pME">
+                                                                <rect key="frame" x="0.0" y="801.33333333333326" width="345" height="81.333333333333371"/>
+                                                                <string key="text">- Users retain ownership of content they upload (such as profile images or portfolio samples).
+</string>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7. Updates to This Policy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jvR-Ly-NYA">
-                                                                <rect key="frame" x="0.0" y="847.99999999999989" width="345" height="20.333333333333371"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7. Privacy and Data" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pKc-B7-NzE">
+                                                                <rect key="frame" x="0.0" y="892.66666666666674" width="345" height="20.333333333333371"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We may update this Privacy Policy occasionally to reflect changes in our practices." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s81-Te-lrK">
-                                                                <rect key="frame" x="0.0" y="876.33333333333337" width="345" height="61"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0lg-8M-ZeU">
+                                                                <rect key="frame" x="0.0" y="923" width="345" height="122"/>
+                                                                <string key="text">- The app collects minimal personal information for identification and communication purposes.
+- We do not share personal data with third parties without consent.
+- Refer to our Privacy Policy for full details.</string>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8. Updates to Terms" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uhn-EG-ZuW">
+                                                                <rect key="frame" x="0.0" y="1055" width="345" height="20.333333333333258"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="These terms may be updated from time to time. Continued use of the app after changes means you accept the updated version." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5TT-Q1-UR7">
+                                                                <rect key="frame" x="0.0" y="1085.3333333333333" width="345" height="61"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                         </subviews>
                                                     </stackView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Terms &amp; Conditions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OdN-UF-QPK">
+                                                        <rect key="frame" x="1" y="68" width="362" height="38.333333333333343"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstItem="JWd-GZ-2pU" firstAttribute="leading" secondItem="2lm-bh-IUn" secondAttribute="leading" constant="10" id="2z3-4U-WoM"/>
-                                                    <constraint firstAttribute="trailing" secondItem="0pZ-qd-XbS" secondAttribute="trailing" constant="4" id="3J5-qf-xWn"/>
-                                                    <constraint firstItem="JWd-GZ-2pU" firstAttribute="top" secondItem="0pZ-qd-XbS" secondAttribute="bottom" constant="50" id="AV5-B1-V12"/>
-                                                    <constraint firstItem="0pZ-qd-XbS" firstAttribute="leading" secondItem="2lm-bh-IUn" secondAttribute="leading" constant="-1" id="Lx8-hs-5KM"/>
-                                                    <constraint firstItem="0pZ-qd-XbS" firstAttribute="top" secondItem="2lm-bh-IUn" secondAttribute="top" constant="27" id="c4X-H3-Egk"/>
-                                                    <constraint firstAttribute="trailing" secondItem="JWd-GZ-2pU" secondAttribute="trailing" constant="10" id="pxg-Ag-ZdC"/>
+                                                    <constraint firstItem="OdN-UF-QPK" firstAttribute="leading" secondItem="pxS-i1-D9f" secondAttribute="leading" constant="1" id="0aa-Qm-1m9"/>
+                                                    <constraint firstItem="B32-IY-6Mu" firstAttribute="leading" secondItem="pxS-i1-D9f" secondAttribute="leading" constant="10" id="6Dz-A6-Klx"/>
+                                                    <constraint firstItem="OdN-UF-QPK" firstAttribute="top" secondItem="pxS-i1-D9f" secondAttribute="top" constant="68" id="6aj-G8-mE9"/>
+                                                    <constraint firstItem="bxr-SE-WDN" firstAttribute="leading" secondItem="pxS-i1-D9f" secondAttribute="leading" constant="10" id="JNE-ay-fP4"/>
+                                                    <constraint firstAttribute="trailing" secondItem="OdN-UF-QPK" secondAttribute="trailing" constant="2" id="KQp-wN-CvQ"/>
+                                                    <constraint firstItem="B32-IY-6Mu" firstAttribute="top" secondItem="OdN-UF-QPK" secondAttribute="bottom" constant="166.66666666666671" id="Qv5-J3-ecY"/>
+                                                    <constraint firstItem="B32-IY-6Mu" firstAttribute="top" secondItem="bxr-SE-WDN" secondAttribute="bottom" constant="30" id="Ssa-Qf-sve"/>
+                                                    <constraint firstAttribute="trailing" secondItem="bxr-SE-WDN" secondAttribute="trailing" constant="10" id="iiW-Hv-PaD"/>
+                                                    <constraint firstAttribute="trailing" secondItem="B32-IY-6Mu" secondAttribute="trailing" constant="10" id="ufw-oc-whX"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
                                     </stackView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="ySk-k2-AeP" firstAttribute="leading" secondItem="5xI-Nd-RKh" secondAttribute="leading" constant="20" id="07Z-Se-XNw"/>
-                                    <constraint firstItem="ySk-k2-AeP" firstAttribute="centerX" secondItem="dbN-V8-Yh6" secondAttribute="centerX" id="7VP-VP-s53"/>
-                                    <constraint firstItem="ySk-k2-AeP" firstAttribute="top" secondItem="5xI-Nd-RKh" secondAttribute="top" constant="20" id="MOP-JI-SbL"/>
-                                    <constraint firstAttribute="trailing" secondItem="ySk-k2-AeP" secondAttribute="trailing" constant="20" id="rBT-nL-lyG"/>
-                                    <constraint firstItem="ySk-k2-AeP" firstAttribute="centerY" secondItem="dbN-V8-Yh6" secondAttribute="centerY" id="uz4-FC-8kJ"/>
-                                    <constraint firstAttribute="bottom" secondItem="ySk-k2-AeP" secondAttribute="bottom" constant="20" id="xzs-SB-nes"/>
+                                    <constraint firstItem="mZ5-nd-fzF" firstAttribute="top" secondItem="lEb-DY-Nd3" secondAttribute="top" constant="20" id="KbZ-eP-rVQ"/>
+                                    <constraint firstItem="mZ5-nd-fzF" firstAttribute="leading" secondItem="lEb-DY-Nd3" secondAttribute="leading" constant="20" id="hGV-kT-OGZ"/>
+                                    <constraint firstItem="mZ5-nd-fzF" firstAttribute="centerX" secondItem="dCE-d9-APA" secondAttribute="centerX" id="pc5-r3-gfL"/>
+                                    <constraint firstAttribute="trailing" secondItem="mZ5-nd-fzF" secondAttribute="trailing" constant="20" id="sXn-Go-QYP"/>
+                                    <constraint firstAttribute="bottom" secondItem="mZ5-nd-fzF" secondAttribute="bottom" constant="20" id="uZu-De-YHK"/>
+                                    <constraint firstItem="mZ5-nd-fzF" firstAttribute="centerY" secondItem="dCE-d9-APA" secondAttribute="centerY" id="xAd-LR-5cj"/>
                                 </constraints>
-                                <viewLayoutGuide key="contentLayoutGuide" id="rBm-Ks-YkW"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="5xI-Nd-RKh"/>
+                                <viewLayoutGuide key="contentLayoutGuide" id="zvn-Py-bKh"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="lEb-DY-Nd3"/>
                             </scrollView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="kpp-eC-ArY"/>
+                        <viewLayoutGuide key="safeArea" id="pnq-zk-nVq"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="dbN-V8-Yh6" firstAttribute="top" secondItem="Zh5-bh-JG4" secondAttribute="topMargin" constant="-49" id="KYd-P0-YBd"/>
-                            <constraint firstItem="dbN-V8-Yh6" firstAttribute="leading" secondItem="Zh5-bh-JG4" secondAttribute="leadingMargin" constant="-20" id="NOf-xg-aDx"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="dbN-V8-Yh6" secondAttribute="bottom" constant="-33" id="nqf-FN-8fC"/>
-                            <constraint firstItem="kpp-eC-ArY" firstAttribute="trailing" secondItem="dbN-V8-Yh6" secondAttribute="trailing" constant="1" id="pGV-wS-Ils"/>
+                            <constraint firstItem="pnq-zk-nVq" firstAttribute="trailing" secondItem="dCE-d9-APA" secondAttribute="trailing" constant="1" id="BWV-Cv-Qs6"/>
+                            <constraint firstItem="dCE-d9-APA" firstAttribute="leading" secondItem="mCJ-c3-E9h" secondAttribute="leadingMargin" constant="-20" id="BtE-v7-pXU"/>
+                            <constraint firstItem="dCE-d9-APA" firstAttribute="top" secondItem="mCJ-c3-E9h" secondAttribute="topMargin" constant="-49" id="OU0-U8-vrw"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="dCE-d9-APA" secondAttribute="bottom" constant="-33" id="yha-IT-srD"/>
                         </constraints>
                     </view>
-                    <size key="freeformSize" width="402" height="1300"/>
+                    <size key="freeformSize" width="402" height="1700"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="AuY-Wa-vgP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jLD-rP-jF8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5334" y="1119"/>
+            <point key="canvasLocation" x="5407.6335877862593" y="1248.5915492957747"/>
         </scene>
     </scenes>
     <resources>
