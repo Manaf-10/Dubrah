@@ -9,4 +9,11 @@ import UIKit
 
 class ProviderCollectionViewCell: UICollectionViewCell {
     
+    @IBOutlet weak var profilePic: UIImageView!
+    @IBOutlet weak var username: UILabel!
+    @IBOutlet weak var dateInput: UILabel!
+    @IBOutlet weak var timeInput: UILabel!
+    @IBOutlet weak var statusInput: UILabel!
+    @IBOutlet weak var serviceInput: UILabel!
+    @IBOutlet weak var paidInput: UILabel!
 }
