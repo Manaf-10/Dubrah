@@ -25,7 +25,7 @@ class TimeCollectionViewCell: UICollectionViewCell {
         if !isAvailable {
                     containerView.backgroundColor = UIColor.systemGray5
                     timeLabel.textColor = UIColor.systemGray
-                    containerView.layer.borderColor = UIColor.clear.cgColor
+                    containerView.layer.borderColor = UIColor.systemGray2.cgColor
                 }
                 else if isSelected {
                     containerView.backgroundColor = UIColor.systemBlue
@@ -33,8 +33,7 @@ class TimeCollectionViewCell: UICollectionViewCell {
                     containerView.layer.borderColor = UIColor.systemBlue.cgColor
                 }
                 else {
-                    containerView.backgroundColor = .white
-                    timeLabel.textColor = .black
+                    containerView.backgroundColor = .clear
                     containerView.layer.borderColor = UIColor.systemGray4.cgColor
                 }
     }
