@@ -13,23 +13,7 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        Task {
-            do {
-                try await NotificationController.shared.newNotification(
-                    receiverId: Auth.auth().currentUser?.uid ?? "",
-                    senderId: reportSystemID,
-                    type: .report
-                )
-                print("Success!")
-            } catch {
-                print("Error sending notification: \(error.localizedDescription)")
-            }
-        }
 
-        
-
-       
         Task {
             do {
                 try await AuthManager.shared.signIn(email: "test@gmail.com", password: "123456")

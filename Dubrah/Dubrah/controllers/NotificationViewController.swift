@@ -7,7 +7,7 @@
 
 import FirebaseFirestore
 import FirebaseAuth
-class NotificationPage: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class NotificationViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
     private let refreshControl = UIRefreshControl() // pull to refresh
@@ -21,11 +21,6 @@ class NotificationPage: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.separatorStyle = .none
-        
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         tableView.refreshControl = refreshControl
         
@@ -33,7 +28,8 @@ class NotificationPage: UIViewController, UITableViewDelegate, UITableViewDataSo
            await loadData()
         }
         
-        setupNavigation()
+        setupNavigation(title: "Notifications")
+        setupStyle()
     }
     
     private func loadData() async {
@@ -78,10 +74,6 @@ class NotificationPage: UIViewController, UITableViewDelegate, UITableViewDataSo
         return sections
     }
     
-    @objc func goBack() {
-        navigationController?.popViewController(animated: true)
-    }
-
     // MARK: - Sections
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
@@ -149,15 +141,7 @@ class NotificationPage: UIViewController, UITableViewDelegate, UITableViewDataSo
         }
     }
 
-private func setupNavigation() {
-        let backButton = UIButton(type: .system)
-        backButton.setTitle("← Notifications", for: .normal)
-        backButton.titleLabel?.font = .boldSystemFont(ofSize: 17)
-        backButton.setTitleColor(.black, for: .normal)
-        backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-    }
-    
+        
     @objc private func handleRefresh() {
         Task {
             await loadData()
@@ -165,5 +149,11 @@ private func setupNavigation() {
                 self.refreshControl.endRefreshing()
             }
         }
+    }
+    
+    override func setupStyle() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.separatorStyle = .none
     }
 }
