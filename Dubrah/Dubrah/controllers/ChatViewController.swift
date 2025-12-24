@@ -94,12 +94,7 @@ class ChatViewController: BaseViewController ,UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCell", for: indexPath) as! NewMessageTableViewCell
-        
-        //Initialize MessageCell
-        //get each message from the messages array
-        //assign to text label based on isIncoming value from each message in the array
-        //return cell in each if statement block
-        
+
         let msg = messages[indexPath.row]
         cell.messageLabel.text = msg.text
         cell.setupCell(isComing:msg.isIncoming)
@@ -148,15 +143,5 @@ class ChatViewController: BaseViewController ,UITableViewDelegate, UITableViewDa
             inputTopConstraint.constant = 0
             tableHeight.constant = 0
         }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

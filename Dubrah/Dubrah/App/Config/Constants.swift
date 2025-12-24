@@ -7,6 +7,7 @@
 import FirebaseFirestore
 
 let db = Firestore.firestore()
+
 let reportSystemID = "JYqgIGPb9n3uP1kYCYhn"
 
 func getUsername(from uid: String) async -> String {

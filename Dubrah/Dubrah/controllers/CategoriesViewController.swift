@@ -12,10 +12,10 @@ class CategoriesViewController: BaseViewController,UICollectionViewDataSource,UI
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var addButton: UIButton!
-
-    // MARK: - Data
+  
+    private let refreshControl = UIRefreshControl() // pull to refresh
     
-
+    var categories: [Category] = []
     var filteredCategories: [Category] = []
     var isSearching = false
 
@@ -23,24 +23,18 @@ class CategoriesViewController: BaseViewController,UICollectionViewDataSource,UI
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // CollectionView
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.keyboardDismissMode = .onDrag
-        collectionView.backgroundColor = UIColor(hex: "#F6F8F9")
-
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.estimatedItemSize = .zero
         }
 
-        // SearchBar styling (borderless)
-        searchBar.delegate = self
-        searchBar.backgroundImage = UIImage()
-        searchBar.searchTextField.borderStyle = .none
-        searchBar.backgroundColor = .white
-
-        // Button styling
-        addButton.backgroundColor = .white
+       setupStyle()
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
+        
+        Task{
+            await loadData()
+        }
+        
     }
     
     func presentImagePicker() {
@@ -70,7 +64,7 @@ class CategoriesViewController: BaseViewController,UICollectionViewDataSource,UI
 
         cell.iconLabel.text = item.title
         cell.delegate = self
-        
+        cell.categoryID = item.id
         return cell
     }
 
@@ -132,35 +126,40 @@ class CategoriesViewController: BaseViewController,UICollectionViewDataSource,UI
         searchBar.resignFirstResponder()
     }
     
+    // MARK: - Updated Delete Logic
     func didTapDelete(on cell: CategoryCell) {
-
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
 
-        let alert = UIAlertController(
-            title: "Delete Category",
-            message: "Are you sure you want to delete this category?",
-            preferredStyle: .alert
-        )
-
+        let alert = UIAlertController(title: "Delete Category", message: "Are you sure?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            guard let self = self else { return }
+            
+            let item = self.isSearching ? self.filteredCategories[indexPath.item] : self.categories[indexPath.item]
 
-        alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
+            Task {
+                do {
 
-            if self.isSearching {
-                let item = self.filteredCategories.remove(at: indexPath.item)
-                categories.removeAll { $0.title == item.title }
-            } else {
-                categories.remove(at: indexPath.item)
+                    try await CategoriesController.shared.deleteCategory(id: item.id)
+                    
+                    await MainActor.run {
+                        if self.isSearching {
+                            self.filteredCategories.remove(at: indexPath.item)
+                            self.categories.removeAll { $0.id == item.id }
+                        } else {
+                            self.categories.remove(at: indexPath.item)
+                        }
+                        self.collectionView.deleteItems(at: [indexPath])
+                    }
+                } catch {
+                    print("Error deleting: \(error)")
+                }
             }
-
-            self.collectionView.reloadData()
         })
-
         present(alert, animated: true)
     }
     
     func didTapEdit(on cell: CategoryCell) {
-
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
 
         let item = isSearching
@@ -181,55 +180,56 @@ class CategoriesViewController: BaseViewController,UICollectionViewDataSource,UI
 
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 
-        alert.addAction(UIAlertAction(title: "Save", style: .default) { _ in
-            guard let newName = alert.textFields?.first?.text?
-                .trimmingCharacters(in: .whitespacesAndNewlines),
-                !newName.isEmpty else { return }
+        alert.addAction(UIAlertAction(title: "Save", style: .default) { [weak self] _ in
+            guard let self = self,
+                  let newName = alert.textFields?.first?.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+                  !newName.isEmpty else { return }
 
-            // Duplicate name check (case-insensitive, excluding current item)
-            let nameExists = categories.contains {
+            // Duplicate check
+            let nameExists = self.categories.contains {
                 $0.title.lowercased() == newName.lowercased() &&
-                $0.title.lowercased() != item.title.lowercased()
+                $0.id != item.id
             }
 
             if nameExists {
-                let errorAlert = UIAlertController(
-                    title: "Name Already Exists",
-                    message: "Please choose a different category name.",
-                    preferredStyle: .alert
-                )
+                let errorAlert = UIAlertController(title: "Name Already Exists", message: "Choose a different name.", preferredStyle: .alert)
                 errorAlert.addAction(UIAlertAction(title: "OK", style: .default))
                 self.present(errorAlert, animated: true)
                 return
             }
 
-            // Update data
-            if self.isSearching {
-                self.filteredCategories[indexPath.item] =
-                    Category(title: newName)
-
-                if let originalIndex = categories.firstIndex(where: {
-                    $0.title == item.title
-                }) {
-                    categories[originalIndex] =
-                        Category(title: newName)
+            Task {
+                do {
+                    
+                    try await CategoriesController.shared.editCategory(id: item.id, newName: newName)
+                    
+                    await MainActor.run {
+                        let updatedCategory = Category(id: item.id, title: newName)
+                        
+                        if self.isSearching {
+                            self.filteredCategories[indexPath.item] = updatedCategory
+                            if let index = self.categories.firstIndex(where: { $0.id == item.id }) {
+                                self.categories[index] = updatedCategory
+                            }
+                        } else {
+                            self.categories[indexPath.item] = updatedCategory
+                        }
+                        
+                        self.collectionView.reloadItems(at: [indexPath])
+                    }
+                } catch {
+                    print("DEBUG: Error updating category: \(error)")
                 }
-            } else {
-                categories[indexPath.item] =
-                    Category(title: newName)
             }
-
-            self.collectionView.reloadData()
         })
 
         present(alert, animated: true)
     }
 
     @IBAction func addButtonTapped(_ sender: UIButton) {
-
         let alert = UIAlertController(
             title: "Add Category",
-            message: "Enter a name and choose an image",
+            message: "Enter a name for the new category",
             preferredStyle: .alert
         )
 
@@ -238,35 +238,40 @@ class CategoriesViewController: BaseViewController,UICollectionViewDataSource,UI
             textField.autocapitalizationType = .words
         }
 
-        let addAction = UIAlertAction(title: "Add", style: .default) { _ in
-            guard let name = alert.textFields?.first?.text?
-                .trimmingCharacters(in: .whitespacesAndNewlines),
-                !name.isEmpty else { return }
+        let addAction = UIAlertAction(title: "Add", style: .default) { [weak self] _ in
+            guard let self = self,
+                  let name = alert.textFields?.first?.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+                  !name.isEmpty else { return }
 
-            // 🔍 Duplicate check
-            let nameExists = categories.contains {
-                $0.title.lowercased() == name.lowercased()
-            }
+            // Duplicate check
+            let nameExists = self.categories.contains { $0.title.lowercased() == name.lowercased() }
 
             if nameExists {
-                let error = UIAlertController(
-                    title: "Name Already Exists",
-                    message: "Choose a different category name.",
-                    preferredStyle: .alert
-                )
+                let error = UIAlertController(title: "Name Already Exists", message: "Choose a different category name.", preferredStyle: .alert)
                 error.addAction(UIAlertAction(title: "OK", style: .default))
                 self.present(error, animated: true)
                 return
             }
 
-            let newCategory = Category(title: name)
-            categories.append(newCategory)
+            Task {
+                do {
 
-            self.isSearching = false
-            self.filteredCategories.removeAll()
-            self.searchBar.text = nil
-
-            self.collectionView.reloadData()
+                    
+                    try await CategoriesController.shared.addCategory(name: name)
+                    
+                    await MainActor.run {
+                        self.isSearching = false
+                        self.filteredCategories.removeAll()
+                        self.searchBar.text = nil
+                        
+                        Task {
+                            await self.loadData()
+                        }
+                    }
+                } catch {
+                    print("DEBUG: Failed to add category: \(error)")
+                }
+            }
         }
 
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
@@ -274,5 +279,40 @@ class CategoriesViewController: BaseViewController,UICollectionViewDataSource,UI
 
         present(alert, animated: true)
     }
-
+    
+    func loadData() async{	
+        Task{
+            do{
+                categories = try await CategoriesController.shared.getAllCategories()
+                await MainActor.run {
+                    self.collectionView.reloadData()
+                }
+            } catch {
+                print("DEBUG: Error loading categhories: \(error)")
+            }
+        }
+    }
+    
+    @objc private func handleRefresh() {
+        Task {
+            await loadData()
+            await MainActor.run {
+                self.refreshControl.endRefreshing()
+            }
+        }
+    }
+    
+    override func setupStyle() {
+        searchBar.delegate = self
+        searchBar.backgroundImage = UIImage()
+        searchBar.searchTextField.borderStyle = .none
+        searchBar.backgroundColor = .white
+        
+        addButton.backgroundColor = .white
+        
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.keyboardDismissMode = .onDrag
+        collectionView.backgroundColor = UIColor(hex: "#F6F8F9")
+    }
 }
