@@ -17,7 +17,8 @@ struct User: Identifiable {
         let createdAt: Date
         let profilePicture: String
         let notifications: Array<Notification>?
-        
+        let chats: Array<Chat>?
+    
     var firestoreData: [String: Any] {
         return [
             "email": email,
