@@ -9,13 +9,15 @@ import UIKit
 
 class ForgotPasswordViewController: UIViewController {
 
+    
     @IBOutlet weak var SendResetCodebtn: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
         SendResetCodebtn.layer.cornerRadius = 12
         SendResetCodebtn.clipsToBounds = true
+
+        
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)

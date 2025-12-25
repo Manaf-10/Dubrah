@@ -9,10 +9,13 @@ import UIKit
 
 class UserInfoCompleteViewController: UIViewController {
 
+    @IBOutlet weak var ContinueSettingUpbtn: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        ContinueSettingUpbtn.layer.cornerRadius = 12
+        ContinueSettingUpbtn.clipsToBounds = true
+        
     }
     
 
