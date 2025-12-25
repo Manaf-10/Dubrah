@@ -4,8 +4,11 @@
 //
 //  Created by Sayed on 24/12/2025.
 //
+import Foundation
 
 struct Message {
-    var senderID: String
-    var content: String
+    let content: String
+    let isIncoming: Bool
+    let senderID: String
+    let timestamp: Date
 }

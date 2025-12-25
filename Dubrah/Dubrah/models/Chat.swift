@@ -7,7 +7,9 @@
 
 struct Chat {
     var id: String
-    var user1ID: String
-    var user2ID: String
     var messages: [Message]
+    var userImage: String
+    var userName: String
+    var receiverID: String
+    var verified: Bool
 }

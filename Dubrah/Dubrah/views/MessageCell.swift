@@ -17,6 +17,13 @@ class MessageCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        setUpStyle()
+        
+    }
+    
+    
+    
+    func setUpStyle() {
         profileImage.layer.cornerRadius = 30
         profileImage.clipsToBounds = true
         contentView.layer.masksToBounds = false

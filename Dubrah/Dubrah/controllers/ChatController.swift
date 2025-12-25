@@ -11,88 +11,67 @@ import FirebaseAuth
 class ChatController {
     static let shared = ChatController()
     private let db = Firestore.firestore()
-   
-    func newChat(user1ID: String, user2ID: String) async throws -> String {
-        let chatID = generateChatID(user1ID: user1ID, user2ID: user2ID)
-        let chatData: [String: Any] = [
-            "chatID": chatID,
-            "CreatedAt": Timestamp(date: Date()),
-            "user1ID": user1ID,
-            "user2ID": user2ID,
-            "participants": [user1ID, user2ID],
-            "lastMessage": "",
-            "lastMessageTimestamp": Timestamp(date: Date()),
-            "messages": []
-        ]
-        
-        try await db.collection("Chat").document(chatID).setData(chatData)
-        return chatID
-    }
     
     func generateChatID(user1ID: String, user2ID: String) -> String {
-        let sortedIDs = [user1ID, user2ID].sorted()
-        return sortedIDs.joined(separator: "-")
+        return [user1ID, user2ID].sorted().joined(separator: "-")
     }
-    
-    func getUserChats(userID: String) async throws -> [String] {
+
+    // Fetches the inbox list
+    func getUserChats(userID: String) async throws -> [Chat] {
         let snapshot = try await db.collection("Chat")
             .whereField("participants", arrayContains: userID)
             .getDocuments()
         
-        return snapshot.documents.map { $0.documentID }
+        var fetchedChats: [Chat] = []
+        for doc in snapshot.documents {
+            let data = doc.data()
+            let participants = data["participants"] as? [String] ?? []
+            let otherID = participants.first(where: { $0 != userID }) ?? ""
+            let messagesData = data["messages"] as? [[String: Any]] ?? []
+            let messages = messagesData.map { dict in
+                Message(
+                    content: dict["content"] as? String ?? "",
+                    isIncoming: (dict["senderID"] as? String ?? "") != userID,
+                    senderID: dict["senderID"] as? String ?? "",
+                    timestamp: (dict["CreatedAt"] as? Timestamp)?.dateValue() ?? Date()
+                )
+            }
+            
+            let name = await getUserField(from: otherID, field: "userName") as? String ?? "User"
+            let image = await getUserField(from: otherID, field: "profilePicture") as? String ?? ""
+            let verified : Bool = await getUserField(from: otherID, field: "verified") as! Bool
+            fetchedChats.append(Chat(id: doc.documentID, messages: messages, userImage: image, userName: name, receiverID: otherID, verified: verified))
+        }
+        return fetchedChats
     }
-    
+
+    // Real-time listener for a specific chat room
+    func observeMessages(chatID: String, completion: @escaping ([Message]) -> Void) -> ListenerRegistration {
+        let currentUID = Auth.auth().currentUser?.uid ?? ""
+        return db.collection("Chat").document(chatID).addSnapshotListener { snapshot, _ in
+            guard let data = snapshot?.data(), let msgData = data["messages"] as? [[String: Any]] else { return }
+            let msgs = msgData.map { dict in
+                Message(
+                    content: dict["content"] as? String ?? "",
+                    isIncoming: (dict["senderID"] as? String ?? "") != currentUID,
+                    senderID: dict["senderID"] as? String ?? "",
+                    timestamp: (dict["CreatedAt"] as? Timestamp)?.dateValue() ?? Date()
+                )
+            }
+            completion(msgs)
+        }
+    }
+
     func sendMessage(chatID: String, senderID: String, content: String) async throws {
         let messageData: [String: Any] = [
             "content": content,
             "senderID": senderID,
             "CreatedAt": Timestamp(date: Date())
         ]
-        
-        let chatRef = db.collection("Chat").document(chatID)
-        let chatDocument = try await chatRef.getDocument()
-        
-        if let chatData = chatDocument.data() {
-
-            var messages = chatData["messages"] as? [[String: Any]] ?? []
-            
-            messages.append(messageData)
-            
-            try await chatRef.updateData([
-                "messages": messages,
-                "lastMessage": content,
-                "lastMessageTimestamp": Timestamp(date: Date())
-            ])
-        }
+        try await db.collection("Chat").document(chatID).updateData([
+            "messages": FieldValue.arrayUnion([messageData]),
+            "lastMessage": content,
+            "lastMessageTimestamp": Timestamp(date: Date())
+        ])
     }
-
-    func chatExists(user1ID: String, user2ID: String) async throws -> (exists: Bool, chatID: String?) {
-        let chatID = generateChatID(user1ID: user1ID, user2ID: user2ID)
-        
-        let document = try await db.collection("Chat").document(chatID).getDocument()
-        
-        if document.exists {
-            return (true, chatID)
-        }
-        return (false, nil)
-    }
-    
-    func getOrCreateChat(user1ID: String, user2ID: String) async throws -> String {
-        let (exists, existingChatID) = try await chatExists(user1ID: user1ID, user2ID: user2ID)
-        
-        if exists, let chatID = existingChatID {
-            return chatID
-        } else {
-            return try await newChat(user1ID: user1ID, user2ID: user2ID)
-        }
-    }
-    
-    func getChatWithUser(currentUserID: String, otherUserID: String) async throws -> String {
-        return try await getOrCreateChat(user1ID: currentUserID, user2ID: otherUserID)
-    }
-    
-    func deleteChat(chatID: String) async throws {
-        try await db.collection("Chat").document(chatID).delete()
-    }
-    
 }
