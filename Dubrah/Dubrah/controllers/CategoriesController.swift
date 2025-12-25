@@ -43,5 +43,6 @@ class CategoriesController{
         let docRef = db.collection( "Category" ).document( id )
         
         try await docRef.delete()
+        
     }
 }

@@ -52,7 +52,7 @@ class ChatController {
         let chatRef = db.collection("Chat").document(chatID)
         let chatDocument = try await chatRef.getDocument()
         
-        if var chatData = chatDocument.data() {
+        if let chatData = chatDocument.data() {
 
             var messages = chatData["messages"] as? [[String: Any]] ?? []
             
