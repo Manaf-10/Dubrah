@@ -1,0 +1,31 @@
+//
+//  seekerAndProviderViewController.swift
+//  Dubrah
+//
+//  Created by user282253 on 12/27/25.
+//
+
+import UIKit
+
+class seekerAndProviderViewController: UIViewController {
+
+    @IBOutlet weak var ProviderBtn: UIButton!
+    @IBOutlet weak var SeekerBtn: UIButton!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
+    }
+    
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
+}
