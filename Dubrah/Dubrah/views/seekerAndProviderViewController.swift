@@ -9,6 +9,8 @@ import UIKit
 
 class seekerAndProviderViewController: UIViewController {
 
+    @IBOutlet weak var ProviderBtn: UIButton!
+    @IBOutlet weak var SeekerBtn: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
 
