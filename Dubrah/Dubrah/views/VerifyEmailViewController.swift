@@ -17,7 +17,6 @@ class VerifyEmailViewController: UIViewController {
         verifybtn.layer.cornerRadius = 12
         verifybtn.clipsToBounds = true
         
-        
     }
     
 
