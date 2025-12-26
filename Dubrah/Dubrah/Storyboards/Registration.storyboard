@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="HSY-Ik-xf2">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
@@ -1161,24 +1161,26 @@
                                                                     </textField>
                                                                 </subviews>
                                                             </stackView>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="c7j-h7-CuU">
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="c7j-h7-CuU">
                                                                 <rect key="frame" x="0.0" y="86.666666666666686" width="353" height="61"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Primary skills" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b4B-lE-vok">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="353" height="21"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="353" height="17.333333333333332"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Write Your Primary Skills" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ki0-Eq-PRJ">
-                                                                        <rect key="frame" x="0.0" y="26" width="353" height="35"/>
-                                                                        <constraints>
-                                                                            <constraint firstAttribute="height" constant="35" id="9gU-sP-4bU"/>
-                                                                        </constraints>
-                                                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                                                        <textInputTraits key="textInputTraits" textContentType="tel"/>
-                                                                    </textField>
+                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YVU-0w-xCh">
+                                                                        <rect key="frame" x="0.0" y="22.333333333333311" width="353" height="38.666666666666657"/>
+                                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                    </view>
                                                                 </subviews>
+                                                                <constraints>
+                                                                    <constraint firstItem="YVU-0w-xCh" firstAttribute="leading" secondItem="c7j-h7-CuU" secondAttribute="leading" id="7t8-SO-duJ"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="YVU-0w-xCh" secondAttribute="bottom" id="WHD-r3-fMF"/>
+                                                                    <constraint firstItem="YVU-0w-xCh" firstAttribute="top" secondItem="b4B-lE-vok" secondAttribute="bottom" constant="5" id="pQj-kW-x3X"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="YVU-0w-xCh" secondAttribute="trailing" id="zM3-Qh-Rs0"/>
+                                                                </constraints>
                                                             </stackView>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Ajl-iM-FA6">
                                                                 <rect key="frame" x="0.0" y="172.66666666666669" width="353" height="61.666666666666657"/>
@@ -1258,13 +1260,13 @@
                     </view>
                     <navigationItem key="navigationItem" id="4lx-yR-Z1l"/>
                     <connections>
+                        <outlet property="SkillsContainerView" destination="YVU-0w-xCh" id="flq-b7-V6x"/>
                         <outlet property="textSelectYears" destination="nhQ-XD-LJ1" id="Swq-SF-qhe"/>
-                        <outlet property="txtSelectSkills" destination="Ki0-Eq-PRJ" id="ZKR-E3-zbq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qCY-f2-e0J" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="10953" y="744"/>
+            <point key="canvasLocation" x="10951.908396946565" y="743.66197183098598"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="1Hn-Ec-0Kh">
@@ -1396,14 +1398,16 @@
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jIP-m8-CrC">
                                                                 <rect key="frame" x="0.0" y="0.0" width="353" height="76.666666666666671"/>
-                                                                <string key="text">Select Your Skills&amp; Interests</string>
+                                                                <string key="text">Select Your Skills
+&amp; Interests</string>
                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
                                                                 <color key="textColor" name="WidgetBackground"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E7k-EV-1IV">
                                                                 <rect key="frame" x="0.0" y="81.666666666666657" width="353" height="33.666666666666657"/>
-                                                                <string key="text">Choose what best represents what you do or look for.</string>
+                                                                <string key="text">Choose what best represents what you do or 
+look for.</string>
                                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
@@ -1466,7 +1470,8 @@
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WaR-ot-LjC">
                                                                                 <rect key="frame" x="91" y="46" width="179" height="48"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                                <string key="text">Software, websites, and mobile applications</string>
+                                                                                <string key="text">Software, websites, and 
+mobile applications</string>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 <nil key="highlightedColor"/>
@@ -1497,7 +1502,8 @@
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WaJ-VV-pv6">
                                                                                 <rect key="frame" x="91" y="46" width="179" height="48"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                                <string key="text">Visuals for personal andprofessional use</string>
+                                                                                <string key="text">Visuals for personal and
+professional use</string>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 <nil key="highlightedColor"/>
@@ -1528,7 +1534,8 @@
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bXv-34-kEy">
                                                                                 <rect key="frame" x="91" y="46" width="170" height="36"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                                <string key="text">Teach, Learn, or connectwith mentors.</string>
+                                                                                <string key="text">Teach, Learn, or connect
+with mentors.</string>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 <nil key="highlightedColor"/>

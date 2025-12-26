@@ -2,28 +2,52 @@
 //  EditProfileViewController.swift
 //  Dubrah
 //
-//  Created by M7md on 20/12/2025.
+//  Created by user282253 on 12/26/25.
 //
 
 import UIKit
 
-class EditProfileViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+class EditProfileViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if collectionView == SkillsCollectionView{
+            return Skills.count
+        }else if collectionView == interestsCollectionView{
+            return Interests.count
+        }
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if collectionView == SkillsCollectionView{
+            let cell = SkillsCollectionView.dequeueReusableCell(withReuseIdentifier: "Skillscell", for: indexPath) as! skillsCollectionViewCell
+            cell.Skillslbl.text = Skills[indexPath.row]
+            cell.backgroundColor = .blue
+            cell.Skillslbl.textColor = .white
+            cell.layer.cornerRadius = 12
+            return cell
+        }else if collectionView == interestsCollectionView{
+            let cell = interestsCollectionView.dequeueReusableCell(withReuseIdentifier: "Interestscell", for: indexPath) as! InterestsCollectionViewCell
+            cell.Interestslbl.text = Interests[indexPath.row]
+            cell.backgroundColor = .blue
+            cell.Interestslbl.textColor = .white
+            cell.layer.cornerRadius = 12
+            return cell
+        }
+        return UICollectionViewCell()
     }
     
 
-    /*
-    // MARK: - Navigation
+    @IBOutlet weak var interestsCollectionView: UICollectionView!
+    @IBOutlet weak var SkillsCollectionView: UICollectionView!
+    let Skills = ["Design", "Production", "Photography"]
+    let Interests = ["Design", "Photography", "Tutoring"]
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        SkillsCollectionView.delegate = self
+        SkillsCollectionView.dataSource = self
+        interestsCollectionView.delegate = self
+        interestsCollectionView.dataSource = self
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+      
     }
-    */
-
 }
