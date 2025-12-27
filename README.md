@@ -64,10 +64,9 @@ Admins have full control over the platform, including:
 
 - Platform: iOS (Swift, UIKit)
 - Architecture: MVC / MVVM
-- Backend: Custom-designed database with SDK-based integration
-- Communication: In-app messaging system
+- Backend: FireBase
 - Design & Prototyping: Figma
-
+- ERD Design: Drawsql
 ---
 
 ## Planning & Inspiration
