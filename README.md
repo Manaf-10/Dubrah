@@ -19,6 +19,14 @@ Dubrah bridges the gap between capable service providers and individuals who str
 
 ---
 
+## **Entity Relationship Diagram (ERD)**
+
+The ERD below illustrates the database structure and entity relationships:
+
+![ERD](/pictures/ERD.png)
+
+---
+
 ## Key Features
 
 ### User Authentication & Profiles
