@@ -640,37 +640,52 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No result found" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tey-wQ-ifb">
-                                <rect key="frame" x="247" y="239" width="140" height="26"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <color key="textColor" name="size_red"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zQh-44-iBk">
+                                <rect key="frame" x="346" y="234" width="51" height="34"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" button="YES" image="YES"/>
+                                </accessibility>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="line.3.horizontal.decrease" catalog="system"/>
+                                <connections>
+                                    <action selector="filterTapped:" destination="3JA-YK-MtI" eventType="touchUpInside" id="cbG-VM-p5z"/>
+                                </connections>
+                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="dzl-s2-1iU">
                                 <rect key="frame" x="0.0" y="275" width="402" height="482"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No result found" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tey-wQ-ifb">
+                                <rect key="frame" x="15" y="275" width="140" height="26"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <color key="textColor" name="size_red"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="1BF-g8-fx8"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="b2X-JT-Db0" firstAttribute="leading" secondItem="AJx-v3-b9Q" secondAttribute="leading" id="0Q5-OR-A2I"/>
                             <constraint firstItem="zaL-qQ-jCa" firstAttribute="leading" secondItem="1BF-g8-fx8" secondAttribute="leading" constant="15" id="0gU-Ec-5E9"/>
-                            <constraint firstItem="tey-wQ-ifb" firstAttribute="top" secondItem="b2X-JT-Db0" secondAttribute="bottom" constant="15" id="3j2-w5-GUu"/>
+                            <constraint firstItem="1BF-g8-fx8" firstAttribute="trailing" secondItem="zQh-44-iBk" secondAttribute="trailing" constant="5" id="0tR-1s-XfY"/>
+                            <constraint firstItem="zQh-44-iBk" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="zaL-qQ-jCa" secondAttribute="trailing" constant="8" symbolic="YES" id="FAq-gD-K9U"/>
+                            <constraint firstItem="zQh-44-iBk" firstAttribute="top" secondItem="b2X-JT-Db0" secondAttribute="bottom" constant="10" id="IG5-9R-TmL"/>
                             <constraint firstItem="dzl-s2-1iU" firstAttribute="top" secondItem="zaL-qQ-jCa" secondAttribute="bottom" constant="10" id="K1k-aD-Pll"/>
                             <constraint firstItem="dzl-s2-1iU" firstAttribute="leading" secondItem="1BF-g8-fx8" secondAttribute="leading" id="K33-pa-xBX"/>
-                            <constraint firstItem="tey-wQ-ifb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="zaL-qQ-jCa" secondAttribute="trailing" constant="8" symbolic="YES" id="L7n-Em-f4h"/>
                             <constraint firstItem="zaL-qQ-jCa" firstAttribute="top" secondItem="b2X-JT-Db0" secondAttribute="bottom" constant="15" id="LJg-H6-i8Y"/>
                             <constraint firstAttribute="trailing" secondItem="b2X-JT-Db0" secondAttribute="trailing" id="MaQ-op-Gyh"/>
+                            <constraint firstItem="tey-wQ-ifb" firstAttribute="leading" secondItem="1BF-g8-fx8" secondAttribute="leading" constant="15" id="PtP-vw-UPu"/>
+                            <constraint firstItem="tey-wQ-ifb" firstAttribute="top" secondItem="zaL-qQ-jCa" secondAttribute="bottom" constant="10" id="Qsu-0E-6XS"/>
                             <constraint firstItem="b2X-JT-Db0" firstAttribute="top" secondItem="AJx-v3-b9Q" secondAttribute="topMargin" id="Y5U-fz-38w"/>
                             <constraint firstItem="dzl-s2-1iU" firstAttribute="trailing" secondItem="1BF-g8-fx8" secondAttribute="trailing" id="bLe-f6-iSI"/>
+                            <constraint firstItem="1BF-g8-fx8" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="tey-wQ-ifb" secondAttribute="trailing" symbolic="YES" id="lW1-Mq-wAv"/>
                             <constraint firstItem="dzl-s2-1iU" firstAttribute="bottom" secondItem="1BF-g8-fx8" secondAttribute="bottom" id="mvp-eJ-lOn"/>
                             <constraint firstItem="1BF-g8-fx8" firstAttribute="trailing" secondItem="zaL-qQ-jCa" secondAttribute="trailing" constant="250" id="sgW-9v-Q88"/>
-                            <constraint firstItem="1BF-g8-fx8" firstAttribute="trailing" secondItem="tey-wQ-ifb" secondAttribute="trailing" constant="15" id="tpj-Gq-lbc"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="search_bar" id="sGv-bo-qxo"/>
                     <connections>
+                        <outlet property="filterButton" destination="zQh-44-iBk" id="8fM-p0-WUa"/>
                         <outlet property="noResultsLabel" destination="tey-wQ-ifb" id="gLH-Wa-0Wh"/>
                         <outlet property="searchBar" destination="b2X-JT-Db0" id="HMR-xH-hsW"/>
                         <outlet property="tableView" destination="dzl-s2-1iU" id="BbD-WP-7uq"/>
@@ -688,6 +703,7 @@
         <image name="Profile Icon" width="43" height="43"/>
         <image name="StartPage.png" width="352" height="352"/>
         <image name="home_icon" width="72" height="54"/>
+        <image name="line.3.horizontal.decrease" catalog="system" width="128" height="73"/>
         <image name="message.fill" catalog="system" width="128" height="114"/>
         <image name="paperplane.fill" catalog="system" width="128" height="119"/>
         <image name="search_bar" width="72" height="54"/>
