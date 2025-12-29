@@ -7,24 +7,58 @@
 
 import UIKit
 
-class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SearchViewController: UIViewController,
+                            UITableViewDelegate,
+                            UITableViewDataSource,
+                            UISearchBarDelegate {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
     
+    let allItems = [
+        "Apple",
+        "Banana",
+        "Orange",
+        "Mango",
+        "Pineapple",
+        "Grapes",
+        "Strawberry"
+    ]
+
+    var filteredItems: [String] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        filteredItems = allItems
+        
         tableView.delegate = self
         tableView.dataSource = self
+        searchBar.delegate = self
+
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10 // placeholder
+        return filteredItems.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
-            ?? UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
-        cell.textLabel?.text = "Result \(indexPath.row)"
+            ?? UITableViewCell(style: .default, reuseIdentifier: "cell")
+        cell.textLabel?.text = filteredItems[indexPath.row]
         return cell
     }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            filteredItems = allItems
+        } else {
+            filteredItems = allItems.filter {
+                $0.lowercased().contains(searchText.lowercased())
+            }
+        }
+
+        tableView.reloadData()
+    }
+
 }
