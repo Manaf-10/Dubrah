@@ -1,3 +1,11 @@
+//
+//  MessageViewController.swift
+//  Dubrah
+//
+//  Created by Sayed on 23/12/2025.
+//
+
+
 import UIKit
 import FirebaseAuth
 
@@ -16,7 +24,6 @@ class MessagesViewController: BaseViewController, UITableViewDelegate, UITableVi
         tableView.dataSource = self
         searchBar.delegate = self
         
-        // Remove cell separators if desired
         tableView.separatorStyle = .none
         
         Task { await loadData() }
@@ -73,11 +80,9 @@ class MessagesViewController: BaseViewController, UITableViewDelegate, UITableVi
         
         cell.profileImage.image = UIImage(named: "user_icon")
         
-        // Handle Image Download Safely
         if !item.userImage.isEmpty {
             Task {
                 if let image = await ImageDownloader.fetchImage(from: item.userImage) {
-                    // Check if the cell is still visible for this indexPath before setting
                     tempImage = image
                     await MainActor.run {
                         if let currentIndexPath = tableView.indexPath(for: cell), currentIndexPath == indexPath {
@@ -108,7 +113,6 @@ class MessagesViewController: BaseViewController, UITableViewDelegate, UITableVi
             chatVC.userImage = tempImage
             chatVC.isVerified = item.verified
             chatVC.receiverID = item.receiverID
-            // Pass the image already downloaded to the next screen if available
             if let cell = tableView.cellForRow(at: indexPath) as? MessageCell {
                 chatVC.userImage = cell.profileImage.image
             }
