@@ -3,6 +3,7 @@
     <device id="retina6_3" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -633,41 +634,44 @@
                                     <outlet property="delegate" destination="3JA-YK-MtI" id="KaO-UO-RGF"/>
                                 </connections>
                             </searchBar>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Search Result" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zaL-qQ-jCa">
-                                <rect key="frame" x="15" y="241" width="157" height="29"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search Result" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zaL-qQ-jCa">
+                                <rect key="frame" x="15" y="239" width="137" height="26"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No result found" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tey-wQ-ifb">
+                                <rect key="frame" x="247" y="239" width="140" height="26"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <color key="textColor" name="size_red"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="dzl-s2-1iU">
-                                <rect key="frame" x="0.0" y="280" width="402" height="477"/>
+                                <rect key="frame" x="0.0" y="275" width="402" height="482"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="No result found" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tey-wQ-ifb">
-                                <rect key="frame" x="246" y="200" width="140" height="26"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="1BF-g8-fx8"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="b2X-JT-Db0" firstAttribute="leading" secondItem="AJx-v3-b9Q" secondAttribute="leading" id="0Q5-OR-A2I"/>
                             <constraint firstItem="zaL-qQ-jCa" firstAttribute="leading" secondItem="1BF-g8-fx8" secondAttribute="leading" constant="15" id="0gU-Ec-5E9"/>
-                            <constraint firstItem="zaL-qQ-jCa" firstAttribute="top" secondItem="1BF-g8-fx8" secondAttribute="top" constant="73" id="Fb9-1E-71T"/>
+                            <constraint firstItem="tey-wQ-ifb" firstAttribute="top" secondItem="b2X-JT-Db0" secondAttribute="bottom" constant="15" id="3j2-w5-GUu"/>
                             <constraint firstItem="dzl-s2-1iU" firstAttribute="top" secondItem="zaL-qQ-jCa" secondAttribute="bottom" constant="10" id="K1k-aD-Pll"/>
                             <constraint firstItem="dzl-s2-1iU" firstAttribute="leading" secondItem="1BF-g8-fx8" secondAttribute="leading" id="K33-pa-xBX"/>
+                            <constraint firstItem="tey-wQ-ifb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="zaL-qQ-jCa" secondAttribute="trailing" constant="8" symbolic="YES" id="L7n-Em-f4h"/>
+                            <constraint firstItem="zaL-qQ-jCa" firstAttribute="top" secondItem="b2X-JT-Db0" secondAttribute="bottom" constant="15" id="LJg-H6-i8Y"/>
                             <constraint firstAttribute="trailing" secondItem="b2X-JT-Db0" secondAttribute="trailing" id="MaQ-op-Gyh"/>
                             <constraint firstItem="b2X-JT-Db0" firstAttribute="top" secondItem="AJx-v3-b9Q" secondAttribute="topMargin" id="Y5U-fz-38w"/>
                             <constraint firstItem="dzl-s2-1iU" firstAttribute="trailing" secondItem="1BF-g8-fx8" secondAttribute="trailing" id="bLe-f6-iSI"/>
                             <constraint firstItem="dzl-s2-1iU" firstAttribute="bottom" secondItem="1BF-g8-fx8" secondAttribute="bottom" id="mvp-eJ-lOn"/>
-                            <constraint firstItem="1BF-g8-fx8" firstAttribute="trailing" secondItem="zaL-qQ-jCa" secondAttribute="trailing" id="sgW-9v-Q88"/>
+                            <constraint firstItem="1BF-g8-fx8" firstAttribute="trailing" secondItem="zaL-qQ-jCa" secondAttribute="trailing" constant="250" id="sgW-9v-Q88"/>
+                            <constraint firstItem="1BF-g8-fx8" firstAttribute="trailing" secondItem="tey-wQ-ifb" secondAttribute="trailing" constant="15" id="tpj-Gq-lbc"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="search_bar" id="sGv-bo-qxo"/>
                     <connections>
+                        <outlet property="noResultsLabel" destination="tey-wQ-ifb" id="gLH-Wa-0Wh"/>
                         <outlet property="searchBar" destination="b2X-JT-Db0" id="HMR-xH-hsW"/>
                         <outlet property="tableView" destination="dzl-s2-1iU" id="BbD-WP-7uq"/>
                     </connections>
@@ -16681,11 +16685,14 @@ oYsADqGTAA6hlgAOoZsADqGjAAAAAAAABAEAAAAAAAAAWAAAAAAAAAAAAAAAAAAOoaY
         </image>
         <image name="user_icon" width="72" height="54"/>
         <image name="verified" width="14" height="14"/>
+        <namedColor name="size_red">
+            <color red="1" green="0.34901960784313724" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemIndigoColor">
-            <color red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
