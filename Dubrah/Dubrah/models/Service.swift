@@ -8,8 +8,13 @@
 import Foundation
 
 struct Service {
-    let id: Int
-    let name: String
+    let id: String
+    let category: String
+    let description: String
+    let duration: Int
+    let image: String
+    let providerID: String
+    let title: String
     let price: Double
     let rating: Double
 }
