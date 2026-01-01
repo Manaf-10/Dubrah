@@ -29,6 +29,11 @@ class CreateNewPassViewController: UIViewController {
         saveNewPassbtn.clipsToBounds = true
         newPasswordTextField.addTarget(self, action: #selector(validatePassword), for: .editingChanged)
     }
+    
+override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    self.view.endEditing(true)
+}
+    
     @IBAction func saveNewPasswordTapped(_ sender: UIButton) {
             guard let newPassword = newPasswordTextField.text, !newPassword.isEmpty else {
                 showAlert(message: "Please enter a new password.")
