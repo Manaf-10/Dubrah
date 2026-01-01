@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
 
 class seekerAndProviderViewController: UIViewController {
 
@@ -18,14 +20,39 @@ class seekerAndProviderViewController: UIViewController {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func seekerButtonTapped(_ sender: UIButton) {
+            // Update user's role to "seeker" in Firestore
+            updateRoleInFirestore(role: "seeker")
+            
+            // Navigate to home page for Seeker
+            navigateToHomePage()
+        }
+        
+        @IBAction func providerButtonTapped(_ sender: UIButton) {
+            // Update user's role to "provider" in Firestore
+            updateRoleInFirestore(role: "seeker")
+            
+            // Navigate to Verify Your Identity page for Provider
+            performSegue(withIdentifier: "ShowVerifyIdentity", sender: nil)
+        }
+        
+        func updateRoleInFirestore(role: String) {
+            // Update the user's role in Firestore
+            let userRef = Firestore.firestore().collection("user").document(Auth.auth().currentUser!.uid)
+            userRef.updateData([
+                "role": role // Set the role to "seeker" or "provider"
+            ]) { error in
+                if let error = error {
+                    print("Error updating role: \(error.localizedDescription)")
+                } else {
+                    print("Role updated to \(role) successfully!")
+                }
+            }
+        }
+        
+        func navigateToHomePage() {
+        
+        }
     }
-    */
 
-}
+

@@ -18,7 +18,10 @@ class CreateNewAccountViewController: UIViewController {
         Continuebtn.layer.cornerRadius = 12
         Continuebtn.clipsToBounds = true
     }
-
+ 
+override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    self.view.endEditing(true)
+}
     @IBAction func continueButtonTapped(_ sender: UIButton) {
         guard let email = emailTextField.text, isValidEmail(email) else {
             showAlert(message: "Invalid email format")

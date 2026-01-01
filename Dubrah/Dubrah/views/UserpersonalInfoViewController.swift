@@ -2,9 +2,10 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 import Cloudinary
+import Photos
 
 class UserpersonalInfoViewController: UIViewController {
-    
+
     @IBOutlet weak var profileImageView: UIImageView!   // Use UIImageView instead of UIButton
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var fullnameTextField: UITextField!
@@ -40,6 +41,13 @@ class UserpersonalInfoViewController: UIViewController {
         usernameTextField.addTarget(self, action: #selector(validateForm), for: .editingChanged)
         fullnameTextField.addTarget(self, action: #selector(validateForm), for: .editingChanged)
         DateOfBirthtxt.addTarget(self, action: #selector(validateForm), for: .editingChanged)
+        continueBtn.layer.cornerRadius = 12.0
+        continueBtn.clipsToBounds = true
+   
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     @objc func validateForm() {
@@ -66,12 +74,47 @@ class UserpersonalInfoViewController: UIViewController {
     
     // The function that will be triggered when the profile image is tapped
     @objc func profileImageTapped() {
-        // Show image picker to upload the profile picture
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        imagePickerController.sourceType = .photoLibrary
-        imagePickerController.allowsEditing = true
-        present(imagePickerController, animated: true)
+        requestPhotoLibraryPermission { [weak self] isGranted in
+            if isGranted {
+                // Show image picker to upload the profile picture
+                DispatchQueue.main.async {
+                    let imagePickerController = UIImagePickerController()
+                    imagePickerController.delegate = self
+                    imagePickerController.sourceType = .photoLibrary
+                    imagePickerController.allowsEditing = true
+                    self?.present(imagePickerController, animated: true)
+                }
+            } else {
+                self?.showAlert(message: "We need permission to access your photo library to upload a profile image.")
+            }
+        }
+    }
+    
+    // Request permission to access the photo library
+    func requestPhotoLibraryPermission(completion: @escaping (Bool) -> Void) {
+        let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+        
+        switch status {
+        case .authorized:
+            // Permission granted, proceed
+            completion(true)
+        case .denied, .restricted:
+            // Permission denied or restricted
+            completion(false)
+        case .notDetermined:
+            // Request permission
+            PHPhotoLibrary.requestAuthorization { newStatus in
+                if newStatus == .authorized {
+                    completion(true)
+                } else {
+                    completion(false)
+                }
+            }
+        case .limited:
+            completion(true)
+        @unknown default:
+            completion(false)
+        }
     }
     
     @IBAction func continueButtonTapped(_ sender: UIButton) {
@@ -90,10 +133,10 @@ class UserpersonalInfoViewController: UIViewController {
             return
         }
         
-        guard let bio = BioTextField.text, !bio.isEmpty else {  // Fixed error here
-                showAlert(message: "Bio cannot be empty")
-                return
-            }
+        guard let bio = BioTextField.text, !bio.isEmpty else {
+            showAlert(message: "Bio cannot be empty")
+            return
+        }
         
         // If a profile image is selected, upload it to Cloudinary
         if let image = selectedImage {
@@ -107,18 +150,19 @@ class UserpersonalInfoViewController: UIViewController {
     }
     
     func uploadProfilePicture(image: UIImage, completion: @escaping (String?) -> Void) {
-        // Use Cloudinary SDK to upload image
-        upload(image: image) { result in
+        MediaManager.shared.uploadImage(image) { result in
             switch result {
             case .success(let url):
-                completion(url)
-            case .failure:
-                self.showAlert(message: "Failed to upload profile picture")
-                completion(nil)
+                print("Uploaded image URL: \(url)")
+                completion(url) // Return the URL after successful upload
+            case .failure(let error):
+                print("Failed to upload image: \(error.localizedDescription)")
+                self.showAlert(message: "Error uploading image: \(error.localizedDescription)")
+                completion(nil) // Return nil if upload fails
             }
         }
     }
-    
+
     func saveUserInfo(username: String, fullName: String, dateOfBirth: String, bio: String, profileImageUrl: String?) {
         let userRef = Firestore.firestore().collection("user").document(Auth.auth().currentUser!.uid)
         

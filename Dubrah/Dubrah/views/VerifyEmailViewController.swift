@@ -26,6 +26,7 @@ class VerifyEmailViewController: UIViewController, UITextFieldDelegate {
         verifybtn.clipsToBounds = true
         
     }
+
     
     @IBAction func alreadyVerifiedTapped(_ sender: UIButton) {
             // Check if the email is verified
