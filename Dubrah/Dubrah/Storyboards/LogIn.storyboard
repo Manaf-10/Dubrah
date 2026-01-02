@@ -130,7 +130,7 @@
         <!--Navigation Controller-->
         <scene sceneID="bae-ws-CMx">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="S7c-7v-jTM" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="LoginNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="S7c-7v-jTM" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="T5u-Y9-l4h">
                         <rect key="frame" x="0.0" y="118" width="393" height="44"/>
@@ -296,7 +296,7 @@ turn every connection into an opportunity.</string>
         <!--Login View Controller-->
         <scene sceneID="xgo-5x-ymF">
             <objects>
-                <viewController id="Afj-UX-BFG" customClass="LoginViewController" customModule="Dubrah" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="Afj-UX-BFG" customClass="LoginViewController" customModule="Dubrah" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="S4o-eg-Iw1">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

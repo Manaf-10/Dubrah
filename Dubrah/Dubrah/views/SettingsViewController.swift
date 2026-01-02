@@ -1,4 +1,3 @@
-import UIKit
 import Firebase
 import FirebaseAuth
 
@@ -57,24 +56,51 @@ class SettingsViewController: UIViewController {
     func deleteUserAccount() {
         let user = Auth.auth().currentUser
         
-        // Reauthenticate the user first (prompt for password or use stored credentials)
+        // Ensure the user is logged in
         guard let userEmail = user?.email else {
             print("No user email found")
             return
         }
         
-        let credential = EmailAuthProvider.credential(withEmail: userEmail, password: "userPassword") // You may ask user for password input
+        // Prompt the user for their password
+        let alert = UIAlertController(title: "Reauthenticate", message: "Please enter your password to confirm account deletion.", preferredStyle: .alert)
+        
+        // Add a password field
+        alert.addTextField { (textField) in
+            textField.isSecureTextEntry = true
+            textField.placeholder = "Password"
+        }
+        
+        // Add "Cancel" and "Submit" actions
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Submit", style: .default, handler: { _ in
+            if let password = alert.textFields?.first?.text {
+                // Reauthenticate with the provided password
+                self.reauthenticateAndDeleteAccount(userEmail: userEmail, password: password)
+            }
+        }))
+        
+        // Present the alert
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    // Reauthenticate the user and delete the account
+    func reauthenticateAndDeleteAccount(userEmail: String, password: String) {
+        let user = Auth.auth().currentUser
+        let credential = EmailAuthProvider.credential(withEmail: userEmail, password: password)
         
         user?.reauthenticate(with: credential, completion: { (result, error) in
             if let error = error {
                 print("Reauthentication failed: \(error.localizedDescription)")
+                self.showErrorAlert(message: "Reauthentication failed. Please check your credentials.")
                 return
             }
             
-            // Proceed with account deletion
+            // Proceed with account deletion after successful reauthentication
             user?.delete(completion: { (error) in
                 if let error = error {
                     print("Error deleting account: \(error.localizedDescription)")
+                    self.showErrorAlert(message: "Error deleting account. Please try again.")
                 } else {
                     print("Account successfully deleted.")
                     self.navigateToLoginScreen()
@@ -83,15 +109,26 @@ class SettingsViewController: UIViewController {
         })
     }
     
-    // Navigate to login screen (after log out or account deletion)
+    // Show an error alert
+    func showErrorAlert(message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    // Navigate to the login screen
     func navigateToLoginScreen() {
-        // You can use a segue or manually instantiate the login screen:
-        // Example using a segue:
-        self.performSegue(withIdentifier: "showLoginScreen", sender: self)
+        // Instantiate the navigation controller from the storyboard
+        let navigationController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginNavigationController") as! UINavigationController
         
-        // Or instantiate the login screen manually
-        // let loginViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginViewController")
-        // self.present(loginViewController, animated: true, completion: nil)
+        // Instantiate the login view controller
+        let loginViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginViewController")
+        
+        // Push the login view controller onto the navigation stack
+        navigationController.pushViewController(loginViewController, animated: true)
+        
+        // Present the navigation controller
+        self.present(navigationController, animated: true, completion: nil)
     }
 }
 

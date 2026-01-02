@@ -102,17 +102,17 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
             }
         }
 
-        // Fetch Skills Data (from 'ProviderDetails' collection)
-        let providerDetailsRef = db.collection("ProviderDetails").document(userID)
+        // Fetch Skills and Interests Data (from 'ProviderDetails' collection)
+        let providerDetailsRef = db.collection("ProviderDetails").whereField("userId", isEqualTo: userID)
 
-        providerDetailsRef.getDocument { (document, error) in
+        providerDetailsRef.getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error getting provider details document: \(error.localizedDescription)")
                 return
             }
 
-            if let document = document, document.exists {
-                let data = document.data()
+            if let documents = querySnapshot?.documents, !documents.isEmpty {
+                let data = documents.first?.data()
 
                 // Fetch and display skills
                 self.skills = data?["skills"] as? [String] ?? []
@@ -121,7 +121,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
                 self.skillsCollectionView.isHidden = self.skills.isEmpty
                 self.skillsCollectionView.reloadData()
             } else {
-                print("Provider details document does not exist")
+                print("Provider details document not found for this userId.")
             }
         }
 

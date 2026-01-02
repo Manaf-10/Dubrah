@@ -52,7 +52,10 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
     
     // Fetch the user data (Skills and Interests) from Firestore
     func fetchUserData() {
-        let userRef = db.collection("user").document(userID!)
+        guard let userID = userID else { return }
+        
+        // Fetch Interests Data from 'user' collection
+        let userRef = db.collection("user").document(userID)
         
         userRef.getDocument { (document, error) in
             if let error = error {
@@ -64,34 +67,36 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
                 let data = document.data()
                 
                 self.interests = data?["interests"] as? [String] ?? []
-                self.skills = [] // We will fetch skills from ProviderDetails collection
                 
-                // Display existing data in the text fields
+                // Display interests in the text field
                 self.interestsTextField.text = self.interests.joined(separator: ", ")
             } else {
                 print("User document does not exist")
             }
         }
         
-        // Fetch Skills Data from 'ProviderDetails' collection
-        let providerDetailsRef = db.collection("ProviderDetails").document(userID!)
+        // Fetch Skills Data from 'ProviderDetails' collection using the userID inside ProviderDetails
+        let providerDetailsRef = db.collection("ProviderDetails")
+        let query = providerDetailsRef.whereField("userId", isEqualTo: userID)
         
-        providerDetailsRef.getDocument { (document, error) in
+        query.getDocuments { (snapshot, error) in
             if let error = error {
-                print("Error getting provider details document: \(error.localizedDescription)")
+                print("Error fetching provider details: \(error.localizedDescription)")
                 return
             }
             
-            if let document = document, document.exists {
+            if let snapshot = snapshot, snapshot.documents.count > 0 {
+                // Get the first document since userId is unique in this case
+                let document = snapshot.documents[0]
                 let data = document.data()
                 
                 // Fetch and display skills
-                self.skills = data?["skills"] as? [String] ?? []
+                self.skills = data["skills"] as? [String] ?? []
                 
                 // Display skills in the text field
                 self.skillsTextField.text = self.skills.joined(separator: ", ")
             } else {
-                print("Provider details document does not exist")
+                print("Provider details document not found for userId: \(userID)")
             }
         }
     }
@@ -164,23 +169,40 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
         print("Updated Skills: \(updatedSkills)")
         print("Updated Interests: \(updatedInterests)")
 
-        // Update skills in 'ProviderDetails' collection (no role check needed for skills update)
-        let providerDetailsRef = db.collection("ProviderDetails").document(userID)
-        providerDetailsRef.updateData([
-            "skills": updatedSkills
-        ]) { error in
+        // Update skills in 'ProviderDetails' collection
+        let providerDetailsRef = db.collection("ProviderDetails")
+        let query = providerDetailsRef.whereField("userId", isEqualTo: userID)
+        
+        query.getDocuments { (snapshot, error) in
             if let error = error {
-                print("Error updating skills: \(error.localizedDescription)")
+                print("Error fetching documents: \(error.localizedDescription)")
+                return
+            }
+
+            // Check if a document is found
+            if let document = snapshot?.documents.first {
+                let documentRef = document.reference
+
+                // Update the document with the new data
+                let updatedData: [String: Any] = [
+                    "skills": updatedSkills
+                ]
+                
+                documentRef.updateData(updatedData) { error in
+                    if let error = error {
+                        print("Error updating data: \(error.localizedDescription)")
+                    } else {
+                        print("Skills updated successfully in ProviderDetails.")
+                    }
+                }
             } else {
-                print("Skills successfully updated.")
+                print("No document found for this user.")
             }
         }
 
         // Update interests in 'users' collection
         let userRef = db.collection("user").document(userID)
-        userRef.updateData([
-            "interests": updatedInterests
-        ]) { error in
+        userRef.updateData([ "interests": updatedInterests ]) { error in
             if let error = error {
                 print("Error updating interests: \(error.localizedDescription)")
             } else {
@@ -188,26 +210,5 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
                 self.navigationController?.popViewController(animated: true) // Navigate back after successful save
             }
         }
-    }
-
-    
-    // Check if user is a provider
-    func isUserProvider() -> Bool {
-        // Fetch user role from Firestore (this is an example, you need to check if the user is a provider)
-        // Assuming you have a 'role' field in your Firestore 'users' document:
-        
-        var isProvider = false
-        let userRef = db.collection("user").document(userID!)
-        
-        userRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                let data = document.data()
-                if let role = data?["role"] as? String, role == "provider" {
-                    isProvider = true
-                }
-            }
-        }
-        
-        return isProvider
     }
 }
