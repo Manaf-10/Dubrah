@@ -44,6 +44,9 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
             profileImageView.addGestureRecognizer(tapGesture)
         }
     }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
     
     // Fetch User Profile Data (full name, username, bio, profile image URL, skills, and interests)
     func fetchUserProfileData(userID: String) {
@@ -61,14 +64,14 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
                 
                 // Fetch and display the user's full name, username, and bio
                 self.fullNameLabel.text = data?["fullName"] as? String ?? "No Name"
-                self.usernameLabel.text = data?["username"] as? String ?? "No Username"
+                self.usernameLabel.text = data?["userName"] as? String ?? "No Username"
                 self.bioLabel.text = data?["bio"] as? String ?? "No Bio"
                 
                 // Hide bio if empty
                 self.bioLabel.isHidden = self.bioLabel.text?.isEmpty ?? true
                 
                 // Load and display the profile image
-                if let imageUrl = data?["profileImageUrl"] as? String, !imageUrl.isEmpty {
+                if let imageUrl = data?["profilePicture"] as? String, !imageUrl.isEmpty {
                     self.currentProfileImageUrl = imageUrl
                     Task {
                         if let image = await ImageDownloader.fetchImage(from: imageUrl) {
