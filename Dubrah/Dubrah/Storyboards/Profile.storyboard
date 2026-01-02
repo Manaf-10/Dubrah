@@ -474,6 +474,9 @@
                                                         <buttonConfiguration key="configuration" style="plain" title="Log Out">
                                                             <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="20"/>
                                                         </buttonConfiguration>
+                                                        <connections>
+                                                            <action selector="logOutTapped:" destination="HRB-ZL-81y" eventType="touchUpInside" id="nSi-jv-OCr"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NZ7-sD-63H">
                                                         <rect key="frame" x="0.0" y="47" width="164.66666666666666" height="38"/>
@@ -482,6 +485,9 @@
                                                         <buttonConfiguration key="configuration" style="plain" title="Delete Account">
                                                             <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="20"/>
                                                         </buttonConfiguration>
+                                                        <connections>
+                                                            <action selector="deleteAccountTapped:" destination="HRB-ZL-81y" eventType="touchUpInside" id="HGc-J3-g4X"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -503,6 +509,10 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="hG2-xS-eTF"/>
+                    <connections>
+                        <outlet property="deleteAccountButton" destination="NZ7-sD-63H" id="NVQ-MQ-XfX"/>
+                        <outlet property="logOutButton" destination="gWZ-Ip-jvd" id="wcp-Du-RHe"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dGz-mw-CdP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1495,10 +1505,10 @@
             </objects>
             <point key="canvasLocation" x="6603" y="1427"/>
         </scene>
-        <!--View Controller-->
+        <!--Setting Password View Controller-->
         <scene sceneID="tYG-o2-4FV">
             <objects>
-                <viewController id="RWQ-dp-fVM" sceneMemberID="viewController">
+                <viewController id="RWQ-dp-fVM" customClass="SettingPasswordViewController" customModule="Dubrah" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="akN-cL-3X2">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1566,6 +1576,9 @@
                                                             <backgroundConfiguration key="background" cornerRadius="12"/>
                                                             <fontDescription key="titleFontDescription" type="boldSystem" pointSize="33"/>
                                                         </buttonConfiguration>
+                                                        <connections>
+                                                            <action selector="BackToSettingTapped:" destination="RWQ-dp-fVM" eventType="touchUpInside" id="cSW-kv-QwW"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -1589,6 +1602,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ejb-G1-dBd"/>
+                    <connections>
+                        <outlet property="backToSettingBtn" destination="eOc-Gs-cO9" id="q6h-bI-xsQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ffz-YE-4zR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

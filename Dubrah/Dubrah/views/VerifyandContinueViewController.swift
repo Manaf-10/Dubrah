@@ -15,7 +15,7 @@ class VerifyandContinueViewController: UIViewController {
     }
 
     @IBAction func verifyButtonTapped(_ sender: UIButton) {
-        // Reload the current user session to ensure we have the latest email verification status
+        
         Auth.auth().currentUser?.reload(completion: { error in
             if let error = error {
                 print("Error reloading user session: \(error.localizedDescription)")

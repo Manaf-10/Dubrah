@@ -24,7 +24,6 @@ class CreateNewAccountViewController: UIViewController {
             return
         }
         
-        // Proceed to the next screen after email validation
         signUpWithEmail(email: email)
     }
     
@@ -40,31 +39,39 @@ class CreateNewAccountViewController: UIViewController {
                 return
             }
             
+            // Ensure email is successfully set before proceeding
+            guard let user = authResult?.user else {
+                self.showAlert(message: "User creation failed. Please try again.")
+                return
+            }
+            
             // Send email verification
-            authResult?.user.sendEmailVerification { error in
+            user.sendEmailVerification { error in
                 if let error = error {
                     self.showAlert(message: error.localizedDescription)
                     return
                 }
                 
-                // Save the user's email to Firestore
-                if let user = authResult?.user {
+                // Save email to Firestore
+                if let userEmail = user.email {
                     let db = Firestore.firestore()
                     let userRef = db.collection("user").document(user.uid)
                     
-                    // Save email in the 'user' collection under the user's UID
                     userRef.setData([
-                        "email": user.email ?? ""
+                        "email": userEmail
                     ], merge: true) { error in
                         if let error = error {
-                            print("Error saving email to Firestore: \(error)")
+                            self.showAlert(message: "Error saving email to Firestore: \(error.localizedDescription)")
+                            return
                         } else {
                             print("Email successfully saved to Firestore!")
                         }
                     }
+                } else {
+                    self.showAlert(message: "Email not available.")
                 }
                 
-                // Proceed to the next page
+                // Perform segue after email verification is sent
                 self.performSegue(withIdentifier: "GoToVerifyEmail", sender: nil)
             }
         }

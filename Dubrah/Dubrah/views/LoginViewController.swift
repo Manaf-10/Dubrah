@@ -30,17 +30,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        // Try signing in with Firebase
+        
         Task {
             do {
-                // Attempt to sign in with the entered email and password
+                
                 try await AuthManager.shared.signIn(email: email, password: password)
                 
-                // If sign-in is successful, perform segue to Home page
+                
                 self.performSegue(withIdentifier: "goToHomePage", sender: nil)
                 
             } catch let error as NSError {
-                // Handle the error based on Firebase Auth errors
+                
                 switch error.code {
                 case AuthErrorCode.invalidEmail.rawValue:
                     self.showAlert(message: "The email address is invalid.")
@@ -61,11 +61,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         present(alert, animated: true)
     }
 
-    // Prepare for segue (optional, if passing data)
+   
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToHomePage" {
-            // Pass any necessary data to the home page view controller
-            // For example, you could pass the user info or set up UI elements
+            
         }
     }
 }
