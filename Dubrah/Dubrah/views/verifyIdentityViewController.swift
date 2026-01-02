@@ -64,25 +64,25 @@ class verifyIdentityViewController: UIViewController, UIImagePickerControllerDel
 
     func saveImageUrlsToFirestore(frontImageUrl: String, backImageUrl: String) {
         // Reference to 'ProviderDetails' collection
-        let userRef = Firestore.firestore().collection("ProviderDetails").document(Auth.auth().currentUser!.uid)
+        let providerDetailsRef = Firestore.firestore().collection("ProviderDetails")
         
-        // Data to save in Firestore
-        let userData: [String: Any] = [
+        // Generate a new document with auto-generated ID
+        let newProviderDetailsDocRef = providerDetailsRef.addDocument(data: [
+            "userId": Auth.auth().currentUser!.uid,  // Add the user ID as a field
             "frontImageUrl": frontImageUrl,
-            "backImageUrl": backImageUrl
-        ]
-        
-        // Use 'setData' to either create or update the document for the current user
-        userRef.setData(userData, merge: true) { error in
+            "backImageUrl": backImageUrl,
+            "timestamp": FieldValue.serverTimestamp() // Optional: You can add a timestamp field
+        ]) { error in
             if let error = error {
                 self.showAlert(message: "Failed to save image URLs: \(error.localizedDescription)")
             } else {
-                print("Image URLs saved successfully in ProviderDetails")
+                print("Image URLs saved successfully in ProviderDetails with auto-generated ID")
                 self.showAlert(message: "Identity verification completed successfully.")
                 self.performSegue(withIdentifier: "GoToTellUs", sender: nil)
             }
         }
     }
+
 
     func showAlert(message: String) {
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
