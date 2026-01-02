@@ -31,6 +31,9 @@ class EditBioViewController: UIViewController {
         bioTextView.layer.borderColor = UIColor.gray.cgColor
         bioTextView.layer.cornerRadius = 8
     }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
     
     // Fetch Bio from Firestore (from 'users' collection)
     func fetchUserBio(userID: String) {

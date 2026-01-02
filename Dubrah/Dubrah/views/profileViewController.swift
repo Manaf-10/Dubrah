@@ -21,9 +21,32 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     var userID: String? // To hold the user ID for fetching the data
     var services: [(title: String, imageURL: String)] = [] // Array to hold "What I Offer" data
-    
+    override func viewWillAppear(_ animated: Bool) {
+                super.viewWillAppear(animated)
+        Task {
+           
+                // Log in
+                if let user = AuthManager.shared.currentUser {
+                    fetchUserProfileData(userID: Auth.auth().currentUser?.uid ?? "")
+                    
+                }
+                
+        }
+        
+            }
     override func viewDidLoad() {
         super.viewDidLoad()
+        makeCircular(profileImageView)
+        Task {
+          
+                if let user = AuthManager.shared.currentUser {
+                    fetchUserProfileData(userID: Auth.auth().currentUser?.uid ?? "")
+                    
+                }
+            
+        }
+    
+       
 
         // Ensure the user is logged in and fetch their data
         guard let userID = Auth.auth().currentUser?.uid else {
@@ -38,6 +61,7 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
         whatIOfferCollectionView.delegate = self
         whatIOfferCollectionView.dataSource = self
     }
+    
     
     func fetchUserProfileData(userID: String) {
         // Reference to Firestore database
@@ -59,17 +83,28 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
                         self.fullNameLabel.isHidden = true // Hide label if no data
                     }
                     
-                    if let username = data?["username"] as? String {
+                    if let username = data?["userName"] as? String {
                         self.usernameLabel.text = username
                     } else {
                         self.usernameLabel.isHidden = true // Hide label if no data
                     }
                     
                     // Load profile image if available
-                    if let imageUrl = data?["profileImageUrl"] as? String, let url = URL(string: imageUrl) {
-                        self.loadImage(from: url)
+                    if let imageUrl = data?["profilePicture"] as? String, let url = URL(string: imageUrl) {
+                        // Using Task to fetch the image asynchronously
+                        Task {
+                            if let image = await ImageDownloader.fetchImage(from: imageUrl) {
+                                DispatchQueue.main.async {
+                                    self.profileImageView.image = image
+                                }
+                            } else {
+                                DispatchQueue.main.async {
+                                    self.profileImageView.image = UIImage(named: "Person") // Placeholder image if image fails to load
+                                }
+                            }
+                        }
                     } else {
-                        self.profileImageView.image = UIImage(named: "Person") // Placeholder image
+                        self.profileImageView.image = UIImage(named: "Person") // Placeholder image if no image URL
                     }
                     
                     // Bio, Skills, and Interests
@@ -79,14 +114,24 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
                         self.bioLabel.isHidden = true // Hide if no bio data
                     }
                     
-                    if let skills = data?["skills"] as? String, !skills.isEmpty {
-                        self.skillsLabel.text = skills
+                    // Skills: Check if skills are available and not empty
+                    if let skills = data?["skills"] as? [String], !skills.isEmpty {
+                        var allSkills = ""
+                        for skill in skills {
+                            allSkills += skill + ", "
+                        }
+                        self.skillsLabel.text = allSkills
                     } else {
                         self.skillsLabel.isHidden = true // Hide if no skills data
                     }
                     
-                    if let interests = data?["interests"] as? String, !interests.isEmpty {
-                        self.interestsLabel.text = interests
+                    // Interests: Check if interests are available and not empty
+                    if let interests = data?["interests"] as? [String], !interests.isEmpty {
+                        var allInterests = ""
+                        for interest in interests {
+                            allInterests += interest + ", "
+                        }
+                        self.interestsLabel.text = allInterests
                     } else {
                         self.interestsLabel.isHidden = true // Hide if no interests data
                     }
@@ -104,6 +149,17 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
             } else {
                 if let document = document, document.exists {
                     let data = document.data()
+                    
+                    // Skills: Check if skills data exists
+                    if let skills = data?["skills"] as? [String], !skills.isEmpty {
+                        var allSkills = ""
+                        for skill in skills {
+                            allSkills += skill + ", "
+                        }
+                        self.skillsLabel.text = allSkills
+                    } else {
+                        self.skillsLabel.isHidden = true // Hide if no skills data
+                    }
                     
                     // Check if rating data exists
                     if let rating = data?["rating"] as? Double {
@@ -137,7 +193,7 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
                     // Populate services array if data exists
                     if !whatIOffer.isEmpty {
                         self.services = whatIOffer.compactMap {
-                            guard let title = $0["title"], let imageURL = $0["imageURL"] else {
+                            guard let title = $0["title"], let imageURL = $0["image"] else {
                                 return nil
                             }
                             return (title, imageURL)
@@ -149,7 +205,9 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
                         }
                         
                         // Reload the collection view after fetching the data
-                        self.whatIOfferCollectionView.reloadData()
+                        DispatchQueue.main.async {
+                            self.whatIOfferCollectionView.reloadData()
+                        }
                     } else {
                         self.whatIOfferCollectionView.isHidden = true // Hide collection view if no data
                     }
@@ -160,20 +218,6 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
         }
     }
     
-    func loadImage(from url: URL) {
-        // Load the image asynchronously from the URL
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let data = data, error == nil {
-                DispatchQueue.main.async {
-                    // Update the image view on the main thread
-                    self.profileImageView.image = UIImage(data: data)
-                }
-            } else {
-                print("Error loading image: \(String(describing: error))")
-            }
-        }
-        task.resume()
-    }
     
     // MARK: - UICollectionView DataSource and Delegate Methods
     
@@ -190,6 +234,7 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
         cell.offersNamelbl.text = service.title
         
         // Download and display the image asynchronously
+        // Assuming you have an image downloading method for async image loading
         Task {
             if let image = await ImageDownloader.fetchImage(from: service.imageURL) {
                 DispatchQueue.main.async {

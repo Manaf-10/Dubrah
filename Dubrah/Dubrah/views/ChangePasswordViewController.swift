@@ -74,7 +74,7 @@ class ChangePasswordViewController: UIViewController {
                 if let error = error {
                     self.showAlert(message: "Error updating password: \(error.localizedDescription)")
                 } else {
-                    self.showAlert(message: "Password updated successfully!")
+                    self.performSegue(withIdentifier: "PasswordChanged", sender: nil )
                 }
             }
         }

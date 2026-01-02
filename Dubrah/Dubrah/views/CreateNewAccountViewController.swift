@@ -1,17 +1,12 @@
-//
-//  CreateNewAccountViewController.swift
-//  Dubrah
-//
-//  Created by user282253 on 12/25/25.
-//
-
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 class CreateNewAccountViewController: UIViewController {
 
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var Continuebtn: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -19,9 +14,10 @@ class CreateNewAccountViewController: UIViewController {
         Continuebtn.clipsToBounds = true
     }
  
-override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    self.view.endEditing(true)
-}
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     @IBAction func continueButtonTapped(_ sender: UIButton) {
         guard let email = emailTextField.text, isValidEmail(email) else {
             showAlert(message: "Invalid email format")
@@ -50,12 +46,29 @@ override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
                     self.showAlert(message: error.localizedDescription)
                     return
                 }
+                
+                // Save the user's email to Firestore
+                if let user = authResult?.user {
+                    let db = Firestore.firestore()
+                    let userRef = db.collection("user").document(user.uid)
+                    
+                    // Save email in the 'user' collection under the user's UID
+                    userRef.setData([
+                        "email": user.email ?? ""
+                    ], merge: true) { error in
+                        if let error = error {
+                            print("Error saving email to Firestore: \(error)")
+                        } else {
+                            print("Email successfully saved to Firestore!")
+                        }
+                    }
+                }
+                
                 // Proceed to the next page
                 self.performSegue(withIdentifier: "GoToVerifyEmail", sender: nil)
             }
         }
     }
-    
     
     func showAlert(message: String) {
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
