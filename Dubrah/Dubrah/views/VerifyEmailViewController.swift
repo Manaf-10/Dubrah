@@ -29,13 +29,13 @@ class VerifyEmailViewController: UIViewController, UITextFieldDelegate {
 
     
     @IBAction func alreadyVerifiedTapped(_ sender: UIButton) {
-            // Check if the email is verified
+            
             if let user = Auth.auth().currentUser, user.isEmailVerified {
-                // If email is verified, navigate to the Password Reset page
+                
                 self.performSegue(withIdentifier: "CreateNewPassword", sender: self)
               
             } else {
-                // Show error if the email is not verified
+               
                 showAlert(message: "Your email is not verified yet. Please check your email for the verification link.")
             }
         }

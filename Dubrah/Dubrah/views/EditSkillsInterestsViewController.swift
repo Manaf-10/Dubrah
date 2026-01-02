@@ -44,7 +44,7 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
         fetchUserData()
     }
     
-    // Fetch Skills and Interests Data for Picker (example data, you can modify this)
+    // Fetch Skills and Interests Data for Picker (example data, you can fetch this from Firestore if necessary)
     func fetchPickerData() {
         // Example data (you can fetch this from Firestore if necessary)
         pickerData = ["Design", "Photography", "Tutoring", "Programming", "Marketing", "Writing"]
@@ -120,11 +120,13 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
                 selectedSkills.append(selectedItem)
             }
             skillsTextField.text = selectedSkills.joined(separator: ", ")
+            print("Selected Skills: \(selectedSkills)") // Debugging: Print skills selection
         } else if interestsTextField.isFirstResponder {
             if !selectedInterests.contains(selectedItem) {
                 selectedInterests.append(selectedItem)
             }
             interestsTextField.text = selectedInterests.joined(separator: ", ")
+            print("Selected Interests: \(selectedInterests)") // Debugging: Print interests selection
         }
     }
     
@@ -135,6 +137,10 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
             showError(message: "Please enter at least one skill or interest.")
             return
         }
+        
+        // Debugging: Print values before saving
+        print("Skills TextField: \(skillsTextField.text ?? "")")
+        print("Interests TextField: \(interestsTextField.text ?? "")")
         
         // Validate and update Firestore
         updateUserSkillsAndInterests()
@@ -147,33 +153,29 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
         self.present(alert, animated: true, completion: nil)
     }
     
-    // Update Skills and Interests in Firestore
     func updateUserSkillsAndInterests() {
         guard let userID = userID else { return }
-        
+
+        // Prepare skills and interests arrays for Firestore
         var updatedSkills = skillsTextField.text?.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) } ?? []
         var updatedInterests = interestsTextField.text?.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) } ?? []
         
-        // If user is not a provider, do not update skills
-        if !isUserProvider() {
-            updatedSkills = [] // Skip saving skills if the user is not a provider
-        }
-        
-        // Update skills and interests in the respective collections
-        if isUserProvider() {
-            // Update skills in 'ProviderDetails' collection
-            let providerDetailsRef = db.collection("ProviderDetails").document(userID)
-            providerDetailsRef.updateData([
-                "skills": updatedSkills
-            ]) { error in
-                if let error = error {
-                    print("Error updating skills: \(error.localizedDescription)")
-                } else {
-                    print("Skills successfully updated.")
-                }
+        // Debugging: Print arrays before saving
+        print("Updated Skills: \(updatedSkills)")
+        print("Updated Interests: \(updatedInterests)")
+
+        // Update skills in 'ProviderDetails' collection (no role check needed for skills update)
+        let providerDetailsRef = db.collection("ProviderDetails").document(userID)
+        providerDetailsRef.updateData([
+            "skills": updatedSkills
+        ]) { error in
+            if let error = error {
+                print("Error updating skills: \(error.localizedDescription)")
+            } else {
+                print("Skills successfully updated.")
             }
         }
-        
+
         // Update interests in 'users' collection
         let userRef = db.collection("user").document(userID)
         userRef.updateData([
@@ -187,15 +189,16 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
             }
         }
     }
+
     
     // Check if user is a provider
     func isUserProvider() -> Bool {
         // Fetch user role from Firestore (this is an example, you need to check if the user is a provider)
         // Assuming you have a 'role' field in your Firestore 'users' document:
         
+        var isProvider = false
         let userRef = db.collection("user").document(userID!)
         
-        var isProvider = false
         userRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()

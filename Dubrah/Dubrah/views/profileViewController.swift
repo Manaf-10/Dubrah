@@ -54,7 +54,7 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
             return
         }
         
-        self.userID = userID
+        self.userID = "QWl8F4eruihe3HtmIaZuHs07EbS2"
         fetchUserProfileData(userID: userID)
         
         // Set up collection view
@@ -114,16 +114,7 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
                         self.bioLabel.isHidden = true // Hide if no bio data
                     }
                     
-                    // Skills: Check if skills are available and not empty
-                    if let skills = data?["skills"] as? [String], !skills.isEmpty {
-                        var allSkills = ""
-                        for skill in skills {
-                            allSkills += skill + ", "
-                        }
-                        self.skillsLabel.text = allSkills
-                    } else {
-                        self.skillsLabel.isHidden = true // Hide if no skills data
-                    }
+                    
                     
                     // Interests: Check if interests are available and not empty
                     if let interests = data?["interests"] as? [String], !interests.isEmpty {
@@ -162,7 +153,7 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
                     }
                     
                     // Check if rating data exists
-                    if let rating = data?["rating"] as? Double {
+                    if let rating = data?["averageRating"] as? Double {
                         self.ratingLabel.text = "Rating: \(rating)"
                     } else {
                         self.ratingLabel.isHidden = true // Hide label if no data

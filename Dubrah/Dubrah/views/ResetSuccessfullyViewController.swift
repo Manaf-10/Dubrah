@@ -19,10 +19,14 @@ class ResetSuccessfullyViewController: UIViewController {
     }
     
     @IBAction func backBtnTapped(_ sender: Any) {
-        // Navigate back to the sign-in screen
-                self.performSegue(withIdentifier: "LoginViewController", sender: self)
+        
+        if let navigationController = self.navigationController {
+            // Check if there are enough view controllers to pop
+            if navigationController.viewControllers.count > 5 {
+                // Pop to the previous view controller (or target view controller)
+                let targetViewController = navigationController.viewControllers[navigationController.viewControllers.count - 5]
+                navigationController.popToViewController(targetViewController, animated: true)
+            }
+        }
     }
-    
-    
-
 }
