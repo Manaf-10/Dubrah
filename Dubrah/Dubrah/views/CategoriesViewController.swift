@@ -62,7 +62,7 @@ class CategoriesViewController: BaseViewController,UICollectionViewDataSource,UI
             ? filteredCategories[indexPath.item]
             : categories[indexPath.item]
 
-        cell.iconLabel.text = item.title
+        cell.categoryTitleLabel.text = item.title
         cell.delegate = self
         cell.categoryID = item.id
         return cell

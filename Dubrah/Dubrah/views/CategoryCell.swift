@@ -9,6 +9,7 @@ import UIKit
 
 class CategoryCell: UICollectionViewCell {
 
+    @IBOutlet weak var categoryTitleLabel: UILabel!
     @IBOutlet weak var iconLabel: UILabel!
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
@@ -19,7 +20,7 @@ class CategoryCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        setupStyle()
+//        setupStyle()
     }
 
     private func setupStyle() {
