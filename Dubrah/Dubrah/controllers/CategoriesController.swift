@@ -9,15 +9,15 @@ import Firebase
 
 class CategoriesController{
     static let shared = CategoriesController()
-
+    private let db = Firestore.firestore()  // Add this line
     
     func addCategory(name: String) async throws{
-    try await Firestore.firestore().collection("Category").addDocument(data: ["name": name])
+        try await db.collection("Category").addDocument(data: ["name": name])
     }
     
     func getAllCategories() async throws -> [Category] {
         
-        let querySnapshot = try await db.collection("categories").getDocuments()
+        let querySnapshot = try await db.collection("Category").getDocuments()
         
         let fetchedCategories = querySnapshot.documents.compactMap { document -> Category? in
             let data = document.data()
