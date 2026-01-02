@@ -77,7 +77,7 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         nameLabel.attributedText = attributedText
         tableView.keyboardDismissMode = .interactive
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
-        tap.cancelsTouchesInView = false // This ensures the table cells still work
+        tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
 
