@@ -314,6 +314,7 @@
                         <outlet property="providerReviewsLabel" destination="ScW-vS-SSH" id="8hd-iU-pBL"/>
                         <outlet property="ratingLabel" destination="pFl-k5-GHi" id="hU2-xQ-WQB"/>
                         <outlet property="skillsLabel" destination="W4r-bF-olZ" id="VFM-hp-mM9"/>
+                        <outlet property="totalReviewsLbl" destination="Ce2-RD-dCe" id="n5b-RH-RC2"/>
                         <outlet property="usernameLabel" destination="UOF-Xn-zmz" id="Urf-mR-AtP"/>
                         <outlet property="whatIOfferCollectionView" destination="MsG-17-hI3" id="Qe6-Op-xqr"/>
                     </connections>

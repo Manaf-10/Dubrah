@@ -5,7 +5,6 @@ import FirebaseAuth
 
 class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    
     @IBOutlet weak var skillsTextField: UITextField!
     @IBOutlet weak var interestsTextField: UITextField!
     @IBOutlet weak var saveButton: UIButton!
@@ -15,15 +14,15 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
     var interests: [String] = []
     
     var pickerView: UIPickerView!
-    var pickerData: [String] = []
-    var selectedSkills: [String] = []
-    var selectedInterests: [String] = []
+    var skillsPickerData: [String] = []
+    var interestsPickerData: [String] = []
+    var selectedSkills: [String] = []  // Keep track of selected skills
+    var selectedInterests: [String] = []  // Keep track of selected interests
     
     let db = Firestore.firestore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         guard let userID = Auth.auth().currentUser?.uid else {
             print("No user is logged in.")
@@ -41,7 +40,6 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
         skillsTextField.inputView = pickerView
         interestsTextField.inputView = pickerView
         
-        
         fetchPickerData()
         fetchUserData()
     }
@@ -51,8 +49,11 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
     }
     
     func fetchPickerData() {
-        // Example data (you can fetch this from Firestore if necessary)
-        pickerData = ["Design", "Photography", "Tutoring", "Programming", "Marketing", "Writing"]
+        // Skills Picker Data
+        skillsPickerData = ["UIDesign", "Graphics Design", "Logo Design", "Illustration", "Web Design", "Mobile App", "Back End", "Front End", "Photography", "Video Editing", "Tutoring"]
+        
+        // Interests Picker Data
+        interestsPickerData = ["Design", "Development", "Photography", "Tutoring"]
     }
     
     // Fetch the user data (Skills and Interests) from Firestore
@@ -70,10 +71,7 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
             
             if let document = document, document.exists {
                 let data = document.data()
-                
                 self.interests = data?["interests"] as? [String] ?? []
-                
-                // Display interests in the text field
                 self.interestsTextField.text = self.interests.joined(separator: ", ")
             } else {
                 print("User document does not exist")
@@ -91,14 +89,9 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
             }
             
             if let snapshot = snapshot, snapshot.documents.count > 0 {
-                // Get the first document since userId is unique in this case
                 let document = snapshot.documents[0]
                 let data = document.data()
-                
-                // Fetch and display skills
                 self.skills = data["skills"] as? [String] ?? []
-                
-                // Display skills in the text field
                 self.skillsTextField.text = self.skills.joined(separator: ", ")
             } else {
                 print("Provider details document not found for userId: \(userID)")
@@ -112,31 +105,38 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerData.count
+        if skillsTextField.isFirstResponder {
+            return skillsPickerData.count  // Skills picker
+        } else if interestsTextField.isFirstResponder {
+            return interestsPickerData.count  // Interests picker
+        }
+        return 0
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerData[row]
+        if skillsTextField.isFirstResponder {
+            return skillsPickerData[row]  // Skills picker
+        } else if interestsTextField.isFirstResponder {
+            return interestsPickerData[row]  // Interests picker
+        }
+        return nil
     }
     
     // When the user selects a row
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        // Add selected skill or interest
-        let selectedItem = pickerData[row]
-        
-        // Determine which text field was tapped (skills or interests)
+        let selectedItem: String
         if skillsTextField.isFirstResponder {
-            if !selectedSkills.contains(selectedItem) {
+            selectedItem = skillsPickerData[row]
+            if selectedSkills.count < 4, !selectedSkills.contains(selectedItem) {  // Max of 4 selections
                 selectedSkills.append(selectedItem)
             }
             skillsTextField.text = selectedSkills.joined(separator: ", ")
-            print("Selected Skills: \(selectedSkills)") // Debugging: Print skills selection
         } else if interestsTextField.isFirstResponder {
-            if !selectedInterests.contains(selectedItem) {
+            selectedItem = interestsPickerData[row]
+            if selectedInterests.count < 4, !selectedInterests.contains(selectedItem) {  // Max of 4 selections
                 selectedInterests.append(selectedItem)
             }
             interestsTextField.text = selectedInterests.joined(separator: ", ")
-            print("Selected Interests: \(selectedInterests)") // Debugging: Print interests selection
         }
     }
     
@@ -148,11 +148,6 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
             return
         }
         
-        // Debugging: Print values before saving
-        print("Skills TextField: \(skillsTextField.text ?? "")")
-        print("Interests TextField: \(interestsTextField.text ?? "")")
-        
-        // Validate and update Firestore
         updateUserSkillsAndInterests()
     }
     
@@ -167,13 +162,9 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
         guard let userID = userID else { return }
 
         // Prepare skills and interests arrays for Firestore
-        var updatedSkills = skillsTextField.text?.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) } ?? []
-        var updatedInterests = interestsTextField.text?.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) } ?? []
+        var updatedSkills = selectedSkills
+        var updatedInterests = selectedInterests
         
-        // Debugging: Print arrays before saving
-        print("Updated Skills: \(updatedSkills)")
-        print("Updated Interests: \(updatedInterests)")
-
         // Update skills in 'ProviderDetails' collection
         let providerDetailsRef = db.collection("ProviderDetails")
         let query = providerDetailsRef.whereField("userId", isEqualTo: userID)

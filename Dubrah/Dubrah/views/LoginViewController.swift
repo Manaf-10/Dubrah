@@ -3,7 +3,7 @@ import FirebaseAuth
 import FirebaseFirestore
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
-   
+    
     @IBOutlet weak var emailTextFeild: UITextField!
     @IBOutlet weak var SigninBtn: UIButton!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -15,7 +15,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         SigninBtn.layer.cornerRadius = 12.0
         SigninBtn.clipsToBounds = true
     }
-
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -31,6 +31,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
+        print("Attempting to sign in with email: \(email)")  // Debug log
+        
         Task {
             do {
                 // Sign in using Firebase Authentication
@@ -38,8 +40,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 
                 // Fetch the current user
                 if let user = Auth.auth().currentUser {
-                    // Check user role from Firestore
+                    print("User authenticated: \(user.email ?? "No email")")  // Debug log
+                    
+                    // Allow access if the user exists in Firebase Authentication
                     checkUserRole(userId: user.uid)
+                } else {
+                    print("Authentication failed or no user found.")  // Debug log
+                    showAlert(message: "Authentication failed. Please check your credentials.")
                 }
                 
             } catch let error as NSError {
@@ -59,33 +66,28 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
 
     func checkUserRole(userId: String) {
-        // Fetch the user's role from Firestore
         let db = Firestore.firestore()
-        db.collection("users").document(userId).getDocument { [weak self] document, error in
+        db.collection("user").document(userId).getDocument { [weak self] document, error in
             if let error = error {
                 print("Error fetching user role: \(error.localizedDescription)")
-                self?.showAlert(message: "Error fetching user role.")
+                self?.showAlert(message: "Error fetching user role. Please try again later.")
                 return
             }
             
             guard let document = document, document.exists else {
-                print("No user document found.")
-                self?.showAlert(message: "User not found.")
+                print("No user document found in Firestore for UID: \(userId)")  // Debug log
+                self?.showAlert(message: "No account found with this email.")
                 return
             }
             
-            // Assuming role is stored in the document as 'role'
             if let role = document.data()?["role"] as? String {
-                // Check if the user is an admin
                 if role == "admin" {
-                    // Navigate to Admin Dashboard
                     self?.performSegue(withIdentifier: "goToAdminDashboard", sender: nil)
                 } else {
-                    // Navigate to regular home page
                     self?.performSegue(withIdentifier: "goToHomePage", sender: nil)
                 }
             } else {
-                self?.showAlert(message: "Role not found for user.")
+                self?.showAlert(message: "User role not found or is invalid.")
             }
         }
     }
@@ -94,13 +96,5 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "goToHomePage" {
-            // Handle the navigation to the regular home page
-        } else if segue.identifier == "goToAdminDashboard" {
-            // Handle the navigation to the admin dashboard
-        }
     }
 }
