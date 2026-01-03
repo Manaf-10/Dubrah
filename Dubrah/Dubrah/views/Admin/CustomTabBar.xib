@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CustomTabBar" customModule="Dubrah" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="7ec-PG-gix">
+                    <rect key="frame" x="15" y="692" width="363" height="92"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="Home" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CzK-3X-d7T" userLabel="0">
+                            <rect key="frame" x="0.0" y="0.0" width="65" height="92"/>
+                            <accessibility key="accessibilityConfiguration" identifier="0" label="0"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="Home-Inactive" imagePlacement="top" title="Home" imagePadding="7">
+                                <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="11"/>
+                                <color key="baseForegroundColor" red="0.53725490200000003" green="0.53725490200000003" blue="0.53725490200000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </buttonConfiguration>
+                            <attributedString key="userComments">
+                                <fragment content="0"/>
+                            </attributedString>
+                            <connections>
+                                <action selector="tabTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="LpY-3X-aJs"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="1" contentMode="scaleToFill" restorationIdentifier="Users" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u9n-98-h1F">
+                            <rect key="frame" x="65" y="0.0" width="65" height="92"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="Users-Inactive" imagePlacement="top" title="Users" imagePadding="7">
+                                <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="11"/>
+                                <color key="baseForegroundColor" red="0.53725490200000003" green="0.53725490200000003" blue="0.53725490200000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="tabTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="6Jn-69-T0l"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="2" contentMode="scaleToFill" restorationIdentifier="Requests" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gSJ-VA-7yU">
+                            <rect key="frame" x="130" y="0.0" width="86.666666666666686" height="92"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="Requests-Inactive" imagePlacement="top" title="Requests" imagePadding="7">
+                                <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="11"/>
+                                <color key="baseForegroundColor" red="0.53725490200000003" green="0.53725490200000003" blue="0.53725490200000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="tabTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="X8w-3I-ZXn"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="3" contentMode="scaleToFill" restorationIdentifier="Reports" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0JF-JG-B3J">
+                            <rect key="frame" x="216.66666666666666" y="0.0" width="77.333333333333343" height="92"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="Reports-Inactive" imagePlacement="top" title="Reports" imagePadding="7">
+                                <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="11"/>
+                                <color key="baseForegroundColor" red="0.53725490200000003" green="0.53725490200000003" blue="0.53725490200000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="tabTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="4OU-nN-dF7"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="4" contentMode="scaleToFill" restorationIdentifier="Profile" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BSh-A6-H0g">
+                            <rect key="frame" x="294" y="0.0" width="69" height="92"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="Profile-Inactive" imagePlacement="top" title="Profile" imagePadding="7">
+                                <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="11"/>
+                                <color key="baseForegroundColor" red="0.53725490200000003" green="0.53725490200000003" blue="0.53725490200000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="tabTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="eVE-gG-CsE"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="92.159999999999997" id="W0Q-xT-OHx"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="31"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="7ec-PG-gix" secondAttribute="bottom" id="Kts-Do-Rv1"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="7ec-PG-gix" secondAttribute="trailing" constant="15" id="daK-Uv-jPV"/>
+                <constraint firstItem="7ec-PG-gix" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="nrm-Km-mMN"/>
+            </constraints>
+            <connections>
+                <outletCollection property="buttons" destination="CzK-3X-d7T" collectionClass="NSMutableArray" id="nTn-PG-f5L"/>
+                <outletCollection property="buttons" destination="u9n-98-h1F" collectionClass="NSMutableArray" id="Lw0-x9-Ezk"/>
+                <outletCollection property="buttons" destination="gSJ-VA-7yU" collectionClass="NSMutableArray" id="JRr-F6-SPT"/>
+                <outletCollection property="buttons" destination="0JF-JG-B3J" collectionClass="NSMutableArray" id="xUi-D5-9H4"/>
+                <outletCollection property="buttons" destination="BSh-A6-H0g" collectionClass="NSMutableArray" id="qYb-d0-kvg"/>
+            </connections>
+            <point key="canvasLocation" x="-18" y="-5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Home-Inactive" width="26" height="27"/>
+        <image name="Profile-Inactive" width="27" height="27"/>
+        <image name="Reports-Inactive" width="28" height="27"/>
+        <image name="Requests-Inactive" width="27" height="27"/>
+        <image name="Users-Inactive" width="31.666666030883789" height="27"/>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
