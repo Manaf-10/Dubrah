@@ -11,7 +11,7 @@ import Firebase
 
 class ServiceDetailsViewController: UIViewController {
 
-    var serviceId: String! 
+    var serviceId: String? = "jXhYcY9MOD1mgF1OV3Rl"
     private var service: Service?
     private var providerRating: Double = 0
     
@@ -60,6 +60,11 @@ class ServiceDetailsViewController: UIViewController {
         }
 
     private func fetchService() {
+        guard let serviceId = serviceId else {
+            print("❌ ServiceDetailsVC: serviceId is nil")
+            return
+        }
+
         Task {
             do {
                 guard let service = try await ServiceController.shared
@@ -87,7 +92,6 @@ class ServiceDetailsViewController: UIViewController {
             }
         }
     }
-
 
         // MARK: - Update UI
         private func updateUI() {

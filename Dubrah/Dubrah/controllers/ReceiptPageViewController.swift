@@ -30,7 +30,7 @@ class ReceiptPageViewController: UIViewController {
     @IBOutlet weak var doneButton: UIButton!
     
     private var orderCreated = false
-    var providerId: String!   // 🔥 MUST be passed from previous screen
+    var providerId: String!
 
     
     // MARK: - Lifecycle
@@ -49,7 +49,7 @@ class ReceiptPageViewController: UIViewController {
         guard !orderCreated else { return }
         orderCreated = true
 
-        print("🟢 Receipt appeared, creating order...")
+        print("Receipt appeared, creating order...")
 
         Task {
             await createOrderIfNeeded()
@@ -59,12 +59,12 @@ class ReceiptPageViewController: UIViewController {
     private func createOrderIfNeeded() async {
         do {
             guard let userId = Auth.auth().currentUser?.uid else {
-                print("❌ No logged-in user")
+                print("No logged-in user")
                 return
             }
             
             guard let providerId = providerId else {
-                print("❌ providerId is nil")
+                print("providerId is nil")
                 return
             }
             
@@ -88,10 +88,10 @@ class ReceiptPageViewController: UIViewController {
 
 
             let orderId = try await OrderController.shared.addOrder(data: orderData)
-            print("✅ Order CREATED:", orderId)
+            print("Order CREATED:", orderId)
 
         } catch {
-            print("❌ Firestore write failed:", error.localizedDescription)
+            print("Firestore write failed:", error.localizedDescription)
         }
     }
 

@@ -12,7 +12,7 @@ import FirebaseAuth
 class ProviderRatingViewController: UIViewController, UITextViewDelegate {
     
     var order: Order!
-    var serviceReview: Review!   // ✅ from ServiceRatingViewController
+    var serviceReview: Review!
     var userId = Auth.auth().currentUser?.uid
     
     private var selectedRating = 0
@@ -127,19 +127,19 @@ class ProviderRatingViewController: UIViewController, UITextViewDelegate {
 
         Task {
             do {
-                // 1️⃣ Add SERVICE review
+                
                 try await ServiceController.shared.addReview(
-                    serviceId: order.serviceID,   // 🔥 MUST exist in Order
+                    serviceId: order.serviceID,
                     review: serviceReviewData
                 )
 
-                // 2️⃣ Add PROVIDER review
+                
                 try await ServiceController.shared.addProviderReview(
                     userId: order.providerID,
                     review: providerReviewData
                 )
 
-                // 3️⃣ Update ORDER document
+                
                 try await db.collection("orders")
                     .document(order.id)
                     .updateData([
@@ -153,7 +153,7 @@ class ProviderRatingViewController: UIViewController, UITextViewDelegate {
                 self.navigateToSuccess()
 
             } catch {
-                print("❌ Review submission failed:", error.localizedDescription)
+                print("Review submission failed:", error.localizedDescription)
             }
         }
      }
@@ -181,7 +181,6 @@ class ProviderRatingViewController: UIViewController, UITextViewDelegate {
              present(alert, animated: true)
     }
 
-    // MARK: - Provider Image
         private func fetchProviderImage() {
             Firestore.firestore()
                 .collection("user")
@@ -189,7 +188,7 @@ class ProviderRatingViewController: UIViewController, UITextViewDelegate {
                 .getDocument { snapshot, error in
 
                     if let error = error {
-                        print("❌ Failed to fetch provider image:", error.localizedDescription)
+                        print("Failed to fetch provider image:", error.localizedDescription)
                         self.providerImageView.image = UIImage(systemName: "person.crop.circle")
                         return
                     }

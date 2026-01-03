@@ -44,10 +44,10 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
                        self.tableView.reloadData()
                    }
 
-                   print("✅ Orders loaded:", fetchedOrders.count)
+                   print("Orders loaded:", fetchedOrders.count)
 
                } catch {
-                   print("❌ Failed to fetch orders:", error.localizedDescription)
+                   print("Failed to fetch orders:", error.localizedDescription)
                }
            }
        }
@@ -89,7 +89,6 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
-        // ✅ Order Details
         if segue.identifier == "toOrderDetails",
            let order = sender as? Order,
            let vc = segue.destination as? OrderDetailsViewController {
@@ -98,7 +97,6 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
             return
         }
 
-        // ✅ Rating Screen
         if segue.identifier == "toServiceReview",
            let order = sender as? Order,
            let vc = segue.destination as? ServiceRatingViewController {
