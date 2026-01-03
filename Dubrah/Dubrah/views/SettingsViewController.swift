@@ -118,17 +118,7 @@ class SettingsViewController: UIViewController {
     
     // Navigate to the login screen
     func navigateToLoginScreen() {
-        // Instantiate the navigation controller from the storyboard
-        let navigationController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginNavigationController") as! UINavigationController
-        
-        // Instantiate the login view controller
-        let loginViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginViewController")
-        
-        // Push the login view controller onto the navigation stack
-        navigationController.pushViewController(loginViewController, animated: true)
-        
-        // Present the navigation controller
-        self.present(navigationController, animated: true, completion: nil)
+        self.performSegue(withIdentifier: "GoToLogInPage", sender: nil)
     }
 }
 

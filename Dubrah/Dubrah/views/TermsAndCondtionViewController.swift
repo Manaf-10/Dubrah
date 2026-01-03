@@ -1,19 +1,19 @@
 //
-//  PrivacyViewController.swift
+//  TermsAndCondtionViewController.swift
 //  Dubrah
 //
-//  Created by user282253 on 12/22/25.
+//  Created by user287722 on 1/3/26.
 //
 
 import UIKit
 
-class PrivacyViewController: UIViewController {
+class TermsAndCondtionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let titleLbl = UILabel()
-        titleLbl.text = "Privacy Policy"
+        titleLbl.text = "Terms & Conditions"
         titleLbl.font = UIFont.boldSystemFont(ofSize: 24)
         titleLbl.textAlignment = .center
         titleLbl.translatesAutoresizingMaskIntoConstraints = false
@@ -42,40 +42,39 @@ class PrivacyViewController: UIViewController {
         PrivacyTextView.font = UIFont.systemFont(ofSize: 16)
         PrivacyTextView.text = """
 
-We value your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and protect the data you provide while using our app.
-        
-1. Information We Collect
-- We collect only the information necessary to provide and improve our services:
-- Personal Information: Name, email address, date of birth, and profile photo.
-- Service Data: Bookings, reviews, and transaction details.
-- Device Data: App usage data, IP address, and device information for analytics and security.
+Welcome to Dubrah App. By creating an account or using our platform, you agree to these Terms and Conditions. Please read them carefully before proceeding.
 
-2. How We Use Your Information
-- Your information helps us to:
-- Create and manage your account.
-- Process bookings and payments.
-- Communicate important updates and notifications.
-- Personalize your experience within the app.
-- Improve app performance   
+1. General Overview
+This app connects users with service providers for various creative and professional needs. By using the app, you agree to comply with these terms and any applicable laws and regulations.
 
-3. Data Security
-- We use encryption and secure storage methods to protect your data.
-- Access to personal information is restricted to authorized personnel only.
+2. Account Regestration
+- You must provide accurate and complete information during registration.
+- You are responsible for maintaining the confidentiality of your account credentials.
+- The app team reserves the right to suspend or delete accounts that violate the rules or misuse the platform. 
 
-4. Sharing of Information   
-- We use encryption and secure storage methods to protect your data.
-- Access to personal information is restricted to authorized personnel only.
+3. Use of Services
+- Users can browse, book, and rate services from registered providers.
+- Service providers are responsible for the accuracy and quality of the services they list.
+- All communication and transactions must be conducted through the app.
 
-5. Your Rights
-- Access and review your stored data.
-- Request correction or deletion of your information.
+4. Payment   
+- Payments must be completed securely through the supported methods within the app.
+- The app does not store or share your financial information.
 
-6. Third-Party Services
-- Some services (like payments or login options) may link to third-party platforms.
-- We are not responsible for the privacy practices of these external sites or providers.
+5. Reviews and Ratings
+- Users can leave honest feedback after using a service.
+- Offensive, false, or spam reviews are prohibited and may lead to account action.
 
-7. Updates to This Policy
-We may update this Privacy Policy occasionally to reflect changes in our practices.
+6. Content Ownership
+- Users retain ownership of content they upload (such as profile images or portfolio samples).
+
+7. Privacy and Data
+- The app collects minimal personal information for identification and communication purposes.
+- We do not share personal data with third parties without consent.
+- Refer to our Privacy Policy for full details.
+
+8. Updates to Terms
+These terms may be updated from time to time. Continued use of the app after changes means you accept the updated version.
 """
         
         PrivacyTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -89,8 +88,5 @@ We may update this Privacy Policy occasionally to reflect changes in our practic
             PrivacyTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
-
-
 
 }
