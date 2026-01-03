@@ -9,15 +9,18 @@ import UIKit
 
 class CategoryCell: UICollectionViewCell {
 
+    @IBOutlet weak var categoryTitleLabel: UILabel!
     @IBOutlet weak var iconLabel: UILabel!
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
+    
+    var categoryID : String?
 
     weak var delegate: CategoryCellDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        setupStyle()
+//        setupStyle()
     }
 
     private func setupStyle() {
@@ -27,15 +30,6 @@ class CategoryCell: UICollectionViewCell {
 
         iconLabel.textAlignment = .center
         iconLabel.numberOfLines = 1
-    }
-
-    func configure(with systemImageName: String) {
-        let attachment = NSTextAttachment()
-        attachment.image = UIImage(systemName: "folder")
-        attachment.bounds = CGRect(x: 0, y: -4, width: 60, height: 55)
-
-        iconLabel.attributedText =
-            NSMutableAttributedString(attachment: attachment)
     }
 
     @IBAction func editButtonTapped(_ sender: UIButton) {

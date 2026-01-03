@@ -22,7 +22,8 @@ class CategoriesController{
         let fetchedCategories = querySnapshot.documents.compactMap { document -> Category? in
             let data = document.data()
             let name = data["name"] as? String ?? ""
-            return Category(title: name)
+            let id = document.documentID
+            return Category(id: id, title: name)
         }
         
         return fetchedCategories
@@ -35,5 +36,13 @@ class CategoriesController{
         try await docRef.updateData([
                 "name": newName
             ])
+    }
+    
+    func deleteCategory(id : String)async throws{
+        
+        let docRef = db.collection( "Category" ).document( id )
+        
+        try await docRef.delete()
+        
     }
 }

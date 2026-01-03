@@ -7,15 +7,13 @@
 
 
 struct Category: Identifiable{
-    var id: String?
+    let id: String
     let title: String
     
     var firestoreData: [String: Any] {
         return [
             "title": title,
-            "id": id ?? "placeholder"
+            "id": id
         ]
     }
 }
-
-var categories: [Category] = []

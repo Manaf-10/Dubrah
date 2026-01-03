@@ -33,13 +33,12 @@ class NewMessageTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        
     }
     
     func setupCell(isComing: Bool) {
         if isComing {
-            
             leadingConstraint?.isActive = true
+            trailingConstraint?.isActive = false
             bubbleView.backgroundColor = UIColor(hex: "#E9E9EB")
             messageLabel.textColor = .black
         } else {

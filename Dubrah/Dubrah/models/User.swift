@@ -15,9 +15,7 @@ struct User: Identifiable {
         let role: String
         let isVerified: Bool
         let createdAt: Date
-        let profilePicture: String
-        let notifications: Array<Notification>?
-        
+        let profilePicture: String    
     var firestoreData: [String: Any] {
         return [
             "email": email,

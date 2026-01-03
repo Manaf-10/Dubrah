@@ -6,6 +6,7 @@
 	<string>photo library</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera Permission</string>
+	<string>We need access to your photo library to upload your profile picture.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -20,7 +21,7 @@
 					<key>UISceneDelegateClassName</key>
 					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
 					<key>UISceneStoryboardFile</key>
-					<string>Main</string>
+					<string>Registration</string>
 				</dict>
 			</array>
 		</dict>
