@@ -9,8 +9,8 @@ import UIKit
 
 class DateCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var dayLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var dayLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -19,30 +19,21 @@ class DateCollectionViewCell: UICollectionViewCell {
         containerView.layer.borderColor = UIColor.systemGray4.cgColor
     }
     
-    func configure(day: String, date: String, isSelected: Bool, isAvailable: Bool) {
-        
+    func configure(day: String, date: String, isSelected: Bool) {
         dayLabel.text = day
         dateLabel.text = date
-        
-        if !isAvailable {
-            containerView.backgroundColor = UIColor.systemGray5
-            containerView.layer.borderColor = UIColor.systemGray4.cgColor
-            dayLabel.textColor = .systemGray
-            dateLabel.textColor = .systemGray
-            return
-        }
-        
-        dayLabel.textColor = .label
-        dateLabel.textColor = .label
-        
+
         if isSelected {
-            containerView.backgroundColor = UIColor.systemBlue
+            containerView.backgroundColor = .systemBlue
             containerView.layer.borderColor = UIColor.systemBlue.cgColor
             dayLabel.textColor = .white
             dateLabel.textColor = .white
         } else {
             containerView.backgroundColor = .clear
             containerView.layer.borderColor = UIColor.systemGray4.cgColor
+            dayLabel.textColor = .label
+            dateLabel.textColor = .label
         }
     }
+
 }

@@ -7,18 +7,22 @@
 
 import UIKit
 
-
-
-
 class PaymentViewController: UIViewController {
+    var serviceImageUrl: String?
+    var serviceTitleText: String!
+    var providerNameAttributed: NSAttributedString!
+    var priceText: String?
+    var durationText: String?              // passed through only
+    var serviceImage: UIImage?
+    var providerImage: UIImage?
+    var serviceId: String?
+    var availablePaymentMethods: [String] = []
+    var providerId: String?
+    private var selectedPayment: RadiobuttonView?
 
-    
-       @IBOutlet weak var paymentCardView: UIView!
        @IBOutlet weak var paymentImageView: UIImageView!
        @IBOutlet weak var paymentTitleLabel: UILabel!
        @IBOutlet weak var paymentProviderLabel: UILabel!
-       @IBOutlet weak var paymentDateLabel: UILabel!
-       @IBOutlet weak var paymentTimeLabel: UILabel!
        @IBOutlet weak var creditOption: RadiobuttonView!
        @IBOutlet weak var applePayOption: RadiobuttonView!
        @IBOutlet weak var cashOption: RadiobuttonView!
@@ -26,82 +30,141 @@ class PaymentViewController: UIViewController {
     @IBOutlet weak var providerImageView: UIImageView!
     @IBOutlet weak var subtotalLabel: UILabel!
        @IBOutlet weak var proceedButton: UIButton!
-       var selectedPayment: RadiobuttonView?
-
+    
     override func viewDidLoad() {
-           super.viewDidLoad()
-        setupProceedButton()
-           paymentImageView.layer.cornerRadius = 12
-           paymentImageView.layer.masksToBounds = true
-           paymentImageView.layer.borderWidth = 1
-           paymentImageView.layer.borderColor = UIColor.systemGray4.cgColor
-
-           makeCircular(providerImageView)
-
-           creditOption.titleLabel.text = "Credit / Debit Card"
-           applePayOption.titleLabel.text = "Apple Pay"
-           cashOption.titleLabel.text = "Cash"
-
-       
-           creditOption.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectMethod)))
-           applePayOption.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectMethod)))
-           cashOption.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectMethod)))
-
-           
-           paymentCardView.layer.cornerRadius = 12
-           paymentCardView.layer.borderWidth = 1
-           paymentCardView.layer.borderColor = UIColor.systemGray4.cgColor
-           paymentCardView.layer.shadowOpacity = 0.08
-           paymentCardView.layer.shadowOffset = CGSize(width: 0, height: 3)
-           paymentCardView.layer.shadowRadius = 6
-       }
-    func setupProceedButton() {
-        proceedButton.layer.cornerRadius = 12
-           proceedButton.clipsToBounds = true
-           proceedButton.isEnabled = false
-           proceedButton.backgroundColor = .systemGray4
-           proceedButton.setTitleColor(.black, for: .disabled)
+        super.viewDidLoad()
+        bindData()
+        setupUI()
+        configureAvailablePaymentMethods()
     }
 
-    @objc func selectMethod(_ sender: UITapGestureRecognizer) {
+    // MARK: - Bind Passed Data
+    private func bindData() {
+        paymentTitleLabel.text = serviceTitleText
+        paymentProviderLabel.attributedText = providerNameAttributed
+        paymentImageView.image = serviceImage
+        providerImageView.image = providerImage
+        subtotalLabel.text = priceText
+    }
+
+    // MARK: - UI Setup
+    private func setupUI() {
+
+        // Proceed button
+        proceedButton.isEnabled = false
+        proceedButton.backgroundColor = .systemGray4
+        proceedButton.setTitleColor(.black, for: .disabled)
+        proceedButton.layer.cornerRadius = 12
+
+        // Images
+        paymentImageView.layer.cornerRadius = 12
+        paymentImageView.clipsToBounds = true
+        makeCircular(providerImageView)
+
+        // Titles
+        creditOption.titleLabel.text = "Credit/Debit Card"
+        applePayOption.titleLabel.text = "Apple Pay"
+        cashOption.titleLabel.text = "Cash"
+
+        // Gestures
+        creditOption.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectMethod)))
+        applePayOption.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectMethod)))
+        cashOption.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectMethod)))
+    }
+
+    // MARK: - Payment Methods (from DB)
+    private func configureAvailablePaymentMethods() {
+
+        // Hide all first
+        creditOption.isHidden = true
+        applePayOption.isHidden = true
+        cashOption.isHidden = true
+
+        for method in availablePaymentMethods {
+            switch method {
+            case "Cash":
+                cashOption.isHidden = false
+            case "Credit/Debit Card":
+                creditOption.isHidden = false
+            case "Apple Pay":
+                applePayOption.isHidden = false
+            default:
+                break
+            }
+        }
+    }
+
+    // MARK: - Selection
+    @objc private func selectMethod(_ sender: UITapGestureRecognizer) {
         guard let option = sender.view as? RadiobuttonView else { return }
 
-      
         selectedPayment?.isSelectedOption = false
-
- 
         option.isSelectedOption = true
         selectedPayment = option
-
 
         UIView.animate(withDuration: 0.25) {
             self.proceedButton.isEnabled = true
             self.proceedButton.backgroundColor = .black
             self.proceedButton.setTitleColor(.white, for: .normal)
         }
-
     }
 
+    // MARK: - Helpers
+    private func selectedPaymentMethod() -> String? {
+        if selectedPayment === cashOption { return "Cash" }
+        if selectedPayment === applePayOption { return "Apple Pay" }
+        if selectedPayment === creditOption { return "Credit/Debit Card" }
+        return nil
+    }
 
+    private func generateOrderDate() -> Date {
+        return Date()
+    }
 
     @IBAction func payNowTapped(_ sender: Any) {
-           performSegue(withIdentifier: "toReceiptPage", sender: self)
+        guard let method = selectedPaymentMethod() else { return }
+              let orderDate = generateOrderDate()
+
+              if method == "Credit/Debit Card" {
+                  performSegue(withIdentifier: "toPaymentGateway", sender: orderDate)
+              } else {
+                  performSegue(withIdentifier: "toReceiptPage", sender: orderDate)
+              }
        }
     
-    func makeCircular(_ imageView: UIImageView) {
-        imageView.layoutIfNeeded()
-        imageView.layer.cornerRadius = imageView.frame.size.width / 2
-        imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFill
-    }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
+           guard let orderDate = sender as? Date else { return }
+           let paymentMethod = selectedPaymentMethod() ?? ""
+
+           if segue.identifier == "toReceiptPage",
+              let destination = segue.destination as? ReceiptPageViewController {
+
+               destination.serviceTitle = serviceTitleText
+               destination.providerNameAttributed = providerNameAttributed
+               destination.serviceImage = serviceImage
+               destination.subtotalText = priceText
+               destination.serviceId = serviceId
+               destination.paymentMethod = paymentMethod
+               destination.orderDate = orderDate
+               destination.providerId = providerId
+               destination.serviceImageUrl = serviceImageUrl
+
+           }
+
+           if segue.identifier == "toPaymentGateway",
+              let destination = segue.destination as? CreditCardPaymentViewController {
+
+               destination.serviceTitle = serviceTitleText
+               destination.providerNameAttributed = providerNameAttributed
+               destination.serviceImage = serviceImage
+               destination.subtotalText = priceText
+               destination.serviceId = serviceId
+               destination.paymentMethod = paymentMethod
+               destination.orderDate = orderDate
+               destination.providerId = providerId
+               destination.serviceImageUrl = serviceImageUrl
+
+           }
+       }
 }
