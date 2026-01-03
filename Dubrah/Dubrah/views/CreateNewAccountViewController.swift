@@ -58,7 +58,10 @@ class CreateNewAccountViewController: UIViewController {
                     let userRef = db.collection("user").document(user.uid)
                     
                     userRef.setData([
-                        "email": userEmail
+                        "email": userEmail,
+                        "notifications": [],
+                        "orderHistory" : [],
+                        "status": ""
                     ], merge: true) { error in
                         if let error = error {
                             self.showAlert(message: "Error saving email to Firestore: \(error.localizedDescription)")

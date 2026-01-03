@@ -16,9 +16,6 @@ class HomeViewController: BaseViewController {
 
         Task {
             do {
-                // Log in
-                try await AuthManager.shared.signIn(email: "test@gmail.com", password: "123456")
-                
                 if let user = AuthManager.shared.currentUser {
                     try await setUpStyle(user: user)
                     

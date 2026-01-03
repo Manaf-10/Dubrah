@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Profile-->
+        <!--User-->
         <scene sceneID="rEC-dD-yeJ">
             <objects>
-                <viewControllerPlaceholder storyboardName="Profile" id="Cd3-qK-t5d" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="User" id="Cd3-qK-t5d" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="900-rK-Kt4"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5X2-X1-SNQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

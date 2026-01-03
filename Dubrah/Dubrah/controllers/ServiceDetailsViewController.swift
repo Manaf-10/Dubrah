@@ -279,6 +279,16 @@ class ServiceDetailsViewController: BaseViewController {
     }
 
     
+    @IBAction func viewProfileTapped(_ sender: Any) {
+        let vc = storyboard!.instantiateViewController(
+               withIdentifier: "ViewProfileViewController"
+           ) as! ViewProfileViewController
 
+           vc.providerID = self.providerId
+            vc.providerID = self.providerId
+        
+           navigationController?.pushViewController(vc, animated: true)
+    }
+    
 }
 

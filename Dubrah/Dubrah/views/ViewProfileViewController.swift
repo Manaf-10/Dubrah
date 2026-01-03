@@ -17,22 +17,20 @@ class ViewProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     @IBOutlet weak var providerReviewsLabel: UILabel!
     @IBOutlet weak var whatIOfferCollectionView: UICollectionView!
 
-    var userID: String? // To hold the user ID for fetching the data
-    var services: [(title: String, imageURL: String)] = [] // Array to hold "What I Offer" data
-    var completedOrdersCount = 0 // To hold the count of completed orders
-
+    var services: [(title: String, imageURL: String)] = []
+    var completedOrdersCount = 0
+    var providerID: String!
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Fetch data when the view is about to appear
         if let user = AuthManager.shared.currentUser {
-            fetchUserProfileData(userID: Auth.auth().currentUser?.uid ?? "")
+            fetchUserProfileData(userID: providerID)
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         makeCircular(profileImageView)
 
         // Ensure the user is logged in and fetch their data
@@ -41,10 +39,9 @@ class ViewProfileViewController: UIViewController, UICollectionViewDelegate, UIC
             return
         }
 
-        self.userID = "iNTjqIe10AX4M4AoLdvBSoDxuSg1" // Hardcoded user ID for testing purposes
-        fetchUserProfileData(userID: userID)
-        fetchCompletedOrdersCount(userID: userID)
-
+        fetchUserProfileData(userID: providerID)
+        fetchCompletedOrdersCount(userID: providerID)
+        
         // Set up collection view
         whatIOfferCollectionView.delegate = self
         whatIOfferCollectionView.dataSource = self
@@ -231,4 +228,13 @@ class ViewProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         imageView.layer.cornerRadius = imageView.frame.size.width / 2
         imageView.clipsToBounds = true
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        if segue.identifier == "allReviews"{
+            let vc = segue.destination as! ProviderReviwsViewController
+            vc.userId = self.providerID
+        }
+        
+    }
+    
 }

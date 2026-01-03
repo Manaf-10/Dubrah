@@ -135,4 +135,23 @@ class AuthManager: ObservableObject {
             self.currentUser = nil
         }
     }
+    
+    @MainActor
+       func bootstrap() async -> User? {
+           self.userSession = Auth.auth().currentUser
+
+           guard userSession != nil else {
+               self.currentUser = nil
+               return nil
+           }
+
+           do {
+               try await fetchUser()
+               return currentUser
+           } catch {
+               self.userSession = nil
+               self.currentUser = nil
+               return nil
+           }
+       }
 }

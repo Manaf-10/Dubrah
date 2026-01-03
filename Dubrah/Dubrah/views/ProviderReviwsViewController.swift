@@ -43,7 +43,6 @@ class ProviderReviwsViewController: UIViewController, UITableViewDelegate, UITab
     func checkUserAuthentication() {
         if let user = Auth.auth().currentUser {
             // User is logged in, proceed with fetching provider details
-            self.userId = user.uid
             fetchProviderDetails()
         } else {
             // No user is logged in, handle this case (show login screen)
