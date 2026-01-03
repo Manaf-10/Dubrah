@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MyPostsViewController: UIViewController , UITableViewDelegate, UITableViewDataSource{
+class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -20,6 +20,7 @@ class MyPostsViewController: UIViewController , UITableViewDelegate, UITableView
     }
     
     override func viewDidAppear(_ animated: Bool) {
+       
         Task {
             do {
                 services = try await ServiceController.shared.getAllServices()

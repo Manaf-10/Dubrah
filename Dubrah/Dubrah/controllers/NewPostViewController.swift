@@ -26,6 +26,7 @@ class NewPostViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var descTxtBox: UITextField!
     @IBOutlet weak var PriceTxtBox: UITextField!
     
+    @IBOutlet weak var serviceDuration: UITextField!
     private var categories: [Category] = []
     private var selectedCategory: Category?
     private let db = Firestore.firestore()
@@ -44,7 +45,7 @@ class NewPostViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
         
         fetchCategories()
-    }
+        }
     
     private func setupEditMode() {
             self.title = "Edit Post"
@@ -129,8 +130,20 @@ class NewPostViewController: UIViewController, UIImagePickerControllerDelegate, 
         imgPhoto.clipsToBounds = true
         
         categoryButton.contentHorizontalAlignment = .left
+
+        serviceDuration.keyboardType = .numberPad
+        PriceTxtBox.keyboardType = .decimalPad
+        
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(systemItem: .done, primaryAction: UIAction { [weak self] _ in
+            self?.view.endEditing(true)
+        })
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        toolbar.setItems([flexSpace, doneButton], animated: true)
+        serviceDuration.inputAccessoryView = toolbar
+        PriceTxtBox.inputAccessoryView = toolbar
     }
-    
        
        // MARK: - Fetch Categories
     private func fetchCategories() {
@@ -173,6 +186,7 @@ class NewPostViewController: UIViewController, UIImagePickerControllerDelegate, 
            titleTxtBox.text = service.title
            descTxtBox.text = service.description
            PriceTxtBox.text = "\(service.price)"
+           serviceDuration.text = "\(service.duration)"
            
            if let category = categories.first(where: { $0.title == service.category }) {
                selectCategory(category)
@@ -183,6 +197,8 @@ class NewPostViewController: UIViewController, UIImagePickerControllerDelegate, 
            
            if !service.image.isEmpty {
                loadImage(from: service.image)
+           } else {
+               self.imgPhoto.image = UIImage(named: "fallback_servicePic_info")
            }
        }
        
@@ -331,7 +347,6 @@ class NewPostViewController: UIViewController, UIImagePickerControllerDelegate, 
         
             let confirmMessage = isEditMode ? "Are you sure you want to update this service?" : "Are you sure you want to save this service?"
             let confirmTitle = isEditMode ? "Confirm Update" : "Confirm Save"
-         
         
         let confirmAlert = UIAlertController(
                   title: confirmTitle,
@@ -374,7 +389,8 @@ class NewPostViewController: UIViewController, UIImagePickerControllerDelegate, 
                        "description": description,
                        "price": price,
                        "category": category.title,
-                       "paymentMethod": paymentMethods
+                       "paymentMethod": paymentMethods,
+                       "duration": extractDurationHours()
                    ]
                    
                    try await ServiceController.shared.editService(id: service.id, updatedData: updatedData)
@@ -436,7 +452,7 @@ class NewPostViewController: UIViewController, UIImagePickerControllerDelegate, 
                         "paymentMethod": paymentMethods, // Using singular "paymentMethod"
                         "createdAt": FieldValue.serverTimestamp(),
                         "providerID": Auth.auth().currentUser?.uid ?? "",
-                        "duration": 0,
+                        "duration": extractDurationHours(),
                         "reviews": [], // Initialized as empty array
                         "image": ""
                     ]
@@ -476,7 +492,10 @@ class NewPostViewController: UIViewController, UIImagePickerControllerDelegate, 
                 }
             }
         }
-    
+    private func extractDurationHours() -> Int {
+        guard let durationText = serviceDuration.text?.trimmingCharacters(in: .whitespaces) else { return 0 }
+        return Int(durationText) ?? 0
+    }
     private func validateForm() -> Bool {
         var errorMessage = ""
         
@@ -502,6 +521,18 @@ class NewPostViewController: UIViewController, UIImagePickerControllerDelegate, 
         } else {
             errorMessage += "• Please enter a price\n"
         }
+        
+        if let durationText = serviceDuration.text?.trimmingCharacters(in: .whitespaces),
+           !durationText.isEmpty {
+            let components = durationText.components(separatedBy: " ")
+            if let hours = Int(components[0]), hours > 0 {
+            } else {
+                errorMessage += "• Duration must be at least 1 hour\n"
+            }
+        } else {
+            errorMessage += "• Please enter a duration\n"
+        }
+        
         
         if selectedCategory == nil {
             errorMessage += "• Please select a category\n"

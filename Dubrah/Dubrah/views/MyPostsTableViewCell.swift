@@ -18,12 +18,6 @@ class MyPostsTableViewCell: UITableViewCell {
     @IBOutlet weak var servicePrice: UILabel!
     @IBOutlet weak var editBtn: UIButton!
     
- 
-    
-    
-//    @IBOutlet weak var editBtn: UIView!
-    
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -40,9 +34,14 @@ class MyPostsTableViewCell: UITableViewCell {
                     await MainActor.run {
                         self.serviceImg?.image = downloadedImage
                     }
+                } else {
+                    await MainActor.run {
+                        self.serviceImg?.image = UIImage(named: "fallback_servicePic_table")
+                    }
                 }
             }
         } else {
+            self.serviceImg?.image = UIImage(named: "fallback_servicePic_table")
             print("Could not download image for \(title) service")
         }
         

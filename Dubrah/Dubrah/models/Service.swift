@@ -1,10 +1,3 @@
-//
-//  Booking.swift
-//  Dubrah
-//
-//  Created by mohammed ali on 23/12/2025.
-//
-
 import Foundation
 import FirebaseFirestore
 
@@ -35,6 +28,7 @@ struct Service {
         self.paymentMethods = data["paymentMethod"] as? [String] ?? []
         let reviewData = data["reviews"] as? [[String: Any]] ?? []
         self.reviews = reviewData.compactMap { Review(dictionary: $0)}
+        self.duration = data["duration"] as? Int ?? 0
         
         // Handle Firestore Timestamp conversion
         if let timestamp = data["createdAt"] as? Timestamp {
