@@ -51,4 +51,16 @@ class OrderController {
     func deleteOrder(id: String) async throws {
         try await db.collection(collectionName).document(id).delete()
     }
+    
+
+    // Update the method to return both
+    func getUserData(userID: String) async throws -> UserData {
+        let document = try await db.collection("user").document(userID).getDocument()
+        let data = document.data() ?? [:]
+        
+        let fullName = data["fullName"] as? String ?? "Unknown User"
+        let profilePicture = data["profilePicture"] as? String ?? ""
+                
+        return UserData(fullName: fullName, profilePicture: profilePicture)
+    }
 }

@@ -47,12 +47,12 @@ class ServiceController {
     }
     
     func addReview(serviceId: String, review: [String: Any]) async throws {
-          let docRef = db.collection("Service").document(serviceId)
-          
-          try await docRef.updateData([
-              "reviews": FieldValue.arrayUnion([review])
-          ])
-      }
+        let docRef = db.collection("Service").document(serviceId)
+        
+        try await docRef.updateData([
+            "reviews": FieldValue.arrayUnion([review])
+        ])
+    }
     func addProviderReview(userId: String, review: [String: Any]) async throws {
         // Query to find the provider document by userID field
         let querySnapshot = try await db.collection("ProviderDetails")

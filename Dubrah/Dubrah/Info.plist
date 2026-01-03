@@ -3,6 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSPhotoLibraryUsageDescription</key>
+	<string>photo library</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera Permission</string>
 	<string>We need access to your photo library to upload your profile picture.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
