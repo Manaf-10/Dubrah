@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProviderCollectionViewCell: UICollectionViewCell {
+class MyBookingCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var profilePic: UIImageView!
     @IBOutlet weak var username: UILabel!
