@@ -34,3 +34,14 @@ func getUserField(from uid: String, field: String) async -> Any?{
     return nil
     }
 
+func makeCircular(_ imageView: UIImageView) {
+    imageView.layoutIfNeeded()
+    imageView.layer.cornerRadius = imageView.frame.size.width / 2
+    imageView.clipsToBounds = true
+    imageView.contentMode = .scaleAspectFill
+}
+
+func roundImage(_ imageView: UIImageView, radius: CGFloat) {
+    imageView.layer.cornerRadius = radius
+    imageView.clipsToBounds = true
+}

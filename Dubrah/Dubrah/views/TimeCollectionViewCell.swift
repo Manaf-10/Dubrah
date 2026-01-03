@@ -9,9 +9,9 @@ import UIKit
 
 class TimeCollectionViewCell: UICollectionViewCell {
     
-    
-    @IBOutlet weak var containerView: UIView!
+
     @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var containerView: UIView!
     
     override func awakeFromNib(){
         super.awakeFromNib()
@@ -20,24 +20,18 @@ class TimeCollectionViewCell: UICollectionViewCell {
         containerView.layer.borderColor = UIColor.systemGray4.cgColor
     }
     
-    func configure(time: String, isAvailable: Bool, isSelected: Bool){
+    func configure(time: String, isSelected: Bool) {
         timeLabel.text = time
-        if !isAvailable {
-                    containerView.backgroundColor = UIColor.systemGray5
-                    timeLabel.textColor = UIColor.systemGray
-                    containerView.layer.borderColor = UIColor.systemGray2.cgColor
-                }
-                else if isSelected {
-                    containerView.backgroundColor = UIColor.systemBlue
-                    timeLabel.textColor = .white
-                    containerView.layer.borderColor = UIColor.systemBlue.cgColor
-                }
-                else {
-                    containerView.backgroundColor = .clear
-                    containerView.layer.borderColor = UIColor.systemGray4.cgColor
-                }
+
+        if isSelected {
+            containerView.backgroundColor = .systemBlue
+            timeLabel.textColor = .white
+            containerView.layer.borderColor = UIColor.systemBlue.cgColor
+        } else {
+            containerView.backgroundColor = .clear
+            timeLabel.textColor = .label
+            containerView.layer.borderColor = UIColor.systemGray4.cgColor
+        }
     }
-    
-    
     
 }
