@@ -6,7 +6,7 @@ import FirebaseAuth
 
 class SecuritySettingsViewController: UIViewController {
 
-    // UI Elements
+    
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var changePasswordBtn: UIButton!
     @IBOutlet weak var dobLabel: UILabel!
@@ -14,21 +14,24 @@ class SecuritySettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Ensure the user is logged in
+        changePasswordBtn.layer.cornerRadius = 12
+        changePasswordBtn.clipsToBounds = true
+        
+       
         guard let userID = Auth.auth().currentUser?.uid else {
             print("No user is logged in.")
             return
         }
         
-        // Fetch the user's data from Firestore
+        
         fetchUserData(userID: userID)
     }
     
     func fetchUserData(userID: String) {
-        // Reference to Firestore database
+        
         let db = Firestore.firestore()
         
-        // Fetch User Data (from 'user' collection)
+        
         let userRef = db.collection("user").document(userID)
         userRef.getDocument { (document, error) in
             if let error = error {
@@ -37,18 +40,18 @@ class SecuritySettingsViewController: UIViewController {
                 if let document = document, document.exists {
                     let data = document.data()
                     
-                    // Set email from Firebase Authentication
+                    
                     if let email = Auth.auth().currentUser?.email {
                         self.emailLabel.text = email
                     } else {
-                        self.emailLabel.isHidden = true // Hide if no email data
+                        self.emailLabel.isHidden = true
                     }
                     
-                    // Set date of birth from Firestore
+                    
                     if let dateOfBirth = data?["dateOfBirth"] as? String, !dateOfBirth.isEmpty {
                         self.dobLabel.text = dateOfBirth
                     } else {
-                        self.dobLabel.isHidden = true // Hide if no date of birth data
+                        self.dobLabel.isHidden = true
                     }
                 } else {
                     print("User document does not exist")

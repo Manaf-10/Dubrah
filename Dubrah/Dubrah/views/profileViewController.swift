@@ -5,7 +5,7 @@ import FirebaseAuth
 
 class profileViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    // UI Elements
+    
     @IBOutlet weak var fullNameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var ratingLabel: UILabel!
@@ -17,15 +17,16 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
     @IBOutlet weak var providerReviewsLabel: UILabel!
     @IBOutlet weak var whatIOfferCollectionView: UICollectionView!
     
-    var userID: String? // To hold the user ID for fetching the data
-    var services: [(title: String, imageURL: String)] = [] // Array to hold "What I Offer" data
-    var completedOrdersCount = 0 // To hold the count of completed orders
+    var userID: String?
+    var services: [(title: String, imageURL: String)] = []
+    var completedOrdersCount = 0
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         Task {
-            if let user = AuthManager.shared.currentUser { fetchUserProfileData(userID: Auth.auth().currentUser?.uid ?? "")
+            if let user = AuthManager.shared.currentUser {
+                fetchUserProfileData(userID: Auth.auth().currentUser?.uid ?? "")
             }
         }
     }
@@ -35,7 +36,6 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
         
         makeCircular(profileImageView)
         
-        // Ensure the user is logged in and fetch their data
         guard let userID = Auth.auth().currentUser?.uid else {
             print("No user is logged in.")
             return
@@ -45,7 +45,7 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
         fetchUserProfileData(userID: userID)
         fetchCompletedOrdersCount(userID: userID)
         
-        // Set up collection view
+        
         whatIOfferCollectionView.delegate = self
         whatIOfferCollectionView.dataSource = self
     }
@@ -53,7 +53,7 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
     func fetchUserProfileData(userID: String) {
         let db = Firestore.firestore()
         
-        // Fetch User Data (from 'user' collection)
+        
         let userRef = db.collection("user").document(userID)
         userRef.getDocument { (document, error) in
             if let error = error {
@@ -66,7 +66,7 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
             }
         }
         
-        // Fetch Provider Details (from 'ProviderDetails' collection)
+        
         let providerDetailsRef = db.collection("ProviderDetails").whereField("userId", isEqualTo: userID)
         providerDetailsRef.getDocuments { (snapshot, error) in
             if let error = error {
@@ -78,15 +78,13 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
             }
         }
         
-        // Fetch "What I Offer" Data (from 'Service' collection)
+       
         let serviceRef = db.collection("Service").whereField("providerID", isEqualTo: userID)
         serviceRef.getDocuments { (snapshot, error) in
             if let error = error {
                 print("Error getting service document: \(error.localizedDescription)")
             } else if let snapshot = snapshot, !snapshot.isEmpty {
-                let document = snapshot.documents.first
-                let data = document?.data()
-                self.updateWhatIOfferUI(data)
+                self.updateWhatIOfferUI(snapshot.documents)
             } else {
                 print("No service document found for this user")
             }
@@ -97,7 +95,7 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
         self.fullNameLabel.text = data?["fullName"] as? String ?? "No full name"
         self.usernameLabel.text = data?["userName"] as? String ?? "No username"
         
-        // Profile Image
+       
         if let imageUrl = data?["profilePicture"] as? String, let url = URL(string: imageUrl) {
             Task {
                 if let image = await ImageDownloader.fetchImage(from: imageUrl) {
@@ -106,76 +104,83 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
                     }
                 } else {
                     DispatchQueue.main.async {
-                        self.profileImageView.image = UIImage(named: "Person") // Placeholder
+                        self.profileImageView.image = UIImage(named: "Person")
                     }
                 }
             }
         } else {
-            self.profileImageView.image = UIImage(named: "Person") // Placeholder
+            self.profileImageView.image = UIImage(named: "Person")
         }
         
-        // Bio
+        
         if let bio = data?["bio"] as? String, !bio.isEmpty {
             self.bioLabel.text = bio
         } else {
             self.bioLabel.isHidden = true
         }
         
-        // Interests
+    
         if let interests = data?["interests"] as? [String], !interests.isEmpty {
             self.interestsLabel.text = interests.joined(separator: ", ")
         } else {
             self.interestsLabel.isHidden = true
         }
+        
+        
+        if data?["interests"] == nil || data?["bio"] == nil {
+            self.ratingLabel.isHidden = true
+            self.numServicesLabel.isHidden = true
+        }
     }
     
     func updateProviderDetailsUI(_ data: [String: Any]?) {
-        // Skills
+        
         if let skills = data?["skills"] as? [String], !skills.isEmpty {
             self.skillsLabel.text = skills.joined(separator: ", ")
         } else {
             self.skillsLabel.isHidden = true
         }
         
-        // Rating
+        
         if let rating = data?["averageRating"] as? Double {
             self.ratingLabel.text = "\(rating)"
         } else {
             self.ratingLabel.isHidden = true
         }
+        
+        
+        if data?["skills"] == nil || data?["averageRating"] == nil {
+            self.skillsLabel.isHidden = true
+            self.ratingLabel.isHidden = true
+        }
     }
     
-    func updateWhatIOfferUI(_ data: [String: Any]?) {
-        // Fetch "whatIOffer" field (array of dictionaries with title and image URL)
-        let whatIOffer = data?["whatIOffer"] as? [[String: String]] ?? []
+    func updateWhatIOfferUI(_ documents: [QueryDocumentSnapshot]) {
         
-        // Populate services array if data exists
-        if !whatIOffer.isEmpty {
-            self.services = whatIOffer.compactMap {
-                guard let title = $0["title"], let imageURL = $0["image"] else {
-                    return nil
-                }
+        self.services = documents.compactMap { document in
+            let title = document["title"] as? String
+            let imageURL = document["image"] as? String
+            if let title = title, let imageURL = imageURL {
                 return (title, imageURL)
             }
-            
-            // Limit the number of services displayed to 3
-            if self.services.count > 3 {
-                self.services = Array(self.services.prefix(3))
-            }
-            
-            // Reload the collection view after fetching the data
-            DispatchQueue.main.async {
-                self.whatIOfferCollectionView.reloadData()
-            }
-        } else {
-            self.whatIOfferCollectionView.isHidden = true // Hide collection view if no data
+            return nil
+        }
+        
+        
+        if self.services.count > 3 {
+            self.services = Array(self.services.prefix(3))
+        }
+        
+        
+        DispatchQueue.main.async {
+            self.whatIOfferCollectionView.reloadData()
         }
     }
     
     func fetchCompletedOrdersCount(userID: String) {
         let db = Firestore.firestore()
         
-        // Fetch orders with 'completed' status for the given userID
+        
         let ordersRef = db.collection("orders")
             .whereField("userID", isEqualTo: userID)
             .whereField("status", isEqualTo: "completed")
@@ -191,25 +196,25 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
             } else {
                 self.completedOrdersCount = 0
                 DispatchQueue.main.async {
-                    self.numServicesLabel.text = "0"
+                    self.numServicesLabel.text = "No"
                 }
                 print("No completed orders found")
             }
         }
     }
     
-    // MARK: - UICollectionView DataSource and Delegate Methods
+  
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return services.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WhatIOfferCell", for: indexPath) as! whatIOfferCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "whatIOffer", for: indexPath) as! whatIOfferCollectionViewCell
         let service = services[indexPath.row]
         cell.offersNamelbl.text = service.title
         
-        // Download and display the image asynchronously
+        
         Task {
             if let image = await ImageDownloader.fetchImage(from: service.imageURL) {
                 DispatchQueue.main.async {
@@ -225,7 +230,7 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
         print("Selected service: \(services[indexPath.row].title)")
     }
     
-    // Helper function to make the profile image circular
+    
     func makeCircular(_ imageView: UIImageView) {
         imageView.layer.cornerRadius = imageView.frame.size.width / 2
         imageView.clipsToBounds = true

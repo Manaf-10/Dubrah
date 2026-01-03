@@ -5,7 +5,7 @@ import FirebaseAuth
 
 class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    // UI Elements
+    
     @IBOutlet weak var skillsTextField: UITextField!
     @IBOutlet weak var interestsTextField: UITextField!
     @IBOutlet weak var saveButton: UIButton!
@@ -24,14 +24,16 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Ensure the user is logged in and fetch their data
+        
         guard let userID = Auth.auth().currentUser?.uid else {
             print("No user is logged in.")
             return
         }
         self.userID = userID
         
-        // Prepare the picker view
+        saveButton.layer.cornerRadius = 12
+        saveButton.clipsToBounds = true
+        
         pickerView = UIPickerView()
         pickerView.delegate = self
         pickerView.dataSource = self
@@ -39,12 +41,15 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
         skillsTextField.inputView = pickerView
         interestsTextField.inputView = pickerView
         
-        // Fetch data for skills and interests
+        
         fetchPickerData()
         fetchUserData()
     }
     
-    // Fetch Skills and Interests Data for Picker (example data, you can fetch this from Firestore if necessary)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     func fetchPickerData() {
         // Example data (you can fetch this from Firestore if necessary)
         pickerData = ["Design", "Photography", "Tutoring", "Programming", "Marketing", "Writing"]
