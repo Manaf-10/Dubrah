@@ -4,156 +4,206 @@ import FirebaseFirestore
 import FirebaseAuth
 
 class ViewProfileViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
-   
-    // UI Elements with updated outlet names
-    @IBOutlet weak var lblFullName: UILabel!
-       @IBOutlet weak var lblUsername: UILabel!
-       @IBOutlet weak var lblRating: UILabel!
-       @IBOutlet weak var lblNumServices: UILabel!
-       @IBOutlet weak var lblBio: UILabel!
-       @IBOutlet weak var lblSkills: UILabel!
-       @IBOutlet weak var lblInterests: UILabel!
-       @IBOutlet weak var imgProfile: UIImageView!
-       @IBOutlet weak var lblProviderReviews: UILabel!
-       
-       // UICollectionView for displaying "What I Offer"
-       @IBOutlet weak var collectionViewWhatIOffer: UICollectionView!
+    
+    // UI Elements
+    @IBOutlet weak var fullNameLabel: UILabel!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var numServicesLabel: UILabel!
+    @IBOutlet weak var bioLabel: UILabel!
+    @IBOutlet weak var skillsLabel: UILabel!
+    @IBOutlet weak var interestsLabel: UILabel!
+    @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var providerReviewsLabel: UILabel!
+    @IBOutlet weak var whatIOfferCollectionView: UICollectionView!
+    
     var userID: String? // To hold the user ID for fetching the data
     var services: [(title: String, imageURL: String)] = [] // Array to hold "What I Offer" data
-
+    var completedOrdersCount = 0 // To hold the count of completed orders
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Task {
+            if let user = AuthManager.shared.currentUser {
+                fetchUserProfileData(userID: Auth.auth().currentUser?.uid ?? "")
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        makeCircular(imgProfile) // Make the profile image circular
         
-        fetchUserProfileData(userID: userID ?? "")
+        makeCircular(profileImageView)
+        
+        // Ensure the user is logged in and fetch their data
+        guard let userID = Auth.auth().currentUser?.uid else {
+            print("No user is logged in.")
+            return
+        }
+        
+        self.userID = "iNTjqIe10AX4M4AoLdvBSoDxuSg1"
+        fetchUserProfileData(userID: userID)
+        fetchCompletedOrdersCount(userID: userID)
         
         // Set up collection view
-        collectionViewWhatIOffer.delegate = self
-        collectionViewWhatIOffer.dataSource = self
-    }
+        whatIOfferCollectionView.delegate = self
+        whatIOfferCollectionView.dataSource = self
+        
+        // Ensure the collection view layout is set
+        if whatIOfferCollectionView.collectionViewLayout == nil {
+            whatIOfferCollectionView.collectionViewLayout = UICollectionViewFlowLayout()
+        }
 
+        // Register the collection view cell if not already registered
+        let nib = UINib(nibName: "UserProfileCollectionViewCell", bundle: nil)
+        whatIOfferCollectionView.register(nib, forCellWithReuseIdentifier: "WhatIOfferCell")
+    }
+    
     func fetchUserProfileData(userID: String) {
         let db = Firestore.firestore()
         
-        // Fetch User Data from the "user" collection
+        // Fetch User Data (from 'user' collection)
         let userRef = db.collection("user").document(userID)
         userRef.getDocument { (document, error) in
             if let error = error {
                 print("Error getting user document: \(error)")
+            } else if let document = document, document.exists {
+                let data = document.data()
+                self.updateUserProfileUI(data)
             } else {
-                if let document = document, document.exists {
-                    let data = document.data()
-                    
-                    // Check and update UI elements with user data
-                    if let fullName = data?["fullName"] as? String {
-                        self.lblFullName.text = fullName
-                    } else {
-                        self.lblFullName.isHidden = true
-                    }
-
-                    if let username = data?["userName"] as? String {
-                        self.lblUsername.text = username
-                    } else {
-                        self.lblUsername.isHidden = true
-                    }
-                    
-                    // Load profile image asynchronously
-                    if let imageUrl = data?["profilePicture"] as? String, let url = URL(string: imageUrl) {
-                        Task {
-                            if let image = await ImageDownloader.fetchImage(from: imageUrl) {
-                                DispatchQueue.main.async {
-                                    self.imgProfile.image = image
-                                }
-                            } else {
-                                DispatchQueue.main.async {
-                                    self.imgProfile.image = UIImage(named: "Person") // Placeholder if image fails to load
-                                    self.imgProfile.isHidden = true
-                                }
-                            }
-                        }
-                    } else {
-                        self.imgProfile.isHidden = true
-                    }
-
-                    if let bio = data?["bio"] as? String, !bio.isEmpty {
-                        self.lblBio.text = bio
-                    } else {
-                        self.lblBio.isHidden = true
-                    }
-                    
-                    // Update skills and interests if they exist
-                    if let skills = data?["skills"] as? [String], !skills.isEmpty {
-                        self.lblSkills.text = skills.joined(separator: ", ")
-                    } else {
-                        self.lblSkills.isHidden = true
-                    }
-                    
-                    if let interests = data?["interests"] as? [String], !interests.isEmpty {
-                        self.lblInterests.text = interests.joined(separator: ", ")
-                    } else {
-                        self.lblInterests.isHidden = true
-                    }
-                }
+                print("User document does not exist")
             }
         }
         
-        // Fetch Rating and NumServices Data from the "ProviderDetails" collection
-        let providerDetailsRef = db.collection("ProviderDetails").document(userID)
-        providerDetailsRef.getDocument { (document, error) in
+        // Fetch Provider Details (from 'ProviderDetails' collection)
+        let providerDetailsRef = db.collection("ProviderDetails").whereField("userId", isEqualTo: userID)
+        providerDetailsRef.getDocuments { (snapshot, error) in
             if let error = error {
                 print("Error getting provider details document: \(error)")
-            } else {
-                if let document = document, document.exists {
-                    let data = document.data()
-                    
-                    // Update skills from ProviderDetails
-                    if let skills = data?["skills"] as? [String], !skills.isEmpty {
-                        self.lblSkills.text = skills.joined(separator: ", ")
-                    } else {
-                        self.lblSkills.isHidden = true
-                    }
-                    
-                    if let rating = data?["rating"] as? Double {
-                        self.lblRating.text = "Rating: \(rating)"
-                    } else {
-                        self.lblRating.isHidden = true
-                    }
-                    
-                    if let numServices = data?["numServices"] as? Int {
-                        self.lblNumServices.text = "Services: \(numServices)"
-                    } else {
-                        self.lblNumServices.isHidden = true
-                    }
-                }
+            } else if let snapshot = snapshot, !snapshot.isEmpty {
+                let document = snapshot.documents.first
+                let data = document?.data()
+                self.updateProviderDetailsUI(data)
             }
         }
         
-        // Fetch "What I Offer" Data from the "Service" collection
-        let serviceRef = db.collection("Service").document(userID)
-        serviceRef.getDocument { (document, error) in
+        // Fetch "What I Offer" Data (from 'Service' collection)
+        let serviceRef = db.collection("Service").whereField("providerID", isEqualTo: userID)
+        serviceRef.getDocuments { (snapshot, error) in
             if let error = error {
-                print("Error getting service document: \(error)")
+                print("Error getting service document: \(error.localizedDescription)")
+            } else if let snapshot = snapshot, !snapshot.isEmpty {
+                let document = snapshot.documents.first
+                let data = document?.data()
+                self.updateWhatIOfferUI(data)
             } else {
-                if let document = document, document.exists {
-                    let data = document.data()
-                    let whatIOffer = data?["whatIOffer"] as? [[String: String]] ?? []
-                    
-                    self.services = whatIOffer.compactMap {
-                        guard let title = $0["title"], let imageURL = $0["image"] else {
-                            return nil
-                        }
-                        return (title, imageURL)
-                    }
-                    
-                    // Reload collection view
+                print("No service document found for this user")
+            }
+        }
+    }
+    
+    func updateUserProfileUI(_ data: [String: Any]?) {
+        self.fullNameLabel.text = data?["fullName"] as? String ?? "No full name"
+        self.usernameLabel.text = data?["userName"] as? String ?? "No username"
+        
+        // Profile Image
+        if let imageUrl = data?["profilePicture"] as? String, let url = URL(string: imageUrl) {
+            Task {
+                if let image = await ImageDownloader.fetchImage(from: imageUrl) {
                     DispatchQueue.main.async {
-                        if self.services.isEmpty {
-                            self.collectionViewWhatIOffer.isHidden = true
-                        } else {
-                            self.collectionViewWhatIOffer.reloadData()
-                        }
+                        self.profileImageView.image = image
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.profileImageView.image = UIImage(named: "Person") // Placeholder
                     }
                 }
+            }
+        } else {
+            self.profileImageView.image = UIImage(named: "Person") // Placeholder
+        }
+        
+        // Bio
+        if let bio = data?["bio"] as? String, !bio.isEmpty {
+            self.bioLabel.text = bio
+        } else {
+            self.bioLabel.isHidden = true
+        }
+        
+        // Interests
+        if let interests = data?["interests"] as? [String], !interests.isEmpty {
+            self.interestsLabel.text = interests.joined(separator: ", ")
+        } else {
+            self.interestsLabel.isHidden = true
+        }
+    }
+    
+    func updateProviderDetailsUI(_ data: [String: Any]?) {
+        // Skills
+        if let skills = data?["skills"] as? [String], !skills.isEmpty {
+            self.skillsLabel.text = skills.joined(separator: ", ")
+        } else {
+            self.skillsLabel.isHidden = true
+        }
+        
+        // Rating
+        if let rating = data?["averageRating"] as? Double {
+            self.ratingLabel.text = "\(rating)"
+        } else {
+            self.ratingLabel.isHidden = true
+        }
+    }
+    
+    func updateWhatIOfferUI(_ data: [String: Any]?) {
+        // Fetch "whatIOffer" field (array of dictionaries with title and image URL)
+        let whatIOffer = data?["whatIOffer"] as? [[String: String]] ?? []
+        
+        // Populate services array if data exists
+        if !whatIOffer.isEmpty {
+            self.services = whatIOffer.compactMap {
+                guard let title = $0["title"], let imageURL = $0["image"] else {
+                    return nil
+                }
+                return (title, imageURL)
+            }
+            
+            // Limit the number of services displayed to 3
+            if self.services.count > 3 {
+                self.services = Array(self.services.prefix(3))
+            }
+            
+            // Reload the collection view after fetching the data
+            DispatchQueue.main.async {
+                self.whatIOfferCollectionView.reloadData()
+            }
+        } else {
+            self.whatIOfferCollectionView.isHidden = true // Hide collection view if no data
+        }
+    }
+    
+    func fetchCompletedOrdersCount(userID: String) {
+        let db = Firestore.firestore()
+        
+        // Fetch orders with 'completed' status for the given userID
+        let ordersRef = db.collection("orders")
+            .whereField("userID", isEqualTo: userID)
+            .whereField("status", isEqualTo: "completed")
+        
+        ordersRef.getDocuments { (snapshot, error) in
+            if let error = error {
+                print("Error getting orders document: \(error.localizedDescription)")
+            } else if let snapshot = snapshot, !snapshot.isEmpty {
+                self.completedOrdersCount = snapshot.documents.count
+                DispatchQueue.main.async {
+                    self.numServicesLabel.text = "\(self.completedOrdersCount)"
+                }
+            } else {
+                self.completedOrdersCount = 0
+                DispatchQueue.main.async {
+                    self.numServicesLabel.text = "0"
+                }
+                print("No completed orders found")
             }
         }
     }
@@ -166,7 +216,6 @@ class ViewProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WhatIOfferCell", for: indexPath) as! UserProfileCollectionViewCell
-        
         let service = services[indexPath.row]
         cell.lblOfferTitle.text = service.title
         
