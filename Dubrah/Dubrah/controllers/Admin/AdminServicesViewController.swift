@@ -12,93 +12,108 @@ class AdminServicesViewController: AdminBaseViewController, UICollectionViewDele
                               UICollectionViewDelegateFlowLayout {
     
     @IBOutlet weak var collectionView: UICollectionView!
-        private var services: [Service] = Service.mock
+    private let service = AdminServicesService()
+       private var services: [Service] = []
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setupNavigationTitle("Services")
-        setupNavigationAppearance()
-        collectionView.delegate = self
-                collectionView.dataSource = self
-
-
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-           super.viewWillAppear(animated)
-//           setTabBarHidden(false)
-        showTabBar()
-
+       override func viewDidLoad() {
+           super.viewDidLoad()
+           
+           setupNavigationTitle("Services")
+           setupNavigationAppearance()
+           
+           collectionView.delegate = self
+           collectionView.dataSource = self
+           
+           loadServices()
        }
-    
-    override func viewDidAppear(_ animated: Bool) {
-            super.viewDidAppear(animated)
-            
-            // Ensure tab bar is visible
-            showTabBar()
-        }
-    
-    
-    
-    
-    func collectionView(_ collectionView: UICollectionView,
-                            numberOfItemsInSection section: Int) -> Int {
-            services.count
-        }
+       
+       override func viewWillAppear(_ animated: Bool) {
+           super.viewWillAppear(animated)
+           showTabBar()
+           
+           // Reload in case service was deleted
+           loadServices()
+       }
+       
+       override func viewDidAppear(_ animated: Bool) {
+           super.viewDidAppear(animated)
+           showTabBar()
+       }
+       
+       private func loadServices() {
+           print("📥 Fetching services...")
+           
+           service.fetchServices { [weak self] services in
+               print("✅ Loaded \(services.count) services")
+               self?.services = services
+               self?.collectionView.reloadData()
+           }
+       }
+       
+       // MARK: - CollectionView DataSource
+       
+       func collectionView(_ collectionView: UICollectionView,
+                           numberOfItemsInSection section: Int) -> Int {
+           return services.count
+       }
 
-        func collectionView(_ collectionView: UICollectionView,
-                            cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+       func collectionView(_ collectionView: UICollectionView,
+                           cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "ServiceCell",
-                for: indexPath
-            ) as! ServiceCollectionViewCell
+           let cell = collectionView.dequeueReusableCell(
+               withReuseIdentifier: "ServiceCell",
+               for: indexPath
+           ) as! ServiceCollectionViewCell
 
-            cell.setupCell(with: services[indexPath.item])
-            return cell
-        }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                            layout collectionViewLayout: UICollectionViewLayout,
-                            sizeForItemAt indexPath: IndexPath) -> CGSize {
+           cell.setupCell(with: services[indexPath.item])
+           return cell
+       }
+       
+       func collectionView(_ collectionView: UICollectionView,
+                           didSelectItemAt indexPath: IndexPath) {
 
-            let padding: CGFloat = 16
-            let spacing: CGFloat = 12
-            let totalSpacing = padding * 2 + spacing
+           let service = services[indexPath.item]
+           openServiceDetails(service)
+       }
+       
+       private func openServiceDetails(_ service: Service) {
+           let vc = UIStoryboard(name: "Services", bundle: nil)
+               .instantiateViewController(withIdentifier: "ServiceDetailsViewController")
+               as! AdminServiceDetailsViewController
 
-            let width = (collectionView.bounds.width - totalSpacing) / 2
-            return CGSize(width: width, height: 230)
-        }
+           vc.service = service
+           navigationController?.pushViewController(vc, animated: true)
+       }
+       
+       // MARK: - Layout
+       
+       func collectionView(_ collectionView: UICollectionView,
+                           layout collectionViewLayout: UICollectionViewLayout,
+                           sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        func collectionView(_ collectionView: UICollectionView,
-                            layout collectionViewLayout: UICollectionViewLayout,
-                            minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-            12
-        }
+           let padding: CGFloat = 16
+           let spacing: CGFloat = 12
+           let totalSpacing = padding * 2 + spacing
 
-        func collectionView(_ collectionView: UICollectionView,
-                            layout collectionViewLayout: UICollectionViewLayout,
-                            minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-            12
-        }
+           let width = (collectionView.bounds.width - totalSpacing) / 2
+           return CGSize(width: width, height: 250)
+       }
 
-        func collectionView(_ collectionView: UICollectionView,
-                            layout collectionViewLayout: UICollectionViewLayout,
-                            insetForSectionAt section: Int) -> UIEdgeInsets {
-            UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
-        }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+       func collectionView(_ collectionView: UICollectionView,
+                           layout collectionViewLayout: UICollectionViewLayout,
+                           minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+           return 12
+       }
 
-        let service = services[indexPath.item]
+       func collectionView(_ collectionView: UICollectionView,
+                           layout collectionViewLayout: UICollectionViewLayout,
+                           minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+           return 12
+       }
 
-        let vc = UIStoryboard(name: "Services", bundle: nil)
-            .instantiateViewController(withIdentifier: "ServiceDetailsViewController")
-            as! AdminServiceDetailsViewController
-
-        vc.service = service   // 👈 pass data
-
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    }
+       func collectionView(_ collectionView: UICollectionView,
+                           layout collectionViewLayout: UICollectionViewLayout,
+                           insetForSectionAt section: Int) -> UIEdgeInsets {
+           return UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+       }
+   }

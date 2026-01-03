@@ -708,47 +708,6 @@
             </objects>
             <point key="canvasLocation" x="-815" y="-1259"/>
         </scene>
-        <!--Admin Tab Bar Controller-->
-        <scene sceneID="2Oi-vV-JWM">
-            <objects>
-                <viewController storyboardIdentifier="AdminTabBarController" id="Pdy-UL-5Qt" customClass="AdminTabBarController" customModule="Dubrah" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="cPX-fU-7gv">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" restorationIdentifier="tabBarView" translatesAutoresizingMaskIntoConstraints="NO" id="FTG-2i-nW3">
-                                <rect key="frame" x="0.0" y="694" width="393" height="90"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="90" id="tnI-Af-VqW"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="295-Hu-H4N">
-                                <rect key="frame" x="0.0" y="118" width="393" height="666"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </view>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="Yce-p0-EK5"/>
-                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="295-Hu-H4N" firstAttribute="trailing" secondItem="Yce-p0-EK5" secondAttribute="trailing" id="CbD-Z9-BUP"/>
-                            <constraint firstItem="295-Hu-H4N" firstAttribute="top" secondItem="Yce-p0-EK5" secondAttribute="top" id="LI1-Ci-t4V"/>
-                            <constraint firstItem="295-Hu-H4N" firstAttribute="leading" secondItem="Yce-p0-EK5" secondAttribute="leading" id="Md8-cN-n7M"/>
-                            <constraint firstItem="FTG-2i-nW3" firstAttribute="bottom" secondItem="Yce-p0-EK5" secondAttribute="bottom" id="dxk-bA-6uW"/>
-                            <constraint firstItem="FTG-2i-nW3" firstAttribute="trailing" secondItem="Yce-p0-EK5" secondAttribute="trailing" id="msw-Wt-mW4"/>
-                            <constraint firstItem="Yce-p0-EK5" firstAttribute="bottom" secondItem="295-Hu-H4N" secondAttribute="bottom" id="tZJ-SN-v43"/>
-                            <constraint firstItem="FTG-2i-nW3" firstAttribute="leading" secondItem="Yce-p0-EK5" secondAttribute="leading" id="zXp-vR-fdP"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="igD-gZ-IJl"/>
-                    <connections>
-                        <outlet property="contentView" destination="295-Hu-H4N" id="g4w-bh-8ka"/>
-                        <outlet property="tabBarHostView" destination="FTG-2i-nW3" id="iFU-gc-82p"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aaS-tD-iGG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-213" y="-2442"/>
-        </scene>
     </scenes>
     <resources>
         <image name="Arrow-Black" width="20.333333969116211" height="20.333333969116211"/>

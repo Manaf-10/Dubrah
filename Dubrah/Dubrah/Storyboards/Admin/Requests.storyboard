@@ -58,9 +58,6 @@
                                                         <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="14"/>
                                                         <color key="baseBackgroundColor" red="0.13725490868091583" green="0.34509804844856262" blue="0.82352948188781738" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </buttonConfiguration>
-                                                    <connections>
-                                                        <segue destination="gdM-P8-eEJ" kind="show" id="bVM-lg-sgE"/>
-                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -114,7 +111,7 @@
         <!--Admin User Request View Controller-->
         <scene sceneID="75k-jp-l23">
             <objects>
-                <viewController id="gdM-P8-eEJ" customClass="AdminUserRequestViewController" customModule="Dubrah" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AdminUserRequestViewController" id="gdM-P8-eEJ" customClass="AdminUserRequestViewController" customModule="Dubrah" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="J6E-UQ-gSe">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -128,10 +125,10 @@
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LYS-Mk-USR">
-                                <rect key="frame" x="0.0" y="295" width="393" height="557"/>
+                                <rect key="frame" x="0.0" y="251" width="393" height="601"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F1B-zx-WCQ">
-                                        <rect key="frame" x="0.0" y="449" width="393" height="108"/>
+                                        <rect key="frame" x="0.0" y="493" width="393" height="108"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="HJE-5y-dRz">
                                                 <rect key="frame" x="16" y="16" width="361" height="68"/>
@@ -181,10 +178,10 @@
                                         </constraints>
                                     </view>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sVw-NQ-fZ2">
-                                        <rect key="frame" x="15" y="15" width="363" height="434"/>
+                                        <rect key="frame" x="15" y="15" width="363" height="478"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="r9a-NQ-P8i">
-                                                <rect key="frame" x="0.0" y="0.0" width="363" height="326.33333333333331"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="363" height="370.33333333333331"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="yon-Sc-p1L">
                                                         <rect key="frame" x="0.0" y="0.0" width="363" height="134.66666666666666"/>
@@ -215,13 +212,13 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="tHg-XP-Vq3">
-                                                        <rect key="frame" x="0.0" y="182.33333333333331" width="363" height="144"/>
+                                                        <rect key="frame" x="0.0" y="182.33333333333331" width="363" height="188"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oyg-hu-lJc">
-                                                                <rect key="frame" x="0.0" y="0.0" width="363" height="24"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="363" height="68"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Verification Documents" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sbt-u8-snt">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="363" height="24"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="363" height="68"/>
                                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
@@ -229,7 +226,7 @@
                                                                 </subviews>
                                                             </stackView>
                                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="nmZ-ZL-E99">
-                                                                <rect key="frame" x="0.0" y="24.000000000000057" width="363" height="120"/>
+                                                                <rect key="frame" x="0.0" y="68.000000000000057" width="363" height="120"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="120" id="iIz-yF-i6v"/>
                                                                 </constraints>

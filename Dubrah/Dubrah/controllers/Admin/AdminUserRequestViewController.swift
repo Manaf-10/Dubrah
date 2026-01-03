@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseFirestore
+
 
 class AdminUserRequestViewController: AdminBaseViewController, UIGestureRecognizerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
 
@@ -13,183 +15,216 @@ class AdminUserRequestViewController: AdminBaseViewController, UIGestureRecogniz
     @IBOutlet weak var btnsView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     
-    private var request: UserRequest?
-        private var documents: [VerificationDocument] = []
-
+    // 🔑 REQUIRED INPUT
+     var request: UserRequest!
     
-    override func viewDidLoad() {
-            super.viewDidLoad()
+    private let db = Firestore.firestore()
 
-            setupNavigation()
-            setupCollectionView()
-            loadMockRequest()
+     private var documents: [VerificationDocument] = []
 
-            // Enable swipe-back safely
-            navigationController?.interactivePopGestureRecognizer?.delegate = self
-            navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        }
+     override func viewDidLoad() {
+         super.viewDidLoad()
 
-        // MARK: - Setup
-        private func setupNavigation() {
-            setNavigationTitleWithBtn(
-                title: "View Details",
-                imageName: "Back-Btn",
-                target: self,
-                action: #selector(backToHome)
-            )
-        }
+         guard request != nil else {
+                 print("❌ ERROR: No request provided to AdminUserRequestViewController")
+                 navigationController?.popViewController(animated: false)
+                 return
+             }
+             
+             guard !request.documents.isEmpty else {
+                 print("⚠️ WARNING: Request has no documents")
+                 // Continue anyway, just show empty collection view
+                 documents = []
+                 setupNavigation()
+                 setupCollectionView()
+                 return
+             }
 
-        private func setupCollectionView() {
-            collectionView.delegate = self
-            collectionView.dataSource = self
-            collectionView.backgroundColor = .clear
-            collectionView.allowsSelection = false
-        }
+             documents = request.documents
 
-        private func loadMockRequest() {
-            request = UserRequest(
-                userId: "123",
-                name: "Ahmed Ali",
-                role: "Frontend Developer",
-                documents: VerificationDocument.mockData
-            )
+             setupNavigation()
+             setupCollectionView()
 
-            documents = request?.documents ?? []
-            collectionView.reloadData()
-        }
+             navigationController?.interactivePopGestureRecognizer?.delegate = self
+             navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+         }
 
-        // MARK: - CollectionView DataSource
-        func collectionView(_ collectionView: UICollectionView,
-                            numberOfItemsInSection section: Int) -> Int {
-            documents.count
-        }
+     // MARK: - Setup
+     private func setupNavigation() {
+         setNavigationTitleWithBtn(
+             title: "View Details",
+             imageName: "Back-Btn",
+             target: self,
+             action: #selector(backToHome)
+         )
+     }
 
-        func collectionView(_ collectionView: UICollectionView,
-                            cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+     private func setupCollectionView() {
+         collectionView.delegate = self
+         collectionView.dataSource = self
+         collectionView.backgroundColor = .clear
+         collectionView.allowsSelection = false
+     }
 
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "VerifyDocCell",
-                for: indexPath
-            ) as! VerifyDocsCollectionViewCell
+     // MARK: - CollectionView DataSource
+     func collectionView(_ collectionView: UICollectionView,
+                         numberOfItemsInSection section: Int) -> Int {
+         documents.count
+     }
 
-            let doc = documents[indexPath.item]
-            cell.setupCell(photo: UIImage(named: doc.imageName)!)
+     func collectionView(_ collectionView: UICollectionView,
+                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-            return cell
-        }
+         let cell = collectionView.dequeueReusableCell(
+             withReuseIdentifier: "VerifyDocCell",
+             for: indexPath
+         ) as! VerifyDocsCollectionViewCell
 
-        // MARK: - CollectionView Layout
-        func collectionView(_ collectionView: UICollectionView,
-                            layout collectionViewLayout: UICollectionViewLayout,
-                            sizeForItemAt indexPath: IndexPath) -> CGSize {
-            CGSize(width: 120, height: 120)
-        }
+         let doc = documents[indexPath.item]
+         cell.setupCell(document: doc)
 
-        func collectionView(_ collectionView: UICollectionView,
-                            layout collectionViewLayout: UICollectionViewLayout,
-                            minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-            12
-        }
+         return cell
+     }
 
-        // MARK: - Actions
-    @IBAction func approveTapped(_ sender: UIButton) {
-        showApprovePopup()
-    }
+     // MARK: - Layout
+     func collectionView(_ collectionView: UICollectionView,
+                         layout collectionViewLayout: UICollectionViewLayout,
+                         sizeForItemAt indexPath: IndexPath) -> CGSize {
+         CGSize(width: 120, height: 120)
+     }
 
-    @IBAction func rejectTapped(_ sender: UIButton) {
-        showRejectPopup()
-    }
+     func collectionView(_ collectionView: UICollectionView,
+                         layout collectionViewLayout: UICollectionViewLayout,
+                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+         12
+     }
 
-    // MARK: - Popups
+     // MARK: - Actions
+     @IBAction func approveTapped(_ sender: UIButton) {
+         showApprovePopup()
+     }
 
-    private func showApprovePopup() {
-        let popup = ReusablePopupViewController(
-            config: .confirm(
-                title: "Approve Request",
-                message: "Are you sure you want to approve this user?",
-                confirmTitle: "Approve",
-                cancelTitle: "Cancel",
-                onConfirm: { [weak self] in
-                    self?.approveRequest()
-                },
-                onCancel: nil
-            )
-        )
+     @IBAction func rejectTapped(_ sender: UIButton) {
+         showRejectPopup()
+     }
 
-        present(popup, animated: true)
-    }
+     private func showApprovePopup() {
+         let popup = ReusablePopupViewController(
+             config: .confirm(
+                 title: "Approve Request",
+                 message: "Are you sure you want to approve this user?",
+                 confirmTitle: "Approve",
+                 cancelTitle: "Cancel",
+                 onConfirm: { [weak self] in
+                     self?.approveRequest()
+                 }
+             )
+         )
+         present(popup, animated: true)
+     }
 
-    private func showRejectPopup() {
-        let popup = ReusablePopupViewController(
-            config: .confirm(
-                title: "Reject Request",
-                message: "Are you sure you want to reject this user?",
-                confirmTitle: "Reject",
-                cancelTitle: "Cancel",
-                onConfirm: { [weak self] in
-                    self?.rejectRequest()
-                },
-                onCancel: nil
-            )
-        )
-
-        present(popup, animated: true)
-    }
-
-    // MARK: - Business Logic (Firebase later)
+     private func showRejectPopup() {
+         let popup = ReusablePopupViewController(
+             config: .confirm(
+                 title: "Reject Request",
+                 message: "Are you sure you want to reject this user?",
+                 confirmTitle: "Reject",
+                 cancelTitle: "Cancel",
+                 onConfirm: { [weak self] in
+                     self?.rejectRequest()
+                 }
+             )
+         )
+         present(popup, animated: true)
+     }
 
     private func approveRequest() {
-        print("✅ Request Approved")
-        navigationController?.popViewController(animated: true)
+        guard let userId = request?.userId else { return }
+        
+        print("✅ Approving request for user: \(userId)")
+        
+        // Update user document: set verified = true
+        db.collection("user")
+            .document(userId)
+            .updateData(["verified": true]) { [weak self] error in
+                
+                if let error = error {
+                    print("❌ Error approving: \(error)")
+                    self?.showErrorAlert(message: "Failed to approve request")
+                    return
+                }
+                
+                print("✅ User verified successfully")
+                self?.showSuccessAlert(message: "Request approved!") {
+                    self?.navigationController?.popViewController(animated: true)
+                }
+            }
     }
 
     private func rejectRequest() {
-        print("❌ Request Rejected")
-        navigationController?.popViewController(animated: true)
-    }
-
-
-        // MARK: - Tab Bar Handling
-        override func viewWillAppear(_ animated: Bool) {
-            super.viewWillAppear(animated)
-            hideTabBar(animated: animated)
-        }
-
-        override func viewDidAppear(_ animated: Bool) {
-            super.viewDidAppear(animated)
-
-            transitionCoordinator?.notifyWhenInteractionChanges { [weak self] context in
-                if context.isCancelled {
-                    self?.hideTabBar()
+        guard let userId = request?.userId else { return }
+        
+        print("❌ Rejecting request for user: \(userId)")
+        
+        // Update user: change role back to "seeker" and keep verified = false
+        db.collection("user")
+            .document(userId)
+            .updateData([
+                "role": "seeker",
+                "verified": false
+            ]) { [weak self] error in
+                
+                if let error = error {
+                    print("❌ Error rejecting: \(error)")
+                    self?.showErrorAlert(message: "Failed to reject request")
+                    return
+                }
+                
+                print("✅ Request rejected successfully")
+                self?.showSuccessAlert(message: "Request rejected") {
+                    self?.navigationController?.popViewController(animated: true)
                 }
             }
-        }
-
-        override func viewWillDisappear(_ animated: Bool) {
-            super.viewWillDisappear(animated)
-
-            transitionCoordinator?.animate(alongsideTransition: nil) { [weak self] context in
-                if !context.isCancelled {
-                    self?.showTabBar()
-                }
-            }
-        }
-
-        // MARK: - Layout
-        override func viewDidLayoutSubviews() {
-            super.viewDidLayoutSubviews()
-
-            cardView.layer.cornerRadius = 24
-            cardView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-            cardView.layer.masksToBounds = true
-
-            btnsView.layer.cornerRadius = 24
-            btnsView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-            btnsView.layer.masksToBounds = true
-        }
-
-        // MARK: - Navigation
-        @objc private func backToHome() {
-            navigationController?.popViewController(animated: true)
-        }
     }
+
+    // Helper methods
+    private func showSuccessAlert(message: String, completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+            completion?()
+        })
+        present(alert, animated: true)
+    }
+
+    private func showErrorAlert(message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
+
+     // MARK: - Tab Bar
+     override func viewWillAppear(_ animated: Bool) {
+         super.viewWillAppear(animated)
+         hideTabBar(animated: animated)
+     }
+
+     override func viewWillDisappear(_ animated: Bool) {
+         super.viewWillDisappear(animated)
+         showTabBar()
+     }
+
+     // MARK: - Layout
+     override func viewDidLayoutSubviews() {
+         super.viewDidLayoutSubviews()
+
+         cardView.layer.cornerRadius = 24
+         cardView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+
+         btnsView.layer.cornerRadius = 24
+         btnsView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+     }
+
+     @objc private func backToHome() {
+         navigationController?.popViewController(animated: true)
+     }
+ }

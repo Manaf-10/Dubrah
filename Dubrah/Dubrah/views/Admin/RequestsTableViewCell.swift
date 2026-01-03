@@ -14,21 +14,38 @@ class RequestsTableViewCell: UITableViewCell {
     @IBOutlet weak var lblUsername: UILabel!
     @IBOutlet weak var lblUserRole: UILabel!
     @IBOutlet weak var btnViewRequest: UIButton!
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-    
-    func setupCell(photo: UIImage, name: String, role: String) {
-        imgUserPhoto.image = photo
-        lblUsername.text = name
-        lblUserRole.text = role
-    }
+    var onViewTapped: (() -> Void)?
+      
+      override func awakeFromNib() {
+          super.awakeFromNib()
+          
+          // ✅ ADD THIS: Connect button action
+          btnViewRequest.addTarget(self, action: #selector(viewButtonTapped), for: .touchUpInside)
+      }
+      
+      // ✅ ADD THIS: Button action
+      @objc private func viewButtonTapped() {
+          onViewTapped?()
+      }
+      
+      func setupCell(photoUrl: String?, name: String, role: String) {
+          lblUsername.text = name
+          lblUserRole.text = role
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+          guard let photoUrl else {
+              imgUserPhoto.image = UIImage(named: "Log-Profile")
+              return
+          }
 
-        // Configure the view for the selected state
-    }
+          Task {
+              let image = await ImageDownloader.fetchImage(from: photoUrl)
+              await MainActor.run {
+                  self.imgUserPhoto.image = image ?? UIImage(named: "Log-Profile")
+              }
+          }
+      }
 
-}
+      override func setSelected(_ selected: Bool, animated: Bool) {
+          super.setSelected(selected, animated: animated)
+      }
+  }

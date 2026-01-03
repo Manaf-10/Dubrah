@@ -50,9 +50,14 @@ class UsersCollectionViewCell: UICollectionViewCell {
 
         }
 
-        func setupCell(with user: User) {
-            imgUserAvatar.image = user.avatar
-            UsernameLbl.text = user.username
-            UserRoleLbl.text = user.role
+    func setupCell(with user: AppUser) {
+        UsernameLbl.text = user.fullName
+        UserRoleLbl.text = user.role
+
+        if let url = user.profilePicture {
+            imgUserAvatar.loadFromUrl(url)
+        } else {
+            imgUserAvatar.image = UIImage(named: "Log-Profile")
         }
+    }
     }

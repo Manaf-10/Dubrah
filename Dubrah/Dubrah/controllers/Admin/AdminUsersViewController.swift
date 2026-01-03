@@ -11,7 +11,9 @@ class AdminUsersViewController: AdminBaseViewController, UICollectionViewDelegat
 
     @IBOutlet weak var collectionView: UICollectionView!
     
-    private var users: [User] = []
+    private let service = AdminUsersService()
+    private var users: [AppUser] = []
+
 
        override func viewDidLoad() {
            super.viewDidLoad()
@@ -32,41 +34,42 @@ class AdminUsersViewController: AdminBaseViewController, UICollectionViewDelegat
     }
 
 
-       private func loadUsers() {
-           // For now (mock data)
-           users = User.mockUsers
-           collectionView.reloadData()
-       }
+    private func loadUsers() {
+        service.fetchUsers { [weak self] users in
+            self?.users = users
+            self?.collectionView.reloadData()
+        }
+    }
 
        // MARK: - CollectionView DataSource
 
        func collectionView(_ collectionView: UICollectionView,
                            numberOfItemsInSection section: Int) -> Int {
-           return users.count
+            users.count
        }
 
-       func collectionView(_ collectionView: UICollectionView,
-                           cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-           let cell = collectionView.dequeueReusableCell(
-               withReuseIdentifier: "userCell",
-               for: indexPath
-           ) as! UsersCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: "userCell",
+            for: indexPath
+        ) as! UsersCollectionViewCell
 
-           cell.setupCell(with: users[indexPath.item])
-           return cell
-       }
+        cell.setupCell(with: users[indexPath.item])
+        return cell
+    }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
 
         let user = users[indexPath.item]
 
         let vc = UIStoryboard(name: "Users", bundle: nil)
-            .instantiateViewController(withIdentifier: "UserProfileViewController")
+            .instantiateViewController(withIdentifier: "AdminUserProfileViewController")
             as! AdminUserProfileViewController
 
-        vc.user = user   // 👈 MUST be set before push
-
+        vc.userId = user.id
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -76,12 +79,12 @@ class AdminUsersViewController: AdminBaseViewController, UICollectionViewDelegat
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
 
-        let padding: CGFloat = 16      // left + right
+        let padding: CGFloat = 16      // left (8) + right (8) = 16
         let spacing: CGFloat = 12      // space between cells
-        let totalSpacing = padding + spacing
+        let totalHorizontal = padding + spacing  // 28
 
-        let availableWidth = collectionView.bounds.width - totalSpacing
-        let cellWidth = availableWidth / 2   // 👈 2 columns
+        let availableWidth = collectionView.bounds.width - totalHorizontal
+        let cellWidth = availableWidth / 2
 
         return CGSize(width: cellWidth, height: 200)
     }

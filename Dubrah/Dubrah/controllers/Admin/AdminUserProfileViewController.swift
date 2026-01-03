@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 class AdminUserProfileViewController: AdminBaseViewController,
 UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -26,99 +27,143 @@ UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFl
     
     @IBOutlet weak var takeActionButton: UIButton!
 
-    private var profile: UserProfileDetails?
-    private var certificates: [Certificate] = []
-    private var portfolio: [PortfolioItem] = []
-    var user: User?
+    var userId: String!
+      
+      private let db = Firestore.firestore()
+      private var user: AppUser?
+      private var portfolio: [PortfolioItem] = []
+      private var certificates: [Certificate] = []
 
+      override func viewDidLoad() {
+          super.viewDidLoad()
 
+          guard userId != nil else {
+              print("No userId provided!")
+              return
+          }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        guard let user else {
-             fatalError("❌ UserProfileViewController opened without User")
-         }
-
-         buildProfile(from: user)
-         setupCollections()
-         bindData()
-     }
+          setupNavigation()
+//          setupNavigationTitle("User Profile")
+//          setupNavigationAppearance()
+          
+          setupCollections()
+          fetchUser()
+      }
     
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == certificatesCollectionView {
-            return certificates.count
-        } else {
-            return portfolio.count
-        }
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == certificatesCollectionView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CertificateCell", for: indexPath) as! CertificateCollectionViewCell
-            cell.setup(with: certificates[indexPath.item])
-            return cell
-        } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PortfolioCell", for: indexPath) as! PortfolioCollectionViewCell
-            cell.setup(with: portfolio[indexPath.item])
-            return cell
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-
-        if collectionView == certificatesCollectionView {
-            return CGSize(width: 110, height: 110)   // square cards
-        } else {
-            return CGSize(width: 200, height: 170)   // portfolio card with labels
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 12
-    }
-
-
-
-    
-    private func buildProfile(from user: User) {
-        profile = UserProfileDetails(
-            avatar: user.avatar,
-            username: user.username,
-            role: user.role,
-            description: "This description will later come from Firebase"
+    private func setupNavigation() {
+        setNavigationTitleWithBtn(
+            title: "View Details",
+            imageName: "Back-Btn",
+            target: self,
+            action: #selector(backToHome)
         )
-
-        certificates = Certificate.mock
-        portfolio = PortfolioItem.mock
     }
+      
+      private func setupCollections() {
+          certificatesCollectionView.delegate = self
+          certificatesCollectionView.dataSource = self
+          portfolioCollectionView.delegate = self
+          portfolioCollectionView.dataSource = self
+          
+          // Make avatar circular
+          avatarImageView.layer.cornerRadius = avatarImageView.frame.width / 2
+          avatarImageView.clipsToBounds = true
+      }
+      
+      override func viewDidLayoutSubviews() {
+          super.viewDidLayoutSubviews()
+          avatarImageView.layer.cornerRadius = avatarImageView.frame.width / 2
+      }
+      
+      private func fetchUser() {
+          db.collection("user")
+              .document(userId)
+              .getDocument { [weak self] snap, error in
+                  
+                  if let error = error {
+                      print("❌ Error fetching user: \(error)")
+                      return
+                  }
 
+                  guard
+                      let snap = snap,
+                      snap.exists,
+                      let data = snap.data(),
+                      let user = AppUser(id: snap.documentID, data: data)
+                  else {
+                      print("❌ User document not found or invalid")
+                      return
+                  }
 
+                  self?.user = user
+                  self?.bindUser()
+                  self?.loadPortfolio()
+              }
+      }
+      
+      private func bindUser() {
+          guard let user = user else { return }
+
+          usernameLabel.text = user.fullName
+          roleLabel.text = user.role
+          descriptionLabel.text = "Username: @\(user.userName)"
+
+          if let url = user.profilePicture {
+              avatarImageView.loadFromUrl(url)
+          } else {
+              avatarImageView.image = UIImage(named: "Log-Profile")
+          }
+      }
+      
+      private func loadPortfolio() {
+          // TODO: Fetch from ProviderDetails collection
+          portfolio = PortfolioItem.mock
+          certificates = Certificate.mock
+          
+          portfolioCollectionView.reloadData()
+          certificatesCollectionView.reloadData()
+      }
+      
+      // MARK: - CollectionView DataSource
+      
+      func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+          if collectionView == certificatesCollectionView {
+              return certificates.count
+          } else {
+              return portfolio.count
+          }
+      }
+
+      func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+          if collectionView == certificatesCollectionView {
+              let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CertificateCell", for: indexPath) as! CertificateCollectionViewCell
+              cell.setup(with: certificates[indexPath.item])
+              return cell
+          } else {
+              let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PortfolioCell", for: indexPath) as! PortfolioCollectionViewCell
+              cell.setup(with: portfolio[indexPath.item])
+              return cell
+          }
+      }
+      
+      func collectionView(_ collectionView: UICollectionView,
+                          layout collectionViewLayout: UICollectionViewLayout,
+                          sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+          if collectionView == certificatesCollectionView {
+              return CGSize(width: 110, height: 110)
+          } else {
+              return CGSize(width: 200, height: 170)
+          }
+      }
+      
+      func collectionView(_ collectionView: UICollectionView,
+                          layout collectionViewLayout: UICollectionViewLayout,
+                          minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+          return 12
+      }
     
-    private func setupCollections() {
-        certificatesCollectionView.delegate = self
-        certificatesCollectionView.dataSource = self
-
-        portfolioCollectionView.delegate = self
-        portfolioCollectionView.dataSource = self
+    @objc private func backToHome() {
+        navigationController?.popViewController(animated: true)
     }
-
-    
-    private func bindData() {
-        guard let profile else { return }
-
-        avatarImageView.image = profile.avatar
-        usernameLabel.text = profile.username
-        roleLabel.text = profile.role
-        descriptionLabel.text = profile.description
-    }
-
-
-
-
-}
+  }
