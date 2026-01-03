@@ -19,14 +19,7 @@ class SearchViewController: UIViewController,
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     
-    let allServices: [Service] = [
-        Service(id: "S001", category: "Beauty", description: "Professional men's haircut including wash and styling.", duration: 30, image: "haircut", providerID: "P100", title: "Men's Haircut", price: 15.0, rating: 4.5),
-        Service(id: "S002", category: "Beauty", description: "Relaxing full body massage by certified therapists.", duration: 60, image: "massage", providerID: "P101", title: "Full Body Massage", price: 50.0, rating: 4.9),
-        Service(id: "S003", category: "Beauty", description: "Facial treatment to cleanse and rejuvenate skin.", duration: 45, image: "facial", providerID: "P102", title: "Facial Treatment", price: 40.0, rating: 4.7),
-        Service(id: "S004", category: "Home", description: "Deep home cleaning service for apartments and villas.", duration: 120, image: "cleaning", providerID: "P200", title: "Home Cleaning", price: 80.0, rating: 4.6),
-        Service(id: "S005", category: "Auto", description: "Complete car wash including interior and exterior.", duration: 45, image: "carwash", providerID: "P300", title: "Car Wash", price: 10.0, rating: 4.3),
-        Service(id: "S006", category: "Education", description: "One-on-one math tutoring for high school students.", duration: 60, image: "tutoring", providerID: "P400", title: "Math Tutoring", price: 25.0, rating: 4.8)
-    ]
+    let allServices: [Service] = []
 
     var categories: [Category] = []
     var filteredServices: [Service] = []
