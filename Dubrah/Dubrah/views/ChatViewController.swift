@@ -41,6 +41,30 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         NSLayoutConstraint.activate([
             pageContainer.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor, constant: -10)
         ])
+        Task {
+            do {
+                let name = try await getUserField(from: receiverID ?? "", field: "userName") as? String ?? "Unknown"
+                let picUrl = try await getUserField(from: receiverID ?? "", field: "profilePicture") as? String ?? ""
+                let verified = try await getUserField(from: receiverID ?? "", field: "verified") as? Bool ?? false
+
+                var img: UIImage? = nil
+                if !picUrl.isEmpty {
+                    img = try await ImageDownloader.fetchImage(from: picUrl)
+                }
+
+                await MainActor.run {
+                    self.userName = name
+                    self.isVerified = verified
+                    self.userImage = img
+
+                    self.profileImage.image = img ?? UIImage(named: "user_icon")
+                    self.setupHeader() // call a method to refresh nameLabel
+                }
+            } catch {
+                print("❌ failed to load receiver profile:", error)
+            }
+        }
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -49,6 +73,7 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         NotificationCenter.default.removeObserver(self)
         self.navigationController?.isNavigationBarHidden = false
     }
+
     
     // MARK: - Setup
     override func setupStyle() {
@@ -144,4 +169,25 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         let indexPath = IndexPath(row: messages.count - 1, section: 0)
         tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
+    
+    private func setupHeader() {
+        let attributedText = NSMutableAttributedString()
+        let tempName = userName ?? "Unknown"
+
+        let name = NSAttributedString(string: tempName + " ", attributes: [
+            .font: UIFont.boldSystemFont(ofSize: 18),
+            .foregroundColor: UIColor(hex:"#353E5C")
+        ])
+
+        let attachment = NSTextAttachment()
+        attachment.image = UIImage(named: "verified")
+        attachment.bounds = CGRect(x: 0, y: -1, width: 14, height: 14)
+
+        attributedText.append(name)
+        if isVerified {
+            attributedText.append(NSAttributedString(attachment: attachment))
+        }
+        nameLabel.attributedText = attributedText
+    }
+
 }

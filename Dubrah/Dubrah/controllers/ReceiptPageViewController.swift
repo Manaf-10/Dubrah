@@ -141,4 +141,36 @@ class ReceiptPageViewController: UIViewController {
    @IBAction func doneTapped(_ sender: UIButton) {
     navigationController?.popToRootViewController(animated: true)
 }
+    
+    
+    @IBAction func chatWithUserTapped(_ sender: Any) {
+        guard
+            let currentUID = Auth.auth().currentUser?.uid,
+            let receiverID = providerId,
+            !receiverID.isEmpty
+        else { return }
+        
+        Task {
+            do {
+                let chatID = try await ChatController.shared.getOrCreateChat(
+                    user1ID: currentUID,
+                    user2ID: receiverID
+                )
+                
+                await MainActor.run {
+                    // IMPORTANT: Set ChatViewController storyboard ID to "ChatViewController"
+                    let vc = self.storyboard?.instantiateViewController(
+                        withIdentifier: "ChatVC"
+                    ) as! ChatViewController
+                    
+                    vc.chatID = chatID
+                    vc.receiverID = receiverID
+                    
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            } catch {
+                print("❌ open chat failed:", error)
+            }
+        }
+    }
 }

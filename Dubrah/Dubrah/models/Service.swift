@@ -39,6 +39,34 @@ struct Service {
         }
     }
 
+    
+    init(
+            id: String,
+            category: String,
+            title: String,
+            description: String,
+            price: Double,
+            duration: Int,
+            image: String,
+            providerID: String,
+            paymentMethods: [String],
+            createdAt: Date,
+            reviews: [Review]
+        ) {
+            self.id = id
+            self.category = category
+            self.title = title
+            self.description = description
+            self.price = price
+            self.duration = duration
+            self.image = image
+            self.providerID = providerID
+            self.paymentMethods = paymentMethods
+            self.createdAt = createdAt
+            self.reviews = reviews
+        }
+    
+    
     init?(document: QueryDocumentSnapshot) {
         self.init(id: document.documentID, data: document.data())
     }

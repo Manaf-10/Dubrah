@@ -74,4 +74,24 @@ class ChatController {
             "lastMessageTimestamp": Timestamp(date: Date())
         ])
     }
+    
+    func getOrCreateChat(user1ID: String, user2ID: String) async throws -> String {
+        let chatID = generateChatID(user1ID: user1ID, user2ID: user2ID)
+        let ref = db.collection("Chat").document(chatID)
+
+        let doc = try await ref.getDocument()
+        if doc.exists { return chatID }
+
+        let chatData: [String: Any] = [
+            "participants": [user1ID, user2ID],
+            "messages": [],
+            "createdAt": Timestamp(date: Date()),
+            "lastMessage": "",
+            "lastMessageTimestamp": Timestamp(date: Date())
+        ]
+
+        try await ref.setData(chatData)
+        return chatID
+    }
+
 }

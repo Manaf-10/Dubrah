@@ -10,7 +10,7 @@ import FirebaseAuth
 class NotificationViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
-    private let refreshControl = UIRefreshControl() // pull to refresh
+    private let refreshControl = UIRefreshControl()
     
     struct NotificationSection {
         let title: String?

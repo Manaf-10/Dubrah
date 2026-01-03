@@ -9,9 +9,9 @@ import UIKit
 import FirebaseFirestore
 import Firebase
 
-class ServiceDetailsViewController: UIViewController {
+class ServiceDetailsViewController: BaseViewController {
 
-    var serviceId: String? = "jXhYcY9MOD1mgF1OV3Rl"
+    var serviceId: String?
     private var service: Service?
     private var providerRating: Double = 0
     
@@ -49,7 +49,14 @@ class ServiceDetailsViewController: UIViewController {
             super.viewDidLoad()
             configureUI()
             fetchService()
-        }
+        let backImage = UIImage(named: "service_details_back")?
+            .withRenderingMode(.alwaysOriginal)
+        navigationController?.navigationBar.backIndicatorImage = backImage
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
+        navigationItem.backButtonTitle = ""
+        navigationItem.backButtonDisplayMode = .minimal
+
+    }
 
         // MARK: - UI Setup
         private func configureUI() {
@@ -221,6 +228,7 @@ class ServiceDetailsViewController: UIViewController {
            let service = service {
 
             destination.serviceId = service.id
+            destination.serviceName = service.title
         }
     }
 

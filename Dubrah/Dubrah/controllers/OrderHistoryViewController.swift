@@ -15,7 +15,7 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
     
 
     private var orders: [Order] = []
-
+    
     override func viewDidLoad() {
         tableView.allowsSelection = false
         super.viewDidLoad()
@@ -73,8 +73,43 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
         cell.viewDetailsButton.tag = indexPath.row
         cell.viewDetailsButton.addTarget(self, action: #selector(viewDetailsTapped(_:)), for: .touchUpInside)
 
+        cell.onChatTapped = { [weak self] in
+            self?.openChat(for: order)
+        }
+
         return cell
     }
+    
+    private func openChat(for order: Order) {
+        guard
+            let currentUID = Auth.auth().currentUser?.uid
+        else { return }
+
+        let receiverID = order.providerID
+        guard !receiverID.isEmpty else { return }
+
+        Task {
+            do {
+                let chatID = try await ChatController.shared.getOrCreateChat(
+                    user1ID: currentUID,
+                    user2ID: receiverID
+                )
+
+                await MainActor.run {
+                    // Make sure storyboard ID is correct (you said it's "ChatVC")
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChatVC") as! ChatViewController
+                    vc.chatID = chatID
+                    vc.receiverID = receiverID
+
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            } catch {
+                print("❌ open chat failed:", error)
+            }
+        }
+    }
+
+
     
     
 
@@ -105,5 +140,5 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
             return
         }
     }
-
+    
 }

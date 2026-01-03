@@ -28,6 +28,11 @@ class MessagesViewController: BaseViewController, UITableViewDelegate, UITableVi
         
         Task { await loadData() }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
 
     func loadData() async {
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -62,7 +67,9 @@ class MessagesViewController: BaseViewController, UITableViewDelegate, UITableVi
         isSearching = false
         searchBar.text = ""
         searchBar.resignFirstResponder()
-        tableView.reloadData()
+        Task {
+            try await loadData()
+        }
     }
 
     // MARK: - TableView DataSource

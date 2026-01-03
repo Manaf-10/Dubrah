@@ -5,25 +5,24 @@
 
 import UIKit
 
-class SearchViewController: UIViewController,
-                            UITableViewDelegate,
-                            UITableViewDataSource,
-                            UISearchBarDelegate,
-                            UICollectionViewDelegate,
-                            UICollectionViewDataSource,
-                            UICollectionViewDelegateFlowLayout {
+final class SearchViewController: UIViewController,
+                                  UITableViewDelegate,
+                                  UITableViewDataSource,
+                                  UISearchBarDelegate,
+                                  UICollectionViewDelegate,
+                                  UICollectionViewDataSource,
+                                  UICollectionViewDelegateFlowLayout {
 
     @IBOutlet weak var categoryCollectionView: UICollectionView!
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var noResultsLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
-    
-    let allServices: [Service] = []
 
+    var allServices: [Service] = []
     var categories: [Category] = []
     var filteredServices: [Service] = []
-    
+
     var isPriceAscending = true
     var isRatingAscending = false
     var isTitleAscending = true
@@ -32,51 +31,89 @@ class SearchViewController: UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.title = ""
+        navigationItem.backButtonTitle = ""
+        navigationItem.backButtonDisplayMode = .minimal
+
+
+        // Table
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 120
-        
+
+        // Search + Collection
         searchBar.delegate = self
         categoryCollectionView.delegate = self
         categoryCollectionView.dataSource = self
-        
-        // Horizontal scrolling layout for categories
+
+        // Horizontal categories layout
         if let layout = categoryCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = .horizontal
             layout.minimumInteritemSpacing = 8
             layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         }
 
-        // Dismiss keyboard on tap
+        // Dismiss keyboard
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false   // ✅ FIX 1 — put it HERE
         view.addGestureRecognizer(tapGesture)
-        
+
+
+        // Initial UI state
+        noResultsLabel.isHidden = true
+        filteredServices = []
+
+        // Load services
+        Task {
+            do {
+                try await loadData()
+                await MainActor.run {
+                    self.filteredServices = self.allServices
+                    self.noResultsLabel.isHidden = !self.filteredServices.isEmpty
+                    self.tableView.reloadData()
+                }
+            } catch {
+                print("Failed to fetch services:", error.localizedDescription)
+                await MainActor.run {
+                    self.filteredServices = []
+                    self.noResultsLabel.isHidden = false
+                    self.tableView.reloadData()
+                }
+            }
+        }
+
         // Load categories
         Task {
             do {
-                categories = try await CategoriesController().getAllCategories()
-                categoryCollectionView.reloadData()
+                let fetched = try await CategoriesController().getAllCategories()
+                await MainActor.run {
+                    self.categories = fetched
+                    self.categoryCollectionView.reloadData()
+                }
             } catch {
                 print("Failed to fetch categories:", error.localizedDescription)
             }
         }
-        
-        filteredServices = allServices
     }
-    
-    @objc func dismissKeyboard() {
+
+    @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
 
-    // MARK: - TableView DataSource
+    // MARK: - TableView
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredServices.count
+        filteredServices.count
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ServiceCell", for: indexPath) as? ServiceTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: "ServiceCell",
+            for: indexPath
+        ) as? ServiceTableViewCell else {
             return UITableViewCell()
         }
 
@@ -85,30 +122,49 @@ class SearchViewController: UIViewController,
         return cell
     }
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        let selected = filteredServices[indexPath.row]
+        print("Tapped row:", indexPath.row)
+
+        let detailsVC = storyboard?.instantiateViewController(
+            withIdentifier: "ServiceDetailsViewController"
+        ) as! ServiceDetailsViewController
+
+        detailsVC.serviceId = selected.id
+
+        navigationController?.pushViewController(detailsVC, animated: true)
+    }
+
+
     // MARK: - SearchBar
+
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.isEmpty {
-            filteredServices = allServices
-            noResultsLabel.isHidden = true
-        } else {
-            filteredServices = allServices.filter { $0.title.lowercased().contains(searchText.lowercased()) }
-            noResultsLabel.isHidden = !filteredServices.isEmpty
-        }
-        tableView.reloadData()
+        applyFilters(searchText: searchText)
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        dismissKeyboard()
     }
 
     // MARK: - CollectionView
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categories.count
+        categories.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as! CategoryCell
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: "CategoryCell",
+            for: indexPath
+        ) as! CategoryCell
+
         let category = categories[indexPath.item]
         cell.categoryTitleLabel.text = category.title
 
-        // Highlight selected
         if indexPath == selectedCategoryIndex {
             cell.contentView.backgroundColor = .systemBlue
             cell.categoryTitleLabel.textColor = .white
@@ -121,25 +177,54 @@ class SearchViewController: UIViewController,
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectedCategoryIndex = indexPath
-        let category = categories[indexPath.item]
-        filterServices(by: category)
+        // Toggle selection
+        if selectedCategoryIndex == indexPath {
+            selectedCategoryIndex = nil
+        } else {
+            selectedCategoryIndex = indexPath
+        }
+
         collectionView.reloadData()
+        applyFilters(searchText: searchBar.text ?? "")
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
+
         let title = categories[indexPath.item].title
         let font = UIFont.systemFont(ofSize: 14, weight: .medium)
         let width = title.size(withAttributes: [.font: font]).width + 24
         return CGSize(width: width, height: 32)
     }
 
-    // MARK: - Filter
-    func filterServices(by category: Category) {
-        filteredServices = allServices.filter { $0.category == category.title }
-        tableView.reloadData()
+    // MARK: - Filtering (category + search together)
+
+    private func applyFilters(searchText: String) {
+        var result = allServices
+
+        // Category filter
+        if let selected = selectedCategoryIndex, selected.item < categories.count {
+            let catTitle = categories[selected.item].title
+            result = result.filter { $0.category == catTitle }
+        }
+
+        // Text filter
+        let trimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !trimmed.isEmpty {
+            let lower = trimmed.lowercased()
+            result = result.filter { $0.title.lowercased().contains(lower) }
+        }
+
+        filteredServices = result
         noResultsLabel.isHidden = !filteredServices.isEmpty
+        tableView.reloadData()
+    }
+
+    // MARK: - Data
+
+    private func loadData() async throws {
+        allServices = try await ServiceController.shared.getAllServices()
     }
 }
+

@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseFirestore
 
-class ProductReviewsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ProductReviewsViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -27,7 +27,8 @@ class ProductReviewsViewController: UIViewController, UITableViewDelegate, UITab
     
  
     var serviceId: String!
-
+    var serviceName: String!
+    
     private var reviews: [Review] = []
     private let db = Firestore.firestore()
 
@@ -41,6 +42,7 @@ class ProductReviewsViewController: UIViewController, UITableViewDelegate, UITab
         tableView.estimatedRowHeight = 200
 
         fetchReviews()
+        setupNavigation(title: serviceName)
     }
 
     // MARK: - FETCH REVIEWS
