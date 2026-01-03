@@ -112,6 +112,9 @@
                                         <buttonConfiguration key="configuration" style="plain" title="Sign In">
                                             <fontDescription key="titleFontDescription" type="boldSystem" pointSize="16"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="rememberPasswordBtnTapped:" destination="e1T-ew-QkN" eventType="touchUpInside" id="s6g-1h-EqZ"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -255,6 +258,9 @@ turn every connection into an opportunity.</string>
                                                                 <integer key="value" value="12"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <segue destination="FmX-NA-qdC" kind="presentation" modalPresentationStyle="fullScreen" id="jcH-gj-M80"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6vE-DL-lkz">
                                                         <rect key="frame" x="0.0" y="47.666666666666629" width="353" height="34.333333333333343"/>
@@ -302,6 +308,14 @@ turn every connection into an opportunity.</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w7n-BR-Xl4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="10755" y="256"/>
+        </scene>
+        <!--Registration-->
+        <scene sceneID="RIw-hf-jEG">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Registration" id="FmX-NA-qdC" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="frR-aW-0aF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="11231" y="389"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="xgo-5x-ymF">
@@ -462,6 +476,9 @@ turn every connection into an opportunity.</string>
                                                                         <buttonConfiguration key="configuration" style="plain" title="Sign Up">
                                                                             <fontDescription key="titleFontDescription" type="boldSystem" pointSize="16"/>
                                                                         </buttonConfiguration>
+                                                                        <connections>
+                                                                            <segue destination="0gc-eB-6Wz" kind="presentation" modalPresentationStyle="fullScreen" id="Pqt-GF-Cye"/>
+                                                                        </connections>
                                                                     </button>
                                                                 </subviews>
                                                                 <constraints>
@@ -503,6 +520,14 @@ turn every connection into an opportunity.</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T9a-SJ-VJl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="11689" y="257"/>
+        </scene>
+        <!--Registration-->
+        <scene sceneID="hTt-86-smu">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Registration" id="0gc-eB-6Wz" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c5P-cW-K02" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="12142" y="419"/>
         </scene>
     </scenes>
     <resources>

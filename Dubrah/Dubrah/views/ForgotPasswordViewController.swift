@@ -13,6 +13,20 @@ class ForgotPasswordViewController: UIViewController {
         sendResetCodebtn.clipsToBounds = true
     }
     
+    @IBAction func rememberPasswordBtnTapped(_ sender: Any) {
+       
+            // Use navigationController to pop to a specific view controller
+            if let navigationController = self.navigationController {
+                // Check if there are enough view controllers to pop
+                if navigationController.viewControllers.count > 2 {
+                    // Pop to the previous view controller (or target view controller)
+                    let targetViewController = navigationController.viewControllers[navigationController.viewControllers.count - 2]
+                    navigationController.popToViewController(targetViewController, animated: true)
+                }
+            }
+        
+        
+    }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }

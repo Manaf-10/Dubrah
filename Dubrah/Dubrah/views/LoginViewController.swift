@@ -1,5 +1,6 @@
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
    
@@ -30,14 +31,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        
         Task {
             do {
-                
+                // Sign in using Firebase Authentication
                 try await AuthManager.shared.signIn(email: email, password: password)
                 
-                
-                self.performSegue(withIdentifier: "goToHomePage", sender: nil)
+                // Fetch the current user
+                if let user = Auth.auth().currentUser {
+                    // Check user role from Firestore
+                    checkUserRole(userId: user.uid)
+                }
                 
             } catch let error as NSError {
                 
@@ -55,16 +58,49 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
+    func checkUserRole(userId: String) {
+        // Fetch the user's role from Firestore
+        let db = Firestore.firestore()
+        db.collection("users").document(userId).getDocument { [weak self] document, error in
+            if let error = error {
+                print("Error fetching user role: \(error.localizedDescription)")
+                self?.showAlert(message: "Error fetching user role.")
+                return
+            }
+            
+            guard let document = document, document.exists else {
+                print("No user document found.")
+                self?.showAlert(message: "User not found.")
+                return
+            }
+            
+            // Assuming role is stored in the document as 'role'
+            if let role = document.data()?["role"] as? String {
+                // Check if the user is an admin
+                if role == "admin" {
+                    // Navigate to Admin Dashboard
+                    self?.performSegue(withIdentifier: "goToAdminDashboard", sender: nil)
+                } else {
+                    // Navigate to regular home page
+                    self?.performSegue(withIdentifier: "goToHomePage", sender: nil)
+                }
+            } else {
+                self?.showAlert(message: "Role not found for user.")
+            }
+        }
+    }
+
     func showAlert(message: String) {
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }
-
-   
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToHomePage" {
-            
+            // Handle the navigation to the regular home page
+        } else if segue.identifier == "goToAdminDashboard" {
+            // Handle the navigation to the admin dashboard
         }
     }
 }

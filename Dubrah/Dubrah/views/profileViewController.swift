@@ -167,8 +167,8 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
         }
         
         
-        if self.services.count > 3 {
-            self.services = Array(self.services.prefix(3))
+        if self.services.count > 2 {
+            self.services = Array(self.services.prefix(2))
         }
         
         
