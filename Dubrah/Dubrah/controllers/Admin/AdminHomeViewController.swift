@@ -24,19 +24,17 @@ class AdminHomeViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     @IBAction func didTapUsers(_ sender: UIControl) {
-        let usersVC = UIStoryboard(name: "Users", bundle: nil)
-            .instantiateViewController(withIdentifier: "UsersViewController")
-            as! AdminUsersViewController
-        
-        navigationController?.pushViewController(usersVC, animated: true)
+        (parent as? UINavigationController)?
+                .parent
+                .flatMap { $0 as? AdminTabBarController }?
+                .didSelectTab(index: 1)
     }
     
     @IBAction func didTapServices(_ sender: UIControl) {
-        let servicesVC = UIStoryboard(name: "Services", bundle: nil)
-               .instantiateViewController(withIdentifier: "ServicesViewController")
-               as! AdminServicesViewController
-           
-           navigationController?.pushViewController(servicesVC, animated: true)
+        (parent as? UINavigationController)?
+                .parent
+                .flatMap { $0 as? AdminTabBarController }?
+                .didSelectTab(index: 1)
     }
     
     

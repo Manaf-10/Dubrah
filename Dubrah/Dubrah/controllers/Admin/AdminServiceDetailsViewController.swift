@@ -54,6 +54,8 @@ class AdminServiceDetailsViewController: AdminBaseViewController, UIGestureRecog
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        providerAvatarImageView.layer.cornerRadius = providerAvatarImageView.frame.width / 2
+        
         cardView.layer.cornerRadius = 24
         cardView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         cardView.layer.masksToBounds = true
@@ -96,10 +98,7 @@ class AdminServiceDetailsViewController: AdminBaseViewController, UIGestureRecog
          }
      }
 
-     override func viewDidLayoutSubviews() {
-         super.viewDidLayoutSubviews()
-         providerAvatarImageView.layer.cornerRadius = providerAvatarImageView.frame.width / 2
-     }
+     
 
      private func configureUI() {
          serviceImageView.contentMode = .scaleAspectFill
