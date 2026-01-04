@@ -82,7 +82,6 @@ class NotificationController{
     }
     
     func newNotification(receiverId: String, senderId: String, type: NotificationType) async {
-       return
         let userRef = db.collection("user").document(receiverId)
         let senderRef = db.collection("user").document(senderId)
         
