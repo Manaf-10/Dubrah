@@ -81,10 +81,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             }
             
             if let role = document.data()?["role"] as? String {
+                print("ROle \(role)")
                 if role == "admin" {
                     self?.performSegue(withIdentifier: "goToAdminDashboard", sender: nil)
+                    print("Admin")
                 } else {
                     self?.performSegue(withIdentifier: "goToHomePage", sender: nil)
+                    print("user")
                 }
             } else {
                 self?.showAlert(message: "User role not found or is invalid.")

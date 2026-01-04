@@ -515,6 +515,7 @@ turn every connection into an opportunity.</string>
                         <outlet property="emailTextFeild" destination="Pg6-K6-28s" id="fMm-bI-PrF"/>
                         <outlet property="passwordTextField" destination="VXa-Lv-GKf" id="05b-Bl-nrW"/>
                         <segue destination="Cd3-qK-t5d" kind="presentation" identifier="goToHomePage" modalPresentationStyle="fullScreen" id="vE0-Jr-ehJ"/>
+                        <segue destination="9Fo-aa-KUO" kind="presentation" identifier="goToAdminDashboard" modalPresentationStyle="fullScreen" id="Wd3-P3-rrX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T9a-SJ-VJl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -528,6 +529,16 @@ turn every connection into an opportunity.</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c5P-cW-K02" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="12142" y="419"/>
+        </scene>
+        <!--TabBarController-->
+        <scene sceneID="ja1-iS-IDl">
+            <objects>
+                <viewControllerPlaceholder storyboardName="TabBarController" id="9Fo-aa-KUO" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="c4v-RY-jVr"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EaK-0j-nPo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="12202" y="330"/>
         </scene>
     </scenes>
     <resources>
