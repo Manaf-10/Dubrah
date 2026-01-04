@@ -15,7 +15,7 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
     
 
     private var orders: [Order] = []
-    
+    var serviceId: String?
     override func viewDidLoad() {
         tableView.allowsSelection = false
         super.viewDidLoad()
@@ -65,6 +65,7 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
         ) as! OrderHistoryCell
 
         let order = orders[indexPath.row]
+        serviceId = order.serviceID
         cell.configure(order)
 
         cell.rateButton.tag = indexPath.row
@@ -121,7 +122,11 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
         performSegue(withIdentifier: "toOrderDetails", sender: orders[sender.tag])
         
     }
-
+    
+    @IBAction func orderAgainTapped(_ sender: Any) {
+        performSegue(withIdentifier: "toOrderAgain", sender: serviceId)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         if segue.identifier == "toOrderDetails",
@@ -139,6 +144,16 @@ class OrderHistoryViewController: UIViewController, UITableViewDelegate, UITable
             vc.order = order
             return
         }
+        
+        if segue.identifier == "toOrderAgain",
+           let serviceId = sender as? String {
+            
+            print("serviceId: \(serviceId)")
+            (segue.destination as? ServiceDetailsViewController)?.serviceId = serviceId
+            return
+        }
+        
     }
+    
     
 }

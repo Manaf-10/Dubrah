@@ -99,7 +99,7 @@
                                                 </buttonConfiguration>
                                                 <connections>
                                                     <action selector="goToHomeTapped:" destination="lsW-62-6Ss" eventType="touchUpInside" id="yyP-ae-ebF"/>
-                                                    <segue destination="onm-ok-dBB" kind="presentation" identifier="GoTONext" id="fJ1-hS-h2N"/>
+                                                    <segue destination="onm-ok-dBB" kind="presentation" identifier="GoTONext" modalPresentationStyle="fullScreen" id="fJ1-hS-h2N"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -307,10 +307,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="200" translatesAutoresizingMaskIntoConstraints="NO" id="GcX-Fw-hGX">
-                                <rect key="frame" x="20" y="162.66666666666669" width="353" height="591.33333333333326"/>
+                                <rect key="frame" x="20" y="158.66666666666669" width="353" height="595.33333333333326"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="1o4-aC-m0n">
-                                        <rect key="frame" x="0.0" y="0.0" width="353" height="317"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="353" height="321"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="gCh-cK-f1w">
                                                 <rect key="frame" x="0.0" y="0.0" width="353" height="115.66666666666667"/>
@@ -352,7 +352,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="WaX-M0-ACI">
-                                                <rect key="frame" x="0.0" y="125.66666666666664" width="353" height="191.33333333333337"/>
+                                                <rect key="frame" x="0.0" y="125.66666666666664" width="353" height="195.33333333333337"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="q15-P3-O2C">
                                                         <rect key="frame" x="0.0" y="0.0" width="353" height="152"/>
@@ -363,10 +363,10 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hOp-JL-AsU">
-                                                        <rect key="frame" x="0.0" y="157" width="353" height="34.333333333333343"/>
+                                                        <rect key="frame" x="0.0" y="157" width="353" height="38.333333333333343"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xVs-7V-EeA">
-                                                                <rect key="frame" x="0.0" y="0.0" width="353" height="34.333333333333336"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="353" height="38.333333333333336"/>
                                                                 <state key="normal" title="Button"/>
                                                                 <buttonConfiguration key="configuration" style="plain" image="camera" catalog="system" title="Upload Goverment ID (front and back)"/>
                                                                 <connections>
@@ -380,7 +380,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Xbg-Jx-Ff7">
-                                        <rect key="frame" x="0.0" y="517" width="353" height="74.333333333333371"/>
+                                        <rect key="frame" x="0.0" y="521" width="353" height="74.333333333333371"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="4yy-ME-dxT">
                                                 <rect key="frame" x="0.0" y="0.0" width="353" height="17"/>

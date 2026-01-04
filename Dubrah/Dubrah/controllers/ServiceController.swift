@@ -110,7 +110,7 @@ class ServiceController {
     func addProviderReview(userId: String, review: [String: Any]) async throws {
         // Query to find the provider document by userID field
         let querySnapshot = try await db.collection("ProviderDetails")
-            .whereField("userID", isEqualTo: userId)
+            .whereField("userId", isEqualTo: userId)
             .getDocuments()
         
         guard let document = querySnapshot.documents.first else {
