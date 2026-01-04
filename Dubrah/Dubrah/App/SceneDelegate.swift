@@ -83,8 +83,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     private func showAdminHome() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "AdminDashboardVC")
+        let storyboard = UIStoryboard(name: "TabBarController", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "AdminTabBarController")
         window?.rootViewController = vc
     }
 

@@ -9,16 +9,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--User-->
-        <scene sceneID="rEC-dD-yeJ">
-            <objects>
-                <viewControllerPlaceholder storyboardName="User" id="Cd3-qK-t5d" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="900-rK-Kt4"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="5X2-X1-SNQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="12168" y="106"/>
-        </scene>
         <!--Forgot Password View Controller-->
         <scene sceneID="amI-8i-pyH">
             <objects>
@@ -514,7 +504,6 @@ turn every connection into an opportunity.</string>
                         <outlet property="SigninBtn" destination="tp9-EJ-MFL" id="d5z-dY-Uk5"/>
                         <outlet property="emailTextFeild" destination="Pg6-K6-28s" id="fMm-bI-PrF"/>
                         <outlet property="passwordTextField" destination="VXa-Lv-GKf" id="05b-Bl-nrW"/>
-                        <segue destination="Cd3-qK-t5d" kind="presentation" identifier="goToHomePage" modalPresentationStyle="fullScreen" id="vE0-Jr-ehJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T9a-SJ-VJl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
