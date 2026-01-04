@@ -221,17 +221,59 @@ final class SearchViewController: UIViewController,
         tableView.reloadData()
     }
 
-    @objc func filterTapped(_ sender: Any) {
-        isPriceAscending.toggle()
-        
-        if isPriceAscending {
-            filteredServices.sort { $0.price < $1.price }
-        } else{
-            filteredServices.sort { $0.price > $1.price }
-        }
-        
-        tableView.reloadData()
+    @IBAction func filterTapped(_ sender: UIButton) {
+        let alert = UIAlertController(
+            title: "Sort Services",
+            message: "Choose an option",
+            preferredStyle: .actionSheet
+        )
+
+        alert.addAction(UIAlertAction(title: "Price (Low → High)", style: .default) { _ in
+            self.filteredServices.sort { $0.price < $1.price }
+            self.tableView.reloadData()
+        })
+
+        alert.addAction(UIAlertAction(title: "Price (High → Low)", style: .default) { _ in
+            self.filteredServices.sort { $0.price > $1.price }
+            self.tableView.reloadData()
+        })
+
+        // Sorting by Rating (High → Low)
+        alert.addAction(UIAlertAction(title: "Rating (High → Low)", style: .default) { _ in
+            self.filteredServices.sort { (a: Service, b: Service) in
+                return a.averageRating > b.averageRating
+            }
+            self.tableView.reloadData()
+        })
+
+        // Sorting by Rating (Low → High)
+        alert.addAction(UIAlertAction(title: "Rating (Low → High)", style: .default) { _ in
+            self.filteredServices.sort { (a: Service, b: Service) in
+                return a.averageRating < b.averageRating
+            }
+            self.tableView.reloadData()
+        })
+
+        alert.addAction(UIAlertAction(title: "Title (A → Z)", style: .default) { _ in
+            self.filteredServices.sort {
+                $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending
+            }
+            self.tableView.reloadData()
+        })
+
+        alert.addAction(UIAlertAction(title: "Title (Z → A)", style: .default) { _ in
+            self.filteredServices.sort {
+                $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedDescending
+            }
+            self.tableView.reloadData()
+        })
+
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
+        present(alert, animated: true)
     }
+
+
     // MARK: - Data
 
     private func loadData() async throws {
