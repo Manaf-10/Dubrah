@@ -5151,13 +5151,13 @@ Services</string>
                                                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="IKt-It-2dN">
                                                                                             <rect key="frame" x="68" y="9" width="122" height="42"/>
                                                                                             <subviews>
-                                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Service Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Psy-WO-I45">
+                                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Service Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Psy-WO-I45">
                                                                                                     <rect key="frame" x="0.0" y="0.0" width="122" height="21.666666666666668"/>
                                                                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
                                                                                                     <nil key="textColor"/>
                                                                                                     <nil key="highlightedColor"/>
                                                                                                 </label>
-                                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="mm/dd/yyyy, 00:00 AM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nlI-nN-yAI">
+                                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="mm/dd/yyyy, 00:00 AM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nlI-nN-yAI">
                                                                                                     <rect key="frame" x="0.0" y="27.666666666666661" width="122" height="14.333333333333332"/>
                                                                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                                                     <color key="textColor" systemColor="secondaryLabelColor"/>
@@ -6912,7 +6912,10 @@ Services</string>
                         <outlet property="CompletedRequestsCollectionView" destination="Jf3-zb-Nw8" id="sSM-ly-cXW"/>
                         <outlet property="IncomingRequestCollectionView" destination="o5b-k6-pJe" id="HdT-LC-gBA"/>
                         <outlet property="addNewPostBTN" destination="zHz-nE-pf3" id="19w-LK-SJM"/>
+                        <outlet property="completed" destination="mmO-uq-4v7" id="WwP-lI-HSq"/>
+                        <outlet property="incoming" destination="xfM-8E-Mg1" id="46Y-K3-ii0"/>
                         <outlet property="myBookingCollectionView" destination="8oJ-i7-KmB" id="s13-Kr-dax"/>
+                        <outlet property="myPosts" destination="0Cc-at-Iqn" id="DOJ-Fq-jhV"/>
                         <segue destination="2R8-nL-K3T" kind="show" identifier="viewRequests" id="ya3-KG-Crj"/>
                     </connections>
                 </viewController>
