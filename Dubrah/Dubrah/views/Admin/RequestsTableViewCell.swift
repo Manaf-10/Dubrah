@@ -28,22 +28,16 @@ class RequestsTableViewCell: UITableViewCell {
           onViewTapped?()
       }
       
-      func setupCell(photoUrl: String?, name: String, role: String) {
-          lblUsername.text = name
-          lblUserRole.text = role
+    func setupCell(photoUrl: String?, name: String, role: String) {
+        lblUsername.text = name
+        lblUserRole.text = role
 
-          guard let photoUrl else {
-              imgUserPhoto.image = UIImage(named: "Log-Profile")
-              return
-          }
-
-          Task {
-              let image = await ImageDownloader.fetchImage(from: photoUrl)
-              await MainActor.run {
-                  self.imgUserPhoto.image = image ?? UIImage(named: "Log-Profile")
-              }
-          }
-      }
+        if let photoUrl = photoUrl {
+            imgUserPhoto.loadFromUrl(photoUrl)  // ✅ New way - cleaner!
+        } else {
+            imgUserPhoto.image = UIImage(named: "Log-Profile")
+        }
+    }
 
       override func setSelected(_ selected: Bool, animated: Bool) {
           super.setSelected(selected, animated: animated)
