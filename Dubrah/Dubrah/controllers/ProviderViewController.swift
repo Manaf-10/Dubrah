@@ -19,6 +19,11 @@ class ProviderViewController: UIViewController {
     @IBOutlet weak var CompletedRequestsCollectionView: UICollectionView!
     @IBOutlet weak var addNewPostBTN: UIButton!
         
+    
+    @IBOutlet weak var myPosts: UIStackView!
+    @IBOutlet weak var incoming: UIStackView!
+    @IBOutlet weak var completed: UIStackView!
+    
     var myBookings: [Order] = []
     var completedBookings: [Order] = []
     var incomingRequests: [Order] = []
@@ -38,9 +43,75 @@ class ProviderViewController: UIViewController {
         super.viewWillAppear(animated)
         
         loadAllData()
-        
+        checkProviderStatusAndSetupUI()
     }
     
+    private func checkProviderStatusAndSetupUI() {
+            guard let currentUserID = Auth.auth().currentUser?.uid else {
+                print("No user logged in")
+                hideProviderElements()
+                return
+            }
+            
+            Task {
+                do {
+                    let isProvider = try await isUserProvider(userID: currentUserID)
+                    print("is prvider: \(isProvider)")
+                    await MainActor.run {
+                        if isProvider {
+                            // User is a provider - show all elements
+                            showProviderElements()
+                            loadAllData()
+                        } else {
+                            // User is NOT a provider - hide provider-specific elements
+                            hideProviderElements()
+                        }
+                    }
+                } catch {
+                    print("Error checking provider status: \(error)")
+                    await MainActor.run {
+                        hideProviderElements()
+                    }
+                }
+            }
+        }
+    
+    private func showProviderElements() {
+         myPosts.isHidden = false
+         incoming.isHidden = false
+         completed.isHidden = false
+         addNewPostBTN.isHidden = false
+         
+         myBookingCollectionView.isHidden = false
+         IncomingRequestCollectionView.isHidden = false
+         CompletedRequestsCollectionView.isHidden = false
+         
+         print("✅ Provider dashboard visible")
+     }
+     
+     private func hideProviderElements() {
+         myPosts.isHidden = true
+         incoming.isHidden = true
+         completed.isHidden = true
+         addNewPostBTN.isHidden = true
+         
+         myBookingCollectionView.isHidden = false
+         IncomingRequestCollectionView.isHidden = true
+         CompletedRequestsCollectionView.isHidden = true
+         
+         print("❌ Provider dashboard hidden")
+     }
+    
+    func isUserProvider(userID: String) async throws -> Bool {
+        let document = try await db.collection("user").document(userID).getDocument()
+        
+        guard let data = document.data(),
+              let role = data["role"] as? String else {
+            return false
+        }
+        // Note: Use .trimmingCharacters because your screenshot shows "provider " with a space
+        return role.trimmingCharacters(in: .whitespaces) == "provider"
+    }
     
     
     // MARK: - Setup
