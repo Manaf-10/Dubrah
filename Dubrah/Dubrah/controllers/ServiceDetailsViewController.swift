@@ -101,42 +101,42 @@ class ServiceDetailsViewController: BaseViewController {
     }
 
         // MARK: - Update UI
-        private func updateUI() {
-            guard let service = service else { return }
+    private func updateUI() {
+        guard let service = service else { return }
 
-            serviceNameLabel.text = service.title
-            serviceDescription.text = service.description
-            durationLabel.text = formattedDuration(hours: service.duration)
-            priceLabel.text = "\(service.price) BHD"
+        serviceNameLabel.text = service.title
+        serviceDescription.text = service.description
+        durationLabel.text = formattedDuration(hours: service.duration)
+        priceLabel.text = "\(service.price) BHD"
 
-            loadImage(from: service.image, into: serviceImage)
+        loadImage(from: service.image, into: serviceImage)
 
+        let attributed = NSMutableAttributedString(string: (providerNameLabel.text ?? "") + " ")
+        let attachment = NSTextAttachment()
+        attachment.image = UIImage(named: "verified")
+        attributed.append(NSAttributedString(attachment: attachment))
+        providerNameLabel.attributedText = attributed
 
-            let attributed = NSMutableAttributedString(string: (providerNameLabel.text ?? "") + " ")
-            let attachment = NSTextAttachment()
-            attachment.image = UIImage(named: "verified")
-            attributed.append(NSAttributedString(attachment: attachment))
-            providerNameLabel.attributedText = attributed
+        providerRatingLabel.text = String(format: "%.1f", providerRating)
 
-            providerRatingLabel.text = String(format: "%.1f", providerRating)
+        // ✅ Unwrap reviews before using
+        if let reviews = service.reviews,
+           let topReview = getTopReview(from: reviews) {
 
-            if let topReview = getTopReview(from: service.reviews) {
+            reviewText.text = topReview.content
+            reviewTime.text = timeAgo(from: topReview.createdAt)
+            updateStars(rating: topReview.rate)
 
-                reviewText.text = topReview.content
-                reviewTime.text = timeAgo(from: topReview.createdAt)
-                updateStars(rating: topReview.rate)
+            reviewerName.text = "Loading..."
+            fetchReviewerName(userId: topReview.senderID)
 
-                reviewerName.text = "Loading..."
-                fetchReviewerName(userId: topReview.senderID)
-
-            } else {
-                reviewerName.text = "No reviews yet"
-                reviewText.text = ""
-                reviewTime.text = ""
-                updateStars(rating: 0)
-            }
-
+        } else {
+            reviewerName.text = "No reviews yet"
+            reviewText.text = ""
+            reviewTime.text = ""
+            updateStars(rating: 0)
         }
+    }
 
     private func formattedDuration(hours: Int) -> String {
         if hours < 24 {

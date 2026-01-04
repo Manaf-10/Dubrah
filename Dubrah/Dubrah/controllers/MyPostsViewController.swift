@@ -50,21 +50,27 @@ class MyPostsViewController: UIViewController, UITableViewDelegate, UITableViewD
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! MyPostsTableViewCell
         
         let data = services[indexPath.row]
-        var averageRating:Double? = nil
-        let reviews = data.reviews
+        var averageRating: Double? = nil
         
-        if !reviews.isEmpty {
-            let totalSum = reviews.reduce(0) {$0 + $1.rate}
-             averageRating = Double(totalSum) / Double(reviews.count)
+        // ✅ Unwrap reviews before using
+        if let reviews = data.reviews, !reviews.isEmpty {
+            let totalSum = reviews.reduce(0) { $0 + $1.rate }
+            averageRating = Double(totalSum) / Double(reviews.count)
         }
 
-        cell.setupCell(photoURL: data.image, title: data.title, desc: data.description, price: data.price, rating: averageRating)
+        cell.setupCell(
+            photoURL: data.image,
+            title: data.title,
+            desc: data.description,
+            price: data.price,
+            rating: averageRating
+        )
         
         cell.editBtn.tag = indexPath.row
         cell.editBtn.addTarget(self, action: #selector(editBtnTapped(sender:)), for: .touchUpInside)
+        
         return cell
     }
-    
     
     @objc func editBtnTapped(sender: UIButton) {
         let index = sender.tag
