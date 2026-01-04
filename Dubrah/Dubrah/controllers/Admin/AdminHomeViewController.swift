@@ -24,19 +24,28 @@ class AdminHomeViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     @IBAction func didTapUsers(_ sender: UIControl) {
-        (parent as? UINavigationController)?
-                .parent
-                .flatMap { $0 as? AdminTabBarController }?
-                .didSelectTab(index: 1)
+        switchToTab(1, segment: 0)  // Browse tab, Users segment
     }
-    
+
     @IBAction func didTapServices(_ sender: UIControl) {
-        (parent as? UINavigationController)?
-                .parent
-                .flatMap { $0 as? AdminTabBarController }?
-                .didSelectTab(index: 1)
+        switchToTab(1, segment: 1)  // Browse tab, Services segment
     }
-    
+
+    private func switchToTab(_ index: Int, segment: Int = 0) {
+        if let tabBarController = (parent as? UINavigationController)?.parent as? AdminTabBarController {
+            tabBarController.didSelectTab(index: index)
+            
+            if segment > 0 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    if let navController = tabBarController.selectedViewController as? UINavigationController,
+                       let browseVC = navController.viewControllers.first as? AdminUsersViewController {
+                        browseVC.segmentedControl.selectedSegmentIndex = segment
+                        browseVC.segmentChanged()
+                    }
+                }
+            }
+        }
+    }
     
     @IBOutlet weak var tableView: UITableView!
 

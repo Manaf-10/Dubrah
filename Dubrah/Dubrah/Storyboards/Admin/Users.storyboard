@@ -28,7 +28,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="userCell" id="5qM-7w-Dlj" customClass="UsersCollectionViewCell" customModule="Dubrah" customModuleProvider="target">
-                                        <rect key="frame" x="16" y="16" width="146" height="190"/>
+                                        <rect key="frame" x="16" y="20" width="146" height="190"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="c5E-5I-26p">
                                             <rect key="frame" x="0.0" y="0.0" width="146" height="190"/>
@@ -95,21 +95,43 @@
                                             <outlet property="imgUserAvatar" destination="L0M-hE-QlR" id="zen-8Z-8eh"/>
                                         </connections>
                                     </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="ServiceCell" id="biI-UQ-WAj" customClass="ServiceCollectionViewCell" customModule="Dubrah" customModuleProvider="target">
+                                        <rect key="frame" x="178" y="16" width="146" height="198"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="jWb-4W-8KN">
+                                            <rect key="frame" x="0.0" y="0.0" width="146" height="198"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="dDD-KR-fJN">
+                                <rect key="frame" x="16" y="80" width="361" height="33"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="WpM-FE-m4w"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Users"/>
+                                    <segment title="Services"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="YeK-M4-FRN" secondAttribute="bottom" id="4Bf-Dh-3jA"/>
                             <constraint firstItem="YeK-M4-FRN" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="64y-U6-aC3"/>
+                            <constraint firstAttribute="trailing" secondItem="dDD-KR-fJN" secondAttribute="trailing" constant="16" id="8Ej-8K-aqc"/>
+                            <constraint firstItem="dDD-KR-fJN" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" constant="80" id="Nyx-Y8-DYD"/>
                             <constraint firstItem="YeK-M4-FRN" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="15" id="b4z-R6-Iph"/>
+                            <constraint firstItem="dDD-KR-fJN" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" constant="16" id="hPS-5F-4KS"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="YeK-M4-FRN" secondAttribute="trailing" constant="15" id="zwd-kH-6fa"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="afy-Ff-aAM"/>
                     <connections>
                         <outlet property="collectionView" destination="YeK-M4-FRN" id="CkV-j0-xZ8"/>
+                        <outlet property="segmentedControl" destination="dDD-KR-fJN" id="etq-gx-oqP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -351,7 +373,7 @@
     <resources>
         <image name="person.crop.circle.fill" catalog="system" width="128" height="123"/>
         <systemColor name="secondarySystemBackgroundColor">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -22,48 +22,43 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func signInButtonTapped(_ sender: UIButton) {
         guard let email = emailTextFeild.text, !email.isEmpty else {
-            showAlert(message: "Please enter your email.")
-            return
-        }
-        
-        guard let password = passwordTextField.text, !password.isEmpty else {
-            showAlert(message: "Please enter your password.")
-            return
-        }
-        
-        print("Attempting to sign in with email: \(email)")
-        
-        Task {
-            do {
-                // Sign in using Firebase Authentication
-                try await AuthManager.shared.signIn(email: email, password: password)
-                
-                // Fetch the current user
-                if let user = Auth.auth().currentUser {
-                    print("User authenticated: \(user.email ?? "No email")")
-                    
-                  
-                    checkUserRole(userId: user.uid)
-                } else {
-                    print("Authentication failed or no user found.")
-                    showAlert(message: "Authentication failed. Please check your credentials.")
-                }
-                
-            } catch let error as NSError {
-                
-                switch error.code {
-                case AuthErrorCode.invalidEmail.rawValue:
-                    self.showAlert(message: "The email address is invalid.")
-                case AuthErrorCode.wrongPassword.rawValue:
-                    self.showAlert(message: "The password is incorrect.")
-                case AuthErrorCode.userNotFound.rawValue:
-                    self.showAlert(message: "No account found with this email.")
-                default:
-                    self.showAlert(message: "Sign In failed. Please try again.")
-                }
-            }
-        }
-    }
+             showAlert(message: "Please enter your email.")
+             return
+         }
+         
+         guard let password = passwordTextField.text, !password.isEmpty else {
+             showAlert(message: "Please enter your password.")
+             return
+         }
+         
+         print("Attempting to sign in with email: \(email)")
+         
+         Task {
+             do {
+                 try await AuthManager.shared.signIn(email: email, password: password)
+                 
+                 if let user = Auth.auth().currentUser {
+                     print("✅ User authenticated: \(user.email ?? "No email")")
+                     checkUserRole(userId: user.uid)
+                 } else {
+                     print("❌ Authentication failed or no user found.")
+                     showAlert(message: "Authentication failed. Please check your credentials.")
+                 }
+                 
+             } catch let error as NSError {
+                 switch error.code {
+                 case AuthErrorCode.invalidEmail.rawValue:
+                     self.showAlert(message: "The email address is invalid.")
+                 case AuthErrorCode.wrongPassword.rawValue:
+                     self.showAlert(message: "The password is incorrect.")
+                 case AuthErrorCode.userNotFound.rawValue:
+                     self.showAlert(message: "No account found with this email.")
+                 default:
+                     self.showAlert(message: "Sign In failed: \(error.localizedDescription)")
+                 }
+             }
+         }
+     }
 
     func checkUserRole(userId: String) {
         let db = Firestore.firestore()
@@ -95,9 +90,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    func showAlert(message: String) {
-        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
-    }
-}
+     private func navigateToUserDashboard() {
+         let storyboard = UIStoryboard(name: "User", bundle: nil)
+         let userTabBar = storyboard.instantiateViewController(withIdentifier: "CustomerTabBarVC")
+         
+         if let window = view.window {
+             window.rootViewController = userTabBar
+             UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil)
+         }
+     }
+
+     func showAlert(message: String) {
+         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+         alert.addAction(UIAlertAction(title: "OK", style: .default))
+         present(alert, animated: true)
+     }
+ }
