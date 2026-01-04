@@ -12,7 +12,7 @@ class AdminTabBarController: UIViewController, CustomTabBarDelegate {
     
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var tabBarHostView: UIView!
-    
+    var selectedViewController: UINavigationController?
     private var customTabBar: CustomTabBar!
       private var navControllers: [UINavigationController] = []
       private var currentIndex = -1

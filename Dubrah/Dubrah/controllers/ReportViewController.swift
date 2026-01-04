@@ -209,7 +209,7 @@ class ReportViewController: UIViewController, UIPickerViewDelegate, UIPickerView
                         if let providerId = orderDoc.data()?["providerID"] as? String {
                             // Send notification to the provider
                             print("TESTING 1 \(providerId) ")
-                           try await NotificationController.shared.newNotification(
+                            await NotificationController.shared.newNotification(
                                 receiverId: providerId,
                                 senderId: reportSystemID,
                                 type: .report

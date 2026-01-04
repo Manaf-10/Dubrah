@@ -68,7 +68,7 @@ class MessagesViewController: BaseViewController, UITableViewDelegate, UITableVi
         searchBar.text = ""
         searchBar.resignFirstResponder()
         Task {
-            try await loadData()
+             await loadData()
         }
     }
 
