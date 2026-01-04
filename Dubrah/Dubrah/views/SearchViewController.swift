@@ -221,6 +221,17 @@ final class SearchViewController: UIViewController,
         tableView.reloadData()
     }
 
+    @objc func filterTapped(_ sender: Any) {
+        isPriceAscending.toggle()
+        
+        if isPriceAscending {
+            filteredServices.sort { $0.price < $1.price }
+        } else{
+            filteredServices.sort { $0.price > $1.price }
+        }
+        
+        tableView.reloadData()
+    }
     // MARK: - Data
 
     private func loadData() async throws {

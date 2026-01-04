@@ -11,9 +11,22 @@ class HomeViewController: BaseViewController {
     @IBOutlet weak var welcomingLabel: UILabel!
     @IBOutlet weak var userImage: UIImageView!
     
+    @IBOutlet weak var discoverView: UIView!
+    @IBOutlet weak var exploreBTN: UIButton!
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        discoverView.layer.cornerRadius = 16
+        discoverView.clipsToBounds = true
+        
+        exploreBTN.layer.cornerRadius = 12
+        exploreBTN.clipsToBounds = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        discoverView.addGestureRecognizer(tap)
+        discoverView.isUserInteractionEnabled = true
+        
         Task {
             do {
                 if let user = AuthManager.shared.currentUser {
@@ -27,6 +40,10 @@ class HomeViewController: BaseViewController {
         }
     }
 
+    @objc func viewTapped() {
+        performSegue(withIdentifier: "goToSearch", sender: self)
+    }
+    
     func setUpStyle(user: User) async throws {
         
         let attributedText = NSMutableAttributedString()
