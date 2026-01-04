@@ -57,7 +57,7 @@ class ServiceController {
                 price: price,
                 duration: duration,
                 image: image,
-                providerID: try await getUserField(from: providerID, field: "userName") as? String ?? "",
+                providerID:  await getUserField(from: providerID, field: "userName") as? String ?? "",
                 paymentMethods: paymentMethods,
                 createdAt: createdAt,
                 reviews: reviews

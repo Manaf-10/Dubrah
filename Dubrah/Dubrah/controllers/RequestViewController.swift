@@ -201,15 +201,25 @@ class RequestViewController: UIViewController, UITableViewDelegate, UITableViewD
         private func openChat(at index: Int) {
             let order = orders[index]
             
-            let alert = UIAlertController(
-                title: "Chat",
-                message: "Opening chat with \(userDataCache[order.userID]?.fullName ?? "User")",
-                preferredStyle: .alert
-            )
-            alert.addAction(UIAlertAction(title: "OK", style: .default))
-            present(alert, animated: true)
-            
-            // TODO: Navigate to chat screen
+            Task {
+                do {
+                    let chatID = try await ChatController.shared.getOrCreateChat(
+                        user1ID: order.providerID,
+                        user2ID: order.userID
+                    )
+
+                    await MainActor.run {
+                        // Make sure storyboard ID is correct (you said it's "ChatVC")
+                        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChatVC") as! ChatViewController
+                        vc.chatID = chatID
+                        vc.receiverID = order.userID
+
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+                } catch {
+                    print("❌ open chat failed:", error)
+                }
+            }
         }
         
         private func completeRequest(at index: Int) {
