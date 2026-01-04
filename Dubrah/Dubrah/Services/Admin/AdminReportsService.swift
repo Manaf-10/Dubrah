@@ -54,7 +54,7 @@ final class AdminReportsService {
         let group = DispatchGroup()
         
         for doc in docs {
-            guard var report = Report(id: doc.documentID, data: doc.data()) else {
+            guard let report = Report(id: doc.documentID, data: doc.data()) else {
                 continue
             }
             

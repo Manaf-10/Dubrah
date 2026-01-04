@@ -48,7 +48,7 @@ class ChangePasswordViewController: UIViewController {
         
         
         currentUser?.reauthenticate(with: credential, completion: { (result, error) in
-            if let error = error {
+            if var error = error {
                 
                 self.currentPasswordTextField.layer.borderColor = UIColor.red.cgColor
                 self.currentPasswordTextField.layer.borderWidth = 1
