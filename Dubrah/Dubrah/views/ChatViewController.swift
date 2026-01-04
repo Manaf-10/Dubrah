@@ -37,6 +37,7 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         
         startListening()
         
+        
         pageContainer.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             pageContainer.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor, constant: -10)

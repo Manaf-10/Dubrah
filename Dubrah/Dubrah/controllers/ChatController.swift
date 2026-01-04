@@ -16,17 +16,43 @@ class ChatController {
         return [user1ID, user2ID].sorted().joined(separator: "-")
     }
 
-    // Fetches the inbox list
     func getUserChats(userID: String) async throws -> [Chat] {
+        // Fetching chats for the user
         let snapshot = try await db.collection("Chat")
             .whereField("participants", arrayContains: userID)
             .getDocuments()
         
+        print("Fetched \(snapshot.documents.count) chats for userID: \(userID)") // Log number of chats
+
         var fetchedChats: [Chat] = []
+        
+        // Iterate through each chat document
         for doc in snapshot.documents {
             let data = doc.data()
+            
             let participants = data["participants"] as? [String] ?? []
+            print("Participants for chat \(doc.documentID): \(participants)")
+            
+            if participants.count != 2 {
+                print("Error: Invalid number of participants in chat \(doc.documentID). Expected 2, got \(participants.count).")
+                continue
+            }
+
             let otherID = participants.first(where: { $0 != userID }) ?? ""
+            print("Filtered otherID: \(otherID)")
+            
+            if otherID.isEmpty {
+                print("Error: Empty otherID for chat \(doc.documentID). Skipping.")
+                continue
+            }
+
+            print("Fetching user details for otherID: \(otherID)")
+            
+            let name = await getUserField(from: otherID, field: "userName") as? String ?? "User"
+            let image = await getUserField(from: otherID, field: "profilePicture") as? String ?? ""
+            let verified: Bool = await getUserField(from: otherID, field: "verified") as! Bool
+            
+            // Fetch messages for the chat
             let messagesData = data["messages"] as? [[String: Any]] ?? []
             let messages = messagesData.map { dict in
                 Message(
@@ -37,13 +63,21 @@ class ChatController {
                 )
             }
             
-            let name = await getUserField(from: otherID, field: "userName") as? String ?? "User"
-            let image = await getUserField(from: otherID, field: "profilePicture") as? String ?? ""
-            let verified : Bool = await getUserField(from: otherID, field: "verified") as! Bool
+            // Log the details fetched for the other user and the messages
+            print("Fetched details for \(otherID): Name - \(name), Verified - \(verified), Image - \(image)")
+            
+            // Log the messages fetched for the chat
+            print("Fetched \(messages.count) messages for chat \(doc.documentID)")
+
+            // Append the fetched chat to the list
             fetchedChats.append(Chat(id: doc.documentID, messages: messages, userImage: image, userName: name, receiverID: otherID, verified: verified))
         }
+
+        // Return the list of fetched chats
         return fetchedChats
     }
+
+
 
     // Real-time listener for a specific chat room
     func observeMessages(chatID: String, completion: @escaping ([Message]) -> Void) -> ListenerRegistration {
