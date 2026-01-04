@@ -75,7 +75,7 @@ class aboutUserViewController: UIViewController, UIPickerViewDelegate, UIPickerV
             currentIndex = row
             textSelectYears.text = arrYears[row]
         } else {
-            // Toggle selection for the skills picker (multi-selection)
+           
             if selectedSkills.contains(row) {
                 selectedSkills.remove(row)
             } else {
@@ -122,7 +122,7 @@ class aboutUserViewController: UIViewController, UIPickerViewDelegate, UIPickerV
             return
         }
         
-        // Proceed to upload images to Cloudinary
+        
         uploadImagesToCloudinary(images: selectedPortfolioImages)
     }
 
@@ -132,22 +132,22 @@ class aboutUserViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         let dispatchGroup = DispatchGroup()
         
         for image in images {
-            dispatchGroup.enter()  // Enter the group for each image
+            dispatchGroup.enter()
             
             MediaManager.shared.uploadImage(image) { result in
                 switch result {
                 case .success(let url):
-                    uploadedUrls.append(url)  // Add the URL to the array
+                    uploadedUrls.append(url)
                 case .failure:
                     self.showAlert(message: "Failed to upload portfolio image")
                 }
-                dispatchGroup.leave()  // Leave the group once upload completes
+                dispatchGroup.leave()
             }
         }
         
         dispatchGroup.notify(queue: .main) {
             if !uploadedUrls.isEmpty {
-                // If the URLs were uploaded successfully, save to Firestore
+               
                 self.saveImagesAndDataToFirestore(urls: uploadedUrls)
             } else {
                 self.showAlert(message: "No images uploaded successfully.")
@@ -156,31 +156,31 @@ class aboutUserViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     }
 
     func saveImagesAndDataToFirestore(urls: [String]) {
-        // Query the ProviderDetails collection for the document with the user's ID
+       
         let providerDetailsRef = Firestore.firestore().collection("ProviderDetails")
         let query = providerDetailsRef.whereField("userId", isEqualTo: Auth.auth().currentUser!.uid)
         
         query.getDocuments { [weak self] (snapshot, error) in
-            guard let self = self else { return }  // Prevents strong reference cycle
+            guard let self = self else { return }
             
             if let error = error {
                 self.showAlert(message: "Error fetching documents: \(error.localizedDescription)")
                 return
             }
             
-            // Check if a document is found
+          
             if let document = snapshot?.documents.first {
                 let documentRef = document.reference
                 
-                // Prepare the data to update
+            
                 let updatedData: [String: Any] = [
                     "experience": self.textSelectYears.text ?? "",
                     "skills": Array(self.selectedSkills).map { self.primarySkills[$0] },
                     "portifolioImages": urls,
-                    "timestamp": FieldValue.serverTimestamp() // Optional: Timestamp for when the data is saved
+                    "timestamp": FieldValue.serverTimestamp()
                 ]
                 
-                // Update the existing document with the new data
+              
                 documentRef.updateData(updatedData) { error in
                     if let error = error {
                         self.showAlert(message: "Error updating data: \(error.localizedDescription)")

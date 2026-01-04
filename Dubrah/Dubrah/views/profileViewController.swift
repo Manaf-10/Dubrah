@@ -20,7 +20,7 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
     var userID: String?
     var services: [(title: String, imageURL: String)] = []
     var completedOrdersCount = 0
-    var totalReviewsCount = 0  // Add this variable to store the total review count
+    var totalReviewsCount = 0
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -53,7 +53,7 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
     func fetchUserProfileData(userID: String) {
         let db = Firestore.firestore()
         
-        // Fetch User data
+        
         let userRef = db.collection("user").document(userID)
         userRef.getDocument { (document, error) in
             if let error = error {
@@ -66,19 +66,22 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
             }
         }
         
-        // Fetch ProviderDetails data
+        
         let providerDetailsRef = db.collection("ProviderDetails").whereField("userId", isEqualTo: userID)
         providerDetailsRef.getDocuments { (snapshot, error) in
             if let error = error {
                 print("Error getting provider details document: \(error)")
             } else if let snapshot = snapshot, !snapshot.isEmpty {
                 let document = snapshot.documents.first
-                let data = document?.data()
-                self.updateProviderDetailsUI(data)
+                if let data = document?.data() {
+                    self.updateProviderDetailsUI(data)
+                } else {
+                    print("No data found for this document")
+                }
             }
         }
         
-        // Fetch Service data
+        
         let serviceRef = db.collection("Service").whereField("providerID", isEqualTo: userID)
         serviceRef.getDocuments { (snapshot, error) in
             if let error = error {
@@ -130,26 +133,29 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
     }
     
     func updateProviderDetailsUI(_ data: [String: Any]?) {
-        // Get skills
+        
         if let skills = data?["skills"] as? [String], !skills.isEmpty {
             self.skillsLabel.text = skills.joined(separator: ", ")
         } else {
             self.skillsLabel.isHidden = true
         }
         
-        // Get average rating
         if let rating = data?["averageRating"] as? Double {
             self.ratingLabel.text = "\(rating)"
         } else {
             self.ratingLabel.isHidden = true
         }
         
-        // Get reviews count
+        
         if let reviews = data?["reviews"] as? [[String: Any]] {
-            self.totalReviewsCount = reviews.count // Fetch and count the reviews
-            self.totalReviewsLbl.text = "(\(self.totalReviewsCount) Reviws)"
+            self.totalReviewsCount = reviews.count
+            if let totalReviewsLbl = self.totalReviewsLbl {
+                totalReviewsLbl.text = "(\(self.totalReviewsCount) Reviews)"
+            }
         } else {
-            self.totalReviewsLbl.text = "No Reviews"
+            if let totalReviewsLbl = self.totalReviewsLbl {
+                totalReviewsLbl.text = "No Reviews"
+            }
         }
         
         if data?["skills"] == nil || data?["averageRating"] == nil {
@@ -202,7 +208,7 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
         }
     }
     
-    // MARK: - UICollectionView DataSource and Delegate Methods
+   
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return services.count
     }
@@ -227,7 +233,7 @@ class profileViewController: UIViewController, UICollectionViewDelegate, UIColle
         print("Selected service: \(services[indexPath.row].title)")
     }
     
-    // Helper function to make the profile image circular
+  
     func makeCircular(_ imageView: UIImageView) {
         imageView.layer.cornerRadius = imageView.frame.size.width / 2
         imageView.clipsToBounds = true

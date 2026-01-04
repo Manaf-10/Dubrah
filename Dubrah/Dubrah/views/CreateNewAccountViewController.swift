@@ -39,20 +39,20 @@ class CreateNewAccountViewController: UIViewController {
                 return
             }
             
-            // Ensure email is successfully set before proceeding
+            
             guard let user = authResult?.user else {
                 self.showAlert(message: "User creation failed. Please try again.")
                 return
             }
             
-            // Send email verification
+          
             user.sendEmailVerification { error in
                 if let error = error {
                     self.showAlert(message: error.localizedDescription)
                     return
                 }
                 
-                // Save email to Firestore
+                
                 if let userEmail = user.email {
                     let db = Firestore.firestore()
                     let userRef = db.collection("user").document(user.uid)

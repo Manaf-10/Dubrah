@@ -77,7 +77,6 @@ class verifyIdentityViewController: UIViewController, UIImagePickerControllerDel
                 self.showAlert(message: "Failed to save image URLs: \(error.localizedDescription)")
             } else {
                 print("Image URLs saved successfully in ProviderDetails with auto-generated ID")
-                self.showAlert(message: "Identity verification completed successfully.")
                 self.performSegue(withIdentifier: "GoToTellUs", sender: nil)
             }
         }

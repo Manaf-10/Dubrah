@@ -3,11 +3,10 @@ import Firebase
 import FirebaseFirestore
 import FirebaseAuth
 
-class ProviderReviwsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ProvidersRevViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-  
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var averageRating: UILabel!
+    @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var totalReviews: UILabel!
     @IBOutlet weak var star5Progress: UIProgressView!
     @IBOutlet weak var star4Progress: UIProgressView!
@@ -26,38 +25,28 @@ class ProviderReviwsViewController: UIViewController, UITableViewDelegate, UITab
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
         checkUserAuthentication()
-
-       
         tableView.delegate = self
         tableView.dataSource = self
-
-        
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 200
     }
 
-    
     func checkUserAuthentication() {
         if let user = Auth.auth().currentUser {
-           
+            self.userId = user.uid
             fetchProviderDetails()
         } else {
-           
             print("User is not logged in.")
         }
     }
 
-    
     private func fetchProviderDetails() {
         guard let userId = self.userId else {
-            print(" userId is nil")
+            print("❌ userId is nil")
             return
         }
 
-      
         db.collection("ProviderDetails")
             .whereField("userId", isEqualTo: userId)
             .getDocuments { [weak self] snapshot, error in
@@ -74,23 +63,17 @@ class ProviderReviwsViewController: UIViewController, UITableViewDelegate, UITab
                 }
 
                 let data = document.data()
-                print("Fetched Provider Details Data: \(data)")
-
-               
                 self.updateProviderDetailsUI(data)
             }
     }
 
-  
     private func updateProviderDetailsUI(_ data: [String: Any]) {
-       
         if let averageRatingValue = data["averageRating"] as? Double {
-            self.averageRating.text = String(format: "%.1f", averageRatingValue)
+            self.ratingLabel.text = String(format: "%.1f", averageRatingValue)
         } else {
-            self.averageRating.isHidden = true
+            self.ratingLabel.isHidden = true
         }
 
-       
         if let reviewsArray = data["reviews"] as? [[String: Any]] {
             self.reviews = reviewsArray.compactMap { Review(dictionary: $0) }
             self.totalReviews.text = "\(self.reviews.count) Reviews"
@@ -101,17 +84,15 @@ class ProviderReviwsViewController: UIViewController, UITableViewDelegate, UITab
             self.updateRatingSummary()
         }
 
-    
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
     }
 
-   
     private func updateRatingSummary() {
         let total = reviews.count
         guard total > 0 else {
-            averageRating.text = "0.0"
+            ratingLabel.text = "0.0"
             totalReviews.text = "0 Reviews"
             [star1Progress, star2Progress, star3Progress, star4Progress, star5Progress]
                 .forEach { $0?.progress = 0 }
@@ -126,7 +107,7 @@ class ProviderReviwsViewController: UIViewController, UITableViewDelegate, UITab
 
         let average = Double(reviews.map { $0.rate }.reduce(0, +)) / Double(total)
 
-        averageRating.text = String(format: "%.1f", average)
+        ratingLabel.text = String(format: "%.1f", average)
         totalReviews.text = "\(total) Reviews"
 
         star1Progress.progress = Float(counts[0]) / Float(total)
@@ -142,7 +123,6 @@ class ProviderReviwsViewController: UIViewController, UITableViewDelegate, UITab
         star5Count.text = "\(counts[4])"
     }
 
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return reviews.count
     }

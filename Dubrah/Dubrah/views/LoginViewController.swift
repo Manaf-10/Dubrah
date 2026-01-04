@@ -31,7 +31,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        print("Attempting to sign in with email: \(email)")  // Debug log
+        print("Attempting to sign in with email: \(email)")
         
         Task {
             do {
@@ -40,12 +40,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 
                 // Fetch the current user
                 if let user = Auth.auth().currentUser {
-                    print("User authenticated: \(user.email ?? "No email")")  // Debug log
+                    print("User authenticated: \(user.email ?? "No email")")
                     
-                    // Allow access if the user exists in Firebase Authentication
+                  
                     checkUserRole(userId: user.uid)
                 } else {
-                    print("Authentication failed or no user found.")  // Debug log
+                    print("Authentication failed or no user found.")
                     showAlert(message: "Authentication failed. Please check your credentials.")
                 }
                 
@@ -75,7 +75,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             }
             
             guard let document = document, document.exists else {
-                print("No user document found in Firestore for UID: \(userId)")  // Debug log
+                print("No user document found in Firestore for UID: \(userId)")
                 self?.showAlert(message: "No account found with this email.")
                 return
             }

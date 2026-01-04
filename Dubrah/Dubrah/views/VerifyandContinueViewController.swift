@@ -7,7 +7,7 @@ class VerifyandContinueViewController: UIViewController {
     @IBOutlet weak var VACbtn: UIButton!
     @IBOutlet weak var resendEmailButton: UIButton!
 
-    // Variable to track if resend action is allowed
+    
     var canResendEmail = true
 
     override func viewDidLoad() {
@@ -16,7 +16,7 @@ class VerifyandContinueViewController: UIViewController {
         VACbtn.layer.cornerRadius = 12.0
         VACbtn.clipsToBounds = true
         
-        // Disable the Resend Email button initially
+        
         resendEmailButton.isEnabled = true
         resendEmailButton.layer.cornerRadius = 12.0
         resendEmailButton.clipsToBounds = true
@@ -29,7 +29,7 @@ class VerifyandContinueViewController: UIViewController {
                 return
             }
 
-            // Now check if the email is verified after reload
+            
             if Auth.auth().currentUser?.isEmailVerified == true {
                 // Proceed to the next screen
                 self.performSegue(withIdentifier: "GoToSettingUpAccount", sender: nil)
@@ -40,7 +40,7 @@ class VerifyandContinueViewController: UIViewController {
     }
 
     @IBAction func resendEmailButtonTapped(_ sender: UIButton) {
-        // Check if we are currently allowed to send the verification email
+       
         guard canResendEmail else {
             showAlert(message: "Please wait before resending the email.")
             return
@@ -51,7 +51,7 @@ class VerifyandContinueViewController: UIViewController {
             return
         }
 
-        // Disable the button to prevent spamming the resend request
+       
         canResendEmail = false
         resendEmailButton.isEnabled = false
 
@@ -63,7 +63,7 @@ class VerifyandContinueViewController: UIViewController {
                 print("Verification email sent successfully.")
                 self.showAlert(message: "A new verification email has been sent to \(user.email ?? "your email"). Please check your inbox.")
                 
-                // Re-enable the button after a cooldown period (e.g., 60 seconds)
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 60) {
                     self.canResendEmail = true
                     self.resendEmailButton.isEnabled = true
