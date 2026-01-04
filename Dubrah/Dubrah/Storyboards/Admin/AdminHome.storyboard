@@ -510,13 +510,13 @@
                                                                             </subviews>
                                                                         </stackView>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a1Q-by-WsH">
-                                                                            <rect key="frame" x="87" y="19" width="87.333333333333314" height="19.333333333333329"/>
+                                                                            <rect key="frame" x="87" y="18" width="87.333333333333314" height="19.333333333333329"/>
                                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Ml-BG-JSD">
-                                                                            <rect key="frame" x="87" y="46.333333333333336" width="87.333333333333314" height="15.666666666666664"/>
+                                                                            <rect key="frame" x="87" y="45.333333333333336" width="87.333333333333314" height="15.666666666666664"/>
                                                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
                                                                             <color key="textColor" red="0.64705882349999999" green="0.64705882349999999" blue="0.64705882349999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                             <nil key="highlightedColor"/>
@@ -627,13 +627,13 @@
                                                     </subviews>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OjK-1E-C6O">
-                                                    <rect key="frame" x="87" y="19" width="87.333333333333314" height="19.333333333333329"/>
+                                                    <rect key="frame" x="87" y="18" width="87.333333333333314" height="19.333333333333329"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mCA-SC-TgK">
-                                                    <rect key="frame" x="87" y="46.333333333333336" width="87.333333333333314" height="15.666666666666664"/>
+                                                    <rect key="frame" x="87" y="45.333333333333336" width="87.333333333333314" height="15.666666666666664"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
                                                     <color key="textColor" red="0.64705882349999999" green="0.64705882349999999" blue="0.64705882349999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <nil key="highlightedColor"/>
@@ -693,7 +693,7 @@
         <!--Navigation Controller-->
         <scene sceneID="KHj-kG-fMf">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ETY-cP-i8F" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="AdminHomePage" automaticallyAdjustsScrollViewInsets="NO" id="ETY-cP-i8F" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="gcT-39-YZd">
                         <rect key="frame" x="0.0" y="118" width="393" height="44"/>
@@ -714,7 +714,7 @@
         <image name="Arrow-White" width="20.333333969116211" height="20.333333969116211"/>
         <image name="Notif-Icon" width="48" height="48"/>
         <systemColor name="secondarySystemBackgroundColor">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

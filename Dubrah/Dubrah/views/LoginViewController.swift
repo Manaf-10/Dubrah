@@ -60,49 +60,35 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
          }
      }
 
-     func checkUserRole(userId: String) {
-         let db = Firestore.firestore()
-         db.collection("user").document(userId).getDocument { [weak self] document, error in
-             if let error = error {
-                 print("❌ Error fetching user role: \(error.localizedDescription)")
-                 self?.showAlert(message: "Error fetching user role. Please try again later.")
-                 return
-             }
-             
-             guard let document = document, document.exists else {
-                 print("❌ No user document found in Firestore for UID: \(userId)")
-                 self?.showAlert(message: "No account found with this email.")
-                 return
-             }
-             
-             if let role = document.data()?["role"] as? String {
-                 print("✅ User role: \(role)")
-                 
-                 DispatchQueue.main.async {
-                     if role.lowercased() == "admin" {
-                         print("🔵 Navigating to Admin Dashboard")
-                         self?.navigateToAdminDashboard()
-                     } else {
-                         print("🟢 Navigating to User Dashboard")
-                         self?.navigateToUserDashboard()
-                     }
-                 }
-             } else {
-                 print("⚠️ User role not found in document")
-                 self?.showAlert(message: "User role not found or is invalid.")
-             }
-         }
-     }
-     
-     private func navigateToAdminDashboard() {
-         let storyboard = UIStoryboard(name: "TabBarController", bundle: nil)
-         let adminTabBar = storyboard.instantiateViewController(withIdentifier: "AdminTabBarController") as! AdminTabBarController
-         
-         if let window = view.window {
-             window.rootViewController = adminTabBar
-             UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil)
-         }
-     }
+    func checkUserRole(userId: String) {
+        let db = Firestore.firestore()
+        db.collection("user").document(userId).getDocument { [weak self] document, error in
+            if let error = error {
+                print("Error fetching user role: \(error.localizedDescription)")
+                self?.showAlert(message: "Error fetching user role. Please try again later.")
+                return
+            }
+            
+            guard let document = document, document.exists else {
+                print("No user document found in Firestore for UID: \(userId)")
+                self?.showAlert(message: "No account found with this email.")
+                return
+            }
+            
+            if let role = document.data()?["role"] as? String {
+                print("ROle \(role)")
+                if role == "admin" {
+                    self?.performSegue(withIdentifier: "goToAdminDashboard", sender: nil)
+                    print("Admin")
+                } else {
+                    self?.performSegue(withIdentifier: "goToHomePage", sender: nil)
+                    print("user")
+                }
+            } else {
+                self?.showAlert(message: "User role not found or is invalid.")
+            }
+        }
+    }
 
      private func navigateToUserDashboard() {
          let storyboard = UIStoryboard(name: "User", bundle: nil)
