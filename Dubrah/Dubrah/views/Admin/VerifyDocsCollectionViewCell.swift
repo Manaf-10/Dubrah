@@ -12,38 +12,40 @@ class VerifyDocsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imgDocPhoto: UIImageView!
     @IBOutlet weak var containerView: UIView!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        backgroundColor = .clear
-        contentView.backgroundColor = .clear
-        
-        // Container handles rounding + border
-        containerView.layer.cornerRadius = 14
-        containerView.layer.borderWidth = 2
-        containerView.layer.borderColor = UIColor(named: "PrimaryBlue")?.cgColor
-        containerView.layer.masksToBounds = true
-        
-        // Image fills container (NO rounding here)
-        imgDocPhoto.contentMode = .scaleAspectFill
-        imgDocPhoto.clipsToBounds = true
-    }
-    
-    func setupCell(document: VerificationDocument) {
-        // Check if it's a URL or local image
-        if let urlString = document.urlString {
-            // Load from Firebase
-            Task {
-                let image = await ImageDownloader.fetchImage(from: urlString)
-                await MainActor.run {
-                    self.imgDocPhoto.image = image ?? UIImage(named: "placeholder")
-                }
-            }
-        } else if let imageName = document.imageName {
-            // Load local mock image
-            imgDocPhoto.image = UIImage(named: imageName)
-        } else {
-            imgDocPhoto.image = UIImage(named: "placeholder")
-        }
-    }
-}
+    var onImageTapped: ((UIImage) -> Void)?  
+     
+     override func awakeFromNib() {
+         super.awakeFromNib()
+         
+         backgroundColor = .clear
+         contentView.backgroundColor = .clear
+         
+         containerView.layer.cornerRadius = 14
+         containerView.layer.borderWidth = 2
+         containerView.layer.borderColor = UIColor(named: "PrimaryBlue")?.cgColor
+         containerView.layer.masksToBounds = true
+         
+         imgDocPhoto.contentMode = .scaleAspectFill
+         imgDocPhoto.clipsToBounds = true
+         
+         // ✅ Make image tappable
+         imgDocPhoto.isUserInteractionEnabled = true
+         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+         imgDocPhoto.addGestureRecognizer(tapGesture)
+     }
+     
+     @objc private func imageTapped() {
+         guard let image = imgDocPhoto.image else { return }
+         onImageTapped?(image)
+     }
+     
+     func setupCell(document: VerificationDocument) {
+         if let urlString = document.urlString {
+             imgDocPhoto.loadFromUrl(urlString, placeholder: UIImage(named: "placeholder"))
+         } else if let imageName = document.imageName {
+             imgDocPhoto.image = UIImage(named: imageName)
+         } else {
+             imgDocPhoto.image = UIImage(named: "placeholder")
+         }
+     }
+ }

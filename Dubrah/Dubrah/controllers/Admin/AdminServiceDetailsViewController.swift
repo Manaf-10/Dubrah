@@ -10,7 +10,10 @@ import FirebaseFirestore
 
 class AdminServiceDetailsViewController: AdminBaseViewController, UIGestureRecognizerDelegate {
 
-    // MARK: - Outlets
+    
+    
+    @IBOutlet weak var cardView: UIView!
+    @IBOutlet weak var btnsView: UIView!
     @IBOutlet weak var serviceImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -23,6 +26,7 @@ class AdminServiceDetailsViewController: AdminBaseViewController, UIGestureRecog
  
     var service: Service?
      private let servicesService = AdminServicesService()
+    private let logsService = AdminLogsService() 
 
      override func viewDidLoad() {
          super.viewDidLoad()
@@ -46,6 +50,18 @@ class AdminServiceDetailsViewController: AdminBaseViewController, UIGestureRecog
          configureUI()
          bindData()
      }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        cardView.layer.cornerRadius = 24
+        cardView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        cardView.layer.masksToBounds = true
+        
+        btnsView.layer.cornerRadius = 24
+        btnsView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        btnsView.layer.masksToBounds = true
+    }
      
      override func viewWillAppear(_ animated: Bool) {
          super.viewWillAppear(animated)
@@ -180,52 +196,57 @@ extension AdminServiceDetailsViewController {
         present(popup, animated: true)
     }
     
+//    private let logsService = AdminLogsService()
+
     private func updateService(title: String, description: String) {
         guard let serviceId = service?.id else { return }
         
-        print("✏️ Updating service: \(serviceId)")
-        
         servicesService.updateService(serviceId: serviceId, title: title, description: description) { [weak self] success in
+            guard let self = self else { return }
+            
             if success {
-                // Update local model
-                self?.service?.title = title
-                self?.service?.description = description
-                self?.bindData()
+                self.service?.title = title
+                self.service?.description = description
+                self.bindData()
                 
-                self?.showSuccessAlert(message: "Service updated successfully!")
+                // ✅ Log admin action
+                self.logsService.logAdminAction(
+                    action: .adminModifiedService,
+                    details: title
+                )
+                
+                self.showResultPage(type: .success, message: "Service updated successfully!")
             } else {
-                self?.showErrorAlert(message: "Failed to update service")
+                self.showResultPage(type: .error, message: "Failed to update service")
             }
         }
     }
-    
+
     private func deleteService() {
         guard let serviceId = service?.id else { return }
         
-        print("🗑 Deleting service: \(serviceId)")
-        
         servicesService.deleteService(serviceId: serviceId) { [weak self] success in
+            guard let self = self else { return }
+            
             if success {
-                self?.showSuccessAlert(message: "Service deleted successfully!") {
-                    self?.navigationController?.popViewController(animated: true)
+                // ✅ Log admin action
+                self.logsService.logAdminAction(
+                    action: .adminDeletedService,
+                    details: self.service?.title
+                )
+                
+                self.showResultPage(type: .success, message: "Service deleted successfully!") {
+                    self.navigationController?.popViewController(animated: true)
                 }
             } else {
-                self?.showErrorAlert(message: "Failed to delete service")
+                self.showResultPage(type: .error, message: "Failed to delete service")
             }
         }
     }
+
     
-    private func showSuccessAlert(message: String, completion: (() -> Void)? = nil) {
-        let alert = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-            completion?()
-        })
-        present(alert, animated: true)
-    }
-    
-    private func showErrorAlert(message: String) {
-        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
+    private func showResultPage(type: ResultType, message: String, onDismiss: (() -> Void)? = nil) {
+        let resultVC = ResultViewController(type: type, message: message, onDismiss: onDismiss)
+        present(resultVC, animated: true)
     }
 }

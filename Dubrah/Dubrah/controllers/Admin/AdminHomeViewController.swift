@@ -24,41 +24,54 @@ class AdminHomeViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     @IBAction func didTapUsers(_ sender: UIControl) {
-        (parent as? UINavigationController)?
-                .parent
-                .flatMap { $0 as? AdminTabBarController }?
-                .didSelectTab(index: 1)
+        let usersVC = UIStoryboard(name: "Users", bundle: nil)
+            .instantiateViewController(withIdentifier: "UsersViewController")
+            as! AdminUsersViewController
+        
+        navigationController?.pushViewController(usersVC, animated: true)
     }
     
     @IBAction func didTapServices(_ sender: UIControl) {
-        (parent as? UINavigationController)?
-                .parent
-                .flatMap { $0 as? AdminTabBarController }?
-                .didSelectTab(index: 1)
+        let servicesVC = UIStoryboard(name: "Services", bundle: nil)
+               .instantiateViewController(withIdentifier: "ServicesViewController")
+               as! AdminServicesViewController
+           
+           navigationController?.pushViewController(servicesVC, animated: true)
     }
     
     
     @IBOutlet weak var tableView: UITableView!
 
-    var recentLogs: [Log] = []
+    private let logsService = AdminLogsService()  // ✅ Add this
+       private var recentLogs: [Log] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.delegate = self
         tableView.dataSource = self
-        recentLogs = Array(Log.allLogs.prefix(3))
+        loadRecentLogs()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        loadRecentLogs()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
+    
+    private func loadRecentLogs() {
+           logsService.fetchAllLogs { [weak self] logs in
+               // Get only the 3 most recent logs
+               self?.recentLogs = Array(logs.prefix(3))
+               self?.tableView.reloadData()
+           }
+       }
     
 
     // MARK: - TableView DataSource
@@ -78,7 +91,7 @@ class AdminHomeViewController: UIViewController, UITableViewDelegate, UITableVie
             photo: data.icon,
             description: data.description,
             username: data.username,
-            timestamp: data.time
+            timestamp: data.timestamp
         )
         return cell
     }

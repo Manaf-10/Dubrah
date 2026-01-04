@@ -3,6 +3,7 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -31,10 +32,10 @@
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YIx-YK-jM4">
-                    <rect key="frame" x="29.666666666666657" y="350" width="334" height="152"/>
+                    <rect key="frame" x="29.666666666666657" y="352" width="334" height="148"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="F33-yx-P9h">
-                            <rect key="frame" x="16" y="16" width="302" height="120"/>
+                            <rect key="frame" x="16" y="16" width="302" height="116"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Dh-iZ-r4i">
                                     <rect key="frame" x="0.0" y="0.0" width="302" height="25.333333333333332"/>
@@ -61,17 +62,34 @@
                                     </subviews>
                                 </stackView>
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="4Yu-7y-pHG">
-                                    <rect key="frame" x="0.0" y="81.666666666666686" width="302" height="38.333333333333343"/>
+                                    <rect key="frame" x="0.0" y="81.666666666666686" width="302" height="34.333333333333343"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y7B-Kb-8N1">
-                                            <rect key="frame" x="0.0" y="0.0" width="145" height="38.333333333333336"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="145" height="34.333333333333336"/>
                                             <state key="normal" title="Button"/>
-                                            <buttonConfiguration key="configuration" style="filled" title="Button"/>
+                                            <buttonConfiguration key="configuration" style="filled" title="Button">
+                                                <backgroundConfiguration key="background" cornerRadius="9"/>
+                                                <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="17"/>
+                                                <color key="baseBackgroundColor" name="gradient-first"/>
+                                            </buttonConfiguration>
+                                            <connections>
+                                                <action selector="primaryTapped:" destination="-1" eventType="touchUpInside" id="hG7-sV-uGH"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eF7-81-nXk">
-                                            <rect key="frame" x="157" y="0.0" width="145" height="38.333333333333336"/>
+                                            <rect key="frame" x="157" y="0.0" width="145" height="34.333333333333336"/>
                                             <state key="normal" title="Button"/>
-                                            <buttonConfiguration key="configuration" style="gray" title="Button"/>
+                                            <buttonConfiguration key="configuration" style="gray" title="Button">
+                                                <backgroundConfiguration key="background" cornerRadius="9">
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="strokeColor" name="PrimaryBlue"/>
+                                                </backgroundConfiguration>
+                                                <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="17"/>
+                                                <color key="baseBackgroundColor" name="PrimaryBlue"/>
+                                            </buttonConfiguration>
+                                            <connections>
+                                                <action selector="secondaryTapped:" destination="-1" eventType="touchUpInside" id="eMP-A2-RAa"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                 </stackView>
@@ -106,6 +124,12 @@
         </view>
     </objects>
     <resources>
+        <namedColor name="PrimaryBlue">
+            <color red="0.13699999451637268" green="0.3449999988079071" blue="0.82400000095367432" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="gradient-first">
+            <color red="0.20392156862745098" green="0.28235294117647058" blue="0.77254901960784317" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

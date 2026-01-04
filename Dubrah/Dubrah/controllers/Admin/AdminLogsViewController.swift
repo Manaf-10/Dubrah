@@ -13,81 +13,88 @@ class AdminLogsViewController: AdminBaseViewController,
                           UITableViewDelegate,
                           UITableViewDataSource {
 
-    var arrLogs: [Log] = Log.allLogs
+    
 
     @IBOutlet weak var tableView: UITableView!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    private let logsService = AdminLogsService()
+       private var logs: [Log] = []
+       private var isLoading = false
 
-        // Enable swipe-back
-        navigationController?.interactivePopGestureRecognizer?.delegate = self
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+       override func viewDidLoad() {
+           super.viewDidLoad()
 
-        // Custom back + title
-        setNavigationTitleWithBtn(
-            title: "Recent Activity",
-            imageName: "Back-Btn",
-            target: self,
-            action: #selector(backToHome)
-        )
+           navigationController?.interactivePopGestureRecognizer?.delegate = self
+           navigationController?.interactivePopGestureRecognizer?.isEnabled = true
 
-        tableView.delegate = self
-        tableView.dataSource = self
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//        setTabBarHidden(true)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        view.layoutIfNeeded()
-    }
+           setNavigationTitleWithBtn(
+               title: "Recent Activity",
+               imageName: "Back-Btn",
+               target: self,
+               action: #selector(backToHome)
+           )
 
+           tableView.delegate = self
+           tableView.dataSource = self
+           
+           loadLogs()
+       }
+       
+       override func viewWillAppear(_ animated: Bool) {
+           super.viewWillAppear(animated)
+           // Reload logs when returning to page
+           if !isLoading {
+               loadLogs()
+           }
+       }
+       
+       private func loadLogs() {
+           guard !isLoading else { return }
+           isLoading = true
+           
+           print("📥 Fetching all activity logs...")
+           
+           logsService.fetchAllLogs { [weak self] logs in
+               self?.isLoading = false
+               print("✅ Loaded \(logs.count) total logs")
+               self?.logs = logs
+               self?.tableView.reloadData()
+           }
+       }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-//        setTabBarHidden(false)
-    }
+       // MARK: - TableView DataSource
 
+       func numberOfSections(in tableView: UITableView) -> Int {
+           logs.count
+       }
 
-    
+       func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+           1
+       }
 
-    // MARK: - TableView DataSource
+       func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+           let cell = tableView.dequeueReusableCell(withIdentifier: "LogsPageCell") as! LogsTableViewCell
+           let log = logs[indexPath.section]
+           
+           cell.setupCell(
+               photo: log.icon,
+               description: log.description,
+               username: log.username,
+               timestamp: log.timestamp
+           )
+           
+           return cell
+       }
 
-    func numberOfSections(in tableView: UITableView) -> Int {
-        arrLogs.count
-    }
+       func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+           8
+       }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
-    }
+       func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+           UIView()
+       }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "LogsPageCell") as! LogsTableViewCell
-        let data = arrLogs[indexPath.section]
-        cell.setupCell(
-            photo: data.icon,
-            description: data.description,
-            username: data.username,
-            timestamp: data.time
-        )
-        return cell
-    }
-
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        8
-    }
-
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        UIView()
-    }
-
-    // MARK: - Navigation
-
-    @objc func backToHome() {
-        navigationController?.popViewController(animated: true)
-    }
-}
+       @objc func backToHome() {
+           navigationController?.popViewController(animated: true)
+       }
+   }

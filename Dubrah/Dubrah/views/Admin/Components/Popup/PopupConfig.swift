@@ -7,7 +7,7 @@
 
 import UIKit
 
-// MARK: - Text Field Model (for forms)
+
 struct PopupTextField {
     let placeholder: String
     let text: String?
@@ -24,21 +24,21 @@ struct PopupTextField {
     }
 }
 
-// MARK: - Popup Config
+
 struct PopupConfig {
 
-    // MARK: - Text
+    
     let title: String
     let message: String?
 
-    // MARK: - Buttons
+    
     let primaryTitle: String
     let secondaryTitle: String?
 
     let primaryAction: (() -> Void)?
     let secondaryAction: (() -> Void)?
 
-    // MARK: - Styling
+    
     let primaryColor: UIColor
     let secondaryColor: UIColor
     let primaryTextColor: UIColor
@@ -46,10 +46,10 @@ struct PopupConfig {
     let buttonCornerRadius: CGFloat
     let secondaryHasBorder: Bool
 
-    // MARK: - Dynamic Content
+
     let buildContent: ((UIStackView) -> Void)?
 
-    // MARK: - Base Initializer
+    
     init(
         title: String,
         message: String? = nil,
@@ -99,47 +99,121 @@ struct PopupConfig {
         )
     }
 
-    // MARK: - SUSPENSION POPUP
+    
     static func suspension(
         title: String,
-        message: String,
+        message: String?,
         options: [String],
-        onConfirm: @escaping (String) -> Void,
-        onCancel: (() -> Void)? = nil
+        onConfirm: @escaping (String) -> Void
     ) -> PopupConfig {
-
+        
         var selectedOption = options.first ?? ""
-
+        
         return PopupConfig(
             title: title,
             message: message,
             primaryTitle: "Suspend",
             secondaryTitle: "Cancel",
-            primaryAction: {
-                onConfirm(selectedOption)
-            },
-            secondaryAction: onCancel,
-            buildContent: { stack in
-                options.forEach { option in
-                    let button = UIButton(type: .system)
-                    button.setTitle(option, for: .normal)
-                    button.contentHorizontalAlignment = .left
-                    button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
-
-                    button.addAction(
-                        UIAction { _ in
-                            selectedOption = option
-                        },
-                        for: .touchUpInside
+            primaryAction: { onConfirm(selectedOption) },
+            secondaryAction: nil,
+            buildContent: { stackView in
+                
+                // Radio button group
+                let radioGroup = UIStackView()
+                radioGroup.axis = .horizontal
+                radioGroup.distribution = .fillEqually
+                radioGroup.spacing = 8
+                radioGroup.translatesAutoresizingMaskIntoConstraints = false
+                
+                for (index, option) in options.enumerated() {
+                    let button = createRadioButton(
+                        title: option,
+                        isSelected: index == 0,
+                        tag: index
                     )
-
-                    stack.addArrangedSubview(button)
+                    
+                    button.addAction(UIAction { _ in
+                        // Deselect all
+                        radioGroup.arrangedSubviews.forEach { view in
+                            if let btn = view as? UIButton {
+                                btn.isSelected = false
+                                btn.backgroundColor = .white
+                                btn.layer.borderWidth = 1
+                                btn.layer.borderColor = UIColor.lightGray.cgColor
+                                btn.setTitleColor(.darkGray, for: .normal)
+                            }
+                        }
+                        
+                        // Select tapped button
+                        button.isSelected = true
+                        button.backgroundColor = UIColor(named: "PrimaryBlue")
+                        button.layer.borderWidth = 0
+                        button.setTitleColor(.white, for: .normal)
+                        
+                        selectedOption = option
+                    }, for: .touchUpInside)
+                    
+                    radioGroup.addArrangedSubview(button)
                 }
+                
+                stackView.addArrangedSubview(radioGroup)
+                
+                NSLayoutConstraint.activate([
+                    radioGroup.heightAnchor.constraint(equalToConstant: 100)
+                ])
             }
         )
     }
 
-    // MARK: - FORM POPUP (Modify Post / Edit Profile)
+    // Helper method to create radio buttons
+    private static func createRadioButton(title: String, isSelected: Bool, tag: Int) -> UIButton {
+        let button = UIButton(type: .system)
+        button.tag = tag
+        button.isSelected = isSelected
+        
+        // Parse title to extract number and unit
+        let components = title.split(separator: " ")
+        let number = String(components.first ?? "")
+        let unit = components.count > 1 ? String(components.last ?? "") : ""
+        
+        // Create attributed title
+        let attributedTitle = NSMutableAttributedString()
+        
+        // Number (large)
+        let numberAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 24, weight: .bold),
+            .foregroundColor: isSelected ? UIColor.white : UIColor.darkGray
+        ]
+        attributedTitle.append(NSAttributedString(string: number + "\n", attributes: numberAttributes))
+        
+        // Unit (small)
+        let unitAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 12, weight: .regular),
+            .foregroundColor: isSelected ? UIColor.white : UIColor.darkGray
+        ]
+        attributedTitle.append(NSAttributedString(string: unit, attributes: unitAttributes))
+        
+        button.setAttributedTitle(attributedTitle, for: .normal)
+        button.titleLabel?.numberOfLines = 2
+        button.titleLabel?.textAlignment = .center
+        
+        // Style
+        button.layer.cornerRadius = 12
+        button.layer.masksToBounds = true
+        
+        if isSelected {
+            button.backgroundColor = UIColor(named: "PrimaryBlue")
+            button.layer.borderWidth = 0
+        } else {
+            button.backgroundColor = .white
+            button.layer.borderWidth = 1
+            button.layer.borderColor = UIColor.lightGray.cgColor
+        }
+        
+        return button
+    }
+
+    
     static func form(
         title: String,
         message: String? = nil,

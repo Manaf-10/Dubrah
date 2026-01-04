@@ -90,19 +90,34 @@ final class ReusablePopupViewController: UIViewController {
         secondaryButton.layer.cornerRadius = config.buttonCornerRadius
     }
 
-    @IBAction private func primaryTapped() {
-        dismiss(animated: true) { [weak self] in
-            self?.config.primaryAction?()
+    @IBAction private func primaryTapped(_ sender: UIButton) {
+        print("🔵 PRIMARY BUTTON TAPPED")
+        
+        // ✅ Store the action before dismissing
+        let action = config.primaryAction
+        
+        dismiss(animated: true) {
+            // ✅ Add delay AFTER dismiss completes
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                print("🔵 Calling primaryAction")
+                action?()
+            }
         }
     }
 
-    @IBAction private func secondaryTapped() {
-        dismiss(animated: true) { [weak self] in
-            self?.config.secondaryAction?()
+    @IBAction private func secondaryTapped(_ sender: UIButton) {
+        print("⚪️ SECONDARY BUTTON TAPPED")
+        
+        let action = config.secondaryAction
+        
+        dismiss(animated: true) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                action?()
+            }
         }
     }
 
     @objc private func dismissSelf() {
-        secondaryTapped()
+        secondaryTapped(secondaryButton)
     }
 }

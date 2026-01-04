@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="9TD-uU-oQC">
-                                <rect key="frame" x="15" y="133" width="363" height="230"/>
+                                <rect key="frame" x="15" y="133" width="363" height="165"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="ZRh-eG-oux">
                                         <rect key="frame" x="0.0" y="0.0" width="363" height="80"/>
@@ -62,24 +62,10 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Kxt-fX-vzR">
-                                        <rect key="frame" x="0.0" y="110" width="363" height="120"/>
+                                        <rect key="frame" x="0.0" y="110" width="363" height="55"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S4C-bd-K3Y">
-                                                <rect key="frame" x="0.0" y="0.0" width="363" height="55"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="55" id="ajj-qm-sUb"/>
-                                                </constraints>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="filled" image="Profile-Active" imagePlacement="leading" title="Edit profile" imagePadding="12" titleAlignment="leading">
-                                                    <backgroundConfiguration key="background" cornerRadius="16"/>
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
-                                                    <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                    <color key="baseForegroundColor" red="0.11764705882352941" green="0.11764705882352941" blue="0.11764705882352941" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="baseBackgroundColor" systemColor="systemBackgroundColor"/>
-                                                </buttonConfiguration>
-                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U0C-A7-8AZ">
-                                                <rect key="frame" x="0.0" y="65" width="363" height="55"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="363" height="55"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="55" id="xyi-tQ-0Qo"/>
                                                 </constraints>
@@ -111,7 +97,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="profileEditBtn" destination="S4C-bd-K3Y" id="NZT-9N-Hfu"/>
                         <outlet property="profileEmail" destination="vaK-nx-NnZ" id="33c-2t-G83"/>
                         <outlet property="profileImg" destination="Vyp-zS-yHk" id="EdZ-cc-cEP"/>
                         <outlet property="profileLogoutBtn" destination="U0C-A7-8AZ" id="emR-vu-rhX"/>
@@ -124,7 +109,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Profile-Active" width="27" height="27"/>
         <image name="log-out" width="24" height="24"/>
         <image name="person.crop.circle.fill" catalog="system" width="128" height="123"/>
         <systemColor name="secondarySystemBackgroundColor">

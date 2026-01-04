@@ -38,7 +38,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="174" height="185"/>
                                                     <color key="backgroundColor" red="0.64705882349999999" green="0.64705882349999999" blue="0.64705882349999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="120" id="Fs4-N7-rzs"/>
+                                                        <constraint firstAttribute="height" constant="100" id="Fs4-N7-rzs"/>
                                                     </constraints>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ch8-4E-0Tx">
@@ -302,6 +302,8 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="btnsView" destination="fYu-ku-IqQ" id="T7i-w4-p3O"/>
+                        <outlet property="cardView" destination="AIr-Yw-f4b" id="ErH-eb-XN8"/>
                         <outlet property="descriptionLabel" destination="d8t-0X-ydT" id="nHi-Vj-cIT"/>
                         <outlet property="providerAvatarImageView" destination="GGB-zB-B0C" id="mz8-0F-Yam"/>
                         <outlet property="providerNameLabel" destination="IVy-7H-e7C" id="K1G-oJ-x0U"/>
