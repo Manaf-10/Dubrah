@@ -149,7 +149,13 @@ class ProviderRatingViewController: UIViewController, UITextViewDelegate {
                         "providerFeedback": providerFeedback,
                         "status": "completed"
                     ])
-
+                
+                await NotificationController.shared.newNotification(
+                                            receiverId: order.providerID,
+                                            senderId: reportSystemID,
+                                            type: .review
+                )
+                    
                 self.navigateToSuccess()
 
             } catch {
