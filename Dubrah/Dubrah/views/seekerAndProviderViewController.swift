@@ -51,6 +51,7 @@ class seekerAndProviderViewController: UIViewController {
         }
         
         func navigateToHomePage() {
+            performSegue(withIdentifier: "ShowHomePage", sender: nil)
         
         }
     }

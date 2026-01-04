@@ -16,8 +16,8 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
     var pickerView: UIPickerView!
     var skillsPickerData: [String] = []
     var interestsPickerData: [String] = []
-    var selectedSkills: [String] = []  // Keep track of selected skills
-    var selectedInterests: [String] = []  // Keep track of selected interests
+    var selectedSkills: [String] = []
+    var selectedInterests: [String] = []
     
     let db = Firestore.firestore()
     
@@ -49,18 +49,18 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
     }
     
     func fetchPickerData() {
-        // Skills Picker Data
+       
         skillsPickerData = ["UIDesign", "Graphics Design", "Logo Design", "Illustration", "Web Design", "Mobile App", "Back End", "Front End", "Photography", "Video Editing", "Tutoring"]
         
-        // Interests Picker Data
+       
         interestsPickerData = ["Design", "Development", "Photography", "Tutoring"]
     }
     
-    // Fetch the user data (Skills and Interests) from Firestore
+    
     func fetchUserData() {
         guard let userID = userID else { return }
         
-        // Fetch Interests Data from 'user' collection
+       
         let userRef = db.collection("user").document(userID)
         
         userRef.getDocument { (document, error) in
@@ -78,7 +78,7 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
             }
         }
         
-        // Fetch Skills Data from 'ProviderDetails' collection using the userID inside ProviderDetails
+        
         let providerDetailsRef = db.collection("ProviderDetails")
         let query = providerDetailsRef.whereField("userId", isEqualTo: userID)
         
@@ -99,50 +99,50 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
         }
     }
     
-    // MARK: - UIPickerView DataSource and Delegate Methods
+  
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1 // Single column picker
+        return 1
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if skillsTextField.isFirstResponder {
-            return skillsPickerData.count  // Skills picker
+            return skillsPickerData.count
         } else if interestsTextField.isFirstResponder {
-            return interestsPickerData.count  // Interests picker
+            return interestsPickerData.count
         }
         return 0
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if skillsTextField.isFirstResponder {
-            return skillsPickerData[row]  // Skills picker
+            return skillsPickerData[row]
         } else if interestsTextField.isFirstResponder {
-            return interestsPickerData[row]  // Interests picker
+            return interestsPickerData[row]
         }
         return nil
     }
     
-    // When the user selects a row
+    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let selectedItem: String
         if skillsTextField.isFirstResponder {
             selectedItem = skillsPickerData[row]
-            if selectedSkills.count < 4, !selectedSkills.contains(selectedItem) {  // Max of 4 selections
+            if selectedSkills.count < 4, !selectedSkills.contains(selectedItem) {
                 selectedSkills.append(selectedItem)
             }
             skillsTextField.text = selectedSkills.joined(separator: ", ")
         } else if interestsTextField.isFirstResponder {
             selectedItem = interestsPickerData[row]
-            if selectedInterests.count < 4, !selectedInterests.contains(selectedItem) {  // Max of 4 selections
+            if selectedInterests.count < 4, !selectedInterests.contains(selectedItem) {
                 selectedInterests.append(selectedItem)
             }
             interestsTextField.text = selectedInterests.joined(separator: ", ")
         }
     }
     
-    // MARK: - Save Button Action
+   
     @IBAction func saveButtonTapped(_ sender: UIButton) {
-        // Check if both skills and interests fields are empty
+        
         if skillsTextField.text?.isEmpty ?? true && interestsTextField.text?.isEmpty ?? true {
             showError(message: "Please enter at least one skill or interest.")
             return
@@ -151,7 +151,7 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
         updateUserSkillsAndInterests()
     }
     
-    // Show error alert if fields are empty
+    
     func showError(message: String) {
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -161,11 +161,11 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
     func updateUserSkillsAndInterests() {
         guard let userID = userID else { return }
 
-        // Prepare skills and interests arrays for Firestore
+        
         var updatedSkills = selectedSkills
         var updatedInterests = selectedInterests
         
-        // Update skills in 'ProviderDetails' collection
+        
         let providerDetailsRef = db.collection("ProviderDetails")
         let query = providerDetailsRef.whereField("userId", isEqualTo: userID)
         
@@ -175,11 +175,11 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
                 return
             }
 
-            // Check if a document is found
+            
             if let document = snapshot?.documents.first {
                 let documentRef = document.reference
 
-                // Update the document with the new data
+              
                 let updatedData: [String: Any] = [
                     "skills": updatedSkills
                 ]
@@ -196,7 +196,7 @@ class EditSkillsInterestsViewController: UIViewController, UIPickerViewDelegate,
             }
         }
 
-        // Update interests in 'users' collection
+      
         let userRef = db.collection("user").document(userID)
         userRef.updateData([ "interests": updatedInterests ]) { error in
             if let error = error {
